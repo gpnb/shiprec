@@ -97,11 +97,14 @@ Areas view
 Areas color selection view
 ![areas-color](./wireframes/Areas%20Color%20Selection%20view.png)
 
+Areas view - Restrictions selection
+![areas-restr-sel](./wireframes/Areas%20view%20-%20Restrictions%20Selection.png)
+
 Areas view - Restrictions popup
 ![areas-restr](./wireframes/Areas%20view%20-%20Restrictions%20Popup.png)
 
 Areas view - Restrictions popup (sellection)
-![areas-restr-sel](./wireframes/Areas%20view%20-%20Restrictions%20Popup%20(Selection).png)
+![areas-restr-sel-pop](./wireframes/Areas%20view%20-%20Restrictions%20Popup%20(Selection).png)
 
 ## **Account actions - Notifications**
 
