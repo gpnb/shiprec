@@ -31,7 +31,7 @@ Type filters display
 ![filters](./wireframes/Type%20Filters%20Display.png)
 
 Type filters display with ships
-![filters2](./wireframes/Type%20Filters%20Display-1.png
+![filters2](./wireframes/Type%20Filters%20Display-1.png)
 
 Selected area display
 ![select-disp](./wireframes/Selected%20Area%20Display.png)
