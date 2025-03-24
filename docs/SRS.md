@@ -269,7 +269,7 @@ The following have been decided to maximize good user experience:
 
 Non-functional requirements are crucial to the product’s success. Specifically, we need to take into account the following.
 
-*      **Product Availability**  
+* **Product Availability**  
   Availability is a metric that measures the probability that a system is not failed, or undergoing a repair when it needs to be used. With that in mind:  
   * Our system needs to have the best possible availability, realistically around 99%, so that the 1% can be used for repairs when they are undoubtedly needed.  
   * We need to provide our system with mechanisms to recover from failures quickly, like automatic backups of information, and failover techniques so the website can return to its original state.   
@@ -294,7 +294,7 @@ Safeguards must be taken for the safety of the platform to be ensured. Specifica
   * Concerning the platform’s security, the ships’ data must be compliant with *ISO 27001* *(Information Security according to Global Standards)* and stored according to *GDPR (General Data Protection Regulation),* since these are the security regulations in Europe.  
 
 
-*     **Flexibility & Scalability** 
+* **Flexibility & Scalability** 
 
 The software must be flexible so that new aspects can be added without much trouble and without core system changes. This can be done by using modular architecture, plus :
 
@@ -303,7 +303,7 @@ The software must be flexible so that new aspects can be added without much trou
   * Real-time data processing must be done using **Apache Kafka** to handle AIS data streams efficiently.   
   * There should be a stable back-end to the software.  
       
-*      **Efficiency**
+* **Efficiency**
 
 For better system efficiency, the system should use as few resources as possible while achieving the best possible performance (mentioned above).
 
@@ -311,7 +311,7 @@ For better system efficiency, the system should use as few resources as possible
   * Under normal user activity, CPU and memory usage should not exceed 80%.  
   * Under heavy user activity, the platform should maintain high performance and load the entirety of the map, and each page, in less than 300ms.  
       
-*     **Compliance with International Standards**  
+* **Compliance with International Standards**  
   * The platform must support *RESTFUL APIs (OpenAPI 3.0)* and the *WebSocket* protocol that was standardized by the IETF as RFC 6455 in 2011\.  
   * In compliance with International System Standards, the platform must follow *IMO SOLAS Regulation V/19,  IMO SOLAS Regulation V/9, RESTful API (OpenAPI 3.0) & GraphQL , ISO 25010 (Software Quality), ISO 22301 (Business Continuity), ISO 9001 (Quality Management).*  
   * The platform must comply with nautical standards and measurement units according to the SI, including miles per hour and nautical miles **(NM),**   
