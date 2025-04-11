@@ -85,10 +85,9 @@ Functional requirements of the app have been split into the following categories
     * Users must be able to delete their account on the app.  
     * Users must be able to view a list of vessels on the map on the “Vessels” page.  
     * Users must be able to view a list of ports on the map on the “Ports” page.  
-    * Users must be able to view information and updates on their saved areas and fleets on the “My Collection” page.  
     * Users must receive notifications on the activity of their selected fleets and areas.  
     * Users must be able to filter the notifications they receive.  
-    * Users must be able to send messages to the app’s administrators.  
+    * Users must be able to send messages to the app’s administrators.
         
   * **Full Access \- Administrator**
 
