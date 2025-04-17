@@ -1,0 +1,15 @@
+[2025-04-17 14:00:30,600] INFO Registered kafka:type=kafka.Log4jController MBean (kafka.utils.Log4jControllerRegistration$)
+[2025-04-17 14:00:30,756] ERROR Exiting Kafka due to fatal exception (kafka.Kafka$)
+java.nio.file.NoSuchFileException: config/server.properties
+	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:92) ~[?:?]
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106) ~[?:?]
+	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111) ~[?:?]
+	at java.base/sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:261) ~[?:?]
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:379) ~[?:?]
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:431) ~[?:?]
+	at java.base/java.nio.file.spi.FileSystemProvider.newInputStream(FileSystemProvider.java:420) ~[?:?]
+	at java.base/java.nio.file.Files.newInputStream(Files.java:159) ~[?:?]
+	at org.apache.kafka.common.utils.Utils.loadProps(Utils.java:655) ~[kafka-clients-4.0.0.jar:?]
+	at kafka.Kafka$.getPropsFromArgs(Kafka.scala:50) ~[kafka_2.13-4.0.0.jar:?]
+	at kafka.Kafka$.main(Kafka.scala:74) [kafka_2.13-4.0.0.jar:?]
+	at kafka.Kafka.main(Kafka.scala) [kafka_2.13-4.0.0.jar:?]
