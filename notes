@@ -1,9 +1,21 @@
-to see data streaming from kafka to spring boot backend:
+To see data streaming from kafka to spring boot backend:
 
-Download Kafka version 4.0.0 from https://kafka.apache.org/quickstart
+1) Download Kafka version 4.0.0 from https://kafka.apache.org/quickstart
+(maybe we can automate the installation in a script)
 
-in a terminal go to the /kafka folder and run: ./run-kafka.sh
+2) in a terminal go to the /kafka folder and run: ./run-kafka.sh
 
-in a 2nd terminal go to the folder /backend and run: ./mvnw spring-boot:run
+3) in a 2nd terminal go to the folder /backend and run: ./mvnw spring-boot:run
 
-in a 3rd terminal go to the folder /data-sources and run: python3 producer.py
+4) in a 3rd terminal go to the folder /data-sources and run: python3 producer.py
+
+(we may automate these processes to run in a single script so we don't need many terminals. we can keep the logs of the processes be redirecting them to files and also find and keep their pid's in order to kill them manually when we want)
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+new/changed files:
+
+backend/src/main/java/com/example/backend/service/ConsumerService.java      (spring boot consumer)
+backend/src/main/resources/application.properties             (added kafka server localhost:9092)
+data-source/data.csv        (some test data)
+data-source/producer.py     (python producer)
