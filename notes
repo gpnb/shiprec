@@ -1,17 +1,29 @@
-To see data streaming from kafka to spring boot backend:
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+To run the app so far and see data streaming from kafka to spring boot backend:
+
+0) Make sure you have a mysql connection with username 'root', password 'password', on 'localhost:3306', and have created a database there.
 
 1) Download Kafka version 4.0.0 from https://kafka.apache.org/quickstart
-(maybe we can automate the installation in a script)
 
-2) in a terminal go to the /kafka folder and run: ./run-kafka.sh
 
-3) in a 2nd terminal go to the folder /backend and run: ./mvnw spring-boot:run
+                ?(maybe we can automate the installation in a script)?
 
-4) in a 3rd terminal go to the folder /data-sources and run: python3 producer.py
+2) after deleting the file 'kafka/.cluster-initialized' (if it exists),
+in a terminal go to the '/kafka' folder and run the command: './run-kafka.sh'
 
-(we may automate these processes to run in a single script so we don't need many terminals. we can keep the logs of the processes be redirecting them to files and also find and keep their pid's in order to kill them manually when we want)
+3) in a 2nd terminal go to the folder '/backend' and run: './mvnw spring-boot:run'
 
------------------------------------------------------------------------------------------------------------------------------
+4) after installing the python library kafka-python with 'pip install kafka-python',
+and making sure pandas library is also installed,
+in a 3rd terminal go to the folder '/data-sources' and run: 'python3 producer.py'
+
+                
+                ?(we may automate these processes to run in a single script so we don't need many terminals. we can keep the logs of the processes be redirecting them to files and also find and keep their pid's in order to kill them manually when we want)?
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 new/changed files:
 
@@ -19,3 +31,5 @@ backend/src/main/java/com/example/backend/service/ConsumerService.java      (spr
 backend/src/main/resources/application.properties             (added kafka server localhost:9092)
 data-source/data.csv        (some test data)
 data-source/producer.py     (python producer)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
