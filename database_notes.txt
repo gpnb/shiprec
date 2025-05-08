@@ -1,0 +1,28 @@
+Tables:
+
+Roles
+Role id|Role
+
+User 
+User Id| Role Id|First Name|Last Name|Email|Password|Country|Phone number|Education|Business|Creation Timestamp|Notifications Active
+
+Messages
+Message Id|Sender Id|Message|Timestamp
+
+Notifications
+Notification Id|Notification Type|Receiver Id|Notification Message|Timestamp
+
+Notification Type
+Id|Type
+0 Alert
+1 Area Update
+...
+
+
+
+
+History:
+ship_id|timestamp|trip_id|long|lat
+
+Vessels:
+ship_id|
