@@ -1,0 +1,47 @@
+.map_page {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+   
+}
+
+.map {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+}
+
+.map_buttons {
+    display: flex;
+    flex-direction: column;
+    z-index: 10000;
+    width: 5%;
+    margin-left: 90%;
+    height: 20%;
+    margin-top: 80%;
+    
+    position: relative;
+
+}
+
+.zoom_buttons {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.zoom_button {
+    background-color: #2B3D5B;
+    color: white;
+    opacity: 80%;
+}
+
+.select_area {
+    width: 100%;
+    height: 5%;
+}
