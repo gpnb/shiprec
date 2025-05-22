@@ -1,40 +1,69 @@
-import React from "react";
-import { MapContainer, TileLayer } from 'react-leaflet';
+import React, { useState } from "react";
+import { MapContainer, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/map.css';
 import { useMap } from "react-leaflet";
-import ReactDOM from "react-dom";
+import select from '../icons/select.png';
+import NavigationBar from "./navigationBar";
+import SearchBar from "./searchBar";
+import Filters from "./filters";
+
+function MapButtons({map,setMapFilters}) {
 
 
-function MapButtons() {
 
-
-
-    const map = useMap();
-
-
-      
-
-    return ReactDOM.createPortal(
+    return (
           <div className="map_buttons">
+
+                <div className="display_mode">
+                   
+                </div>
+
+                <Filters map = {map} setMapFilters={setMapFilters}/>
+
                 
                 <div className="zoom_buttons">
-                        <button onClick={() => map.zoomIn()} className="zoom_button">+</button>
-                        <button onClick={() => map.zoomOut()} className="zoom_button">−</button>
+                        <button onClick={() => map.zoomIn()} className="zoom_button" style={{borderTopLeftRadius: "8px", borderTopRightRadius: "8px"}}>+</button>
+                        <button onClick={() => map.zoomOut()} className="zoom_button"  style={{borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px"}}>−</button>
                 </div>
 
-                <div className="select_area">
+                <button  className="select_area">
+                    <img src= {select} alt = 'select area'/>
+                    <p> Select Area </p>
+                </button>    
+                
 
-                </div>
-
-        </div>,
-        document.getElementById("map-overlay")
+        </div>
     );  
      
 }
 
-function Map({ darkmode }) {
 
+
+function MapFunctions({map}) {
+
+
+    return(  
+        <div className="map_functions">
+            <NavigationBar/>  
+            <SearchBar map = {map}/>
+            <MapButtons map = {map}/>  
+        </div> 
+    );
+}
+
+function MapWrapper() {
+    const map = useMap();
+    return <MapFunctions map={map} />;
+}
+
+
+function Map() {
+
+    const darkmodeUrl = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";           // it's black :(
+    const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
+    
+    const [darkMode,setDarkMode] = useState(false);
 
 
     return (
@@ -53,24 +82,18 @@ function Map({ darkmode }) {
         >
 
         <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            url= {darkMode ? darkmodeUrl : lightmodeUrl}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             subdomains="abcd"
             minZoom={2}
             maxZoom={12}
         />
 
-        <MapButtons/>
-
-
-
+        <MapWrapper/>
         </MapContainer>
     </div>
     );
 }
-
-
-
 
 
 

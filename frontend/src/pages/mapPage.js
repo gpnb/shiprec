@@ -6,12 +6,8 @@ function MapPage() {
 
 
     return (
-        <div className="map_page" id="map-overlay">
+        <div className="map_page">
             <Map/>
-
-
-
-
         </div>
     )
 }

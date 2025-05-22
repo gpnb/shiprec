@@ -2,7 +2,6 @@
     flex: 1;
     height: 100%;
     width: 100%;
-   
 }
 
 .map {
@@ -10,38 +9,80 @@
     height: 100%;
     width: 100%;
     z-index: 999;
+    position: relative;
 }
 
 .map_buttons {
+    position: absolute;
+    z-index: 10000;
+    left: 90%;
+    top: 2%;
+    padding: 1rem;
+    width: 20%;
     display: flex;
     flex-direction: column;
-    z-index: 10000;
-    width: 5%;
-    margin-left: 90%;
-    height: 20%;
-    margin-top: 80%;
-    
-    position: relative;
-
+    height: 90%;
+    background-color: rgba(255, 255, 255, 0.05); /* optional for visibility */
 }
 
 .zoom_buttons {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    z-index: 1000;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.5rem;
+    width: 20%;
+    height: 10%;
 }
 
 .zoom_button {
     background-color: #2B3D5B;
+    opacity: 0.8;
     color: white;
-    opacity: 80%;
+    border: none;
+    width: 40%;
+    height: 15%;
+    cursor: pointer;
+    filter: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    height: fit-content;
+}
+
+.zoom_button:hover {
+    opacity: 0.6;
 }
 
 .select_area {
-    width: 100%;
-    height: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2B3D5B;
+    opacity: 0.8;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 10%;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    height: 10%;
+}
+
+.select_area img {
+    width: 16px;
+    height: 16px;
+}
+
+.select_area p {
+    margin-top: 3%;
+    margin-left: 4%;
+}
+
+.select_area:hover {
+    opacity: 0.6;
+}
+
+
+.display_mode {
+    height: 10%;
 }

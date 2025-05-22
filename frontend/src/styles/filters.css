@@ -1,0 +1,16 @@
+.map_filters {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-toggle {
+    height: 10%;
+    background-color: #2B3D5B; 
+    opacity: 0.8;
+    width: 20%;
+}
+
+.filter-toggle img {
+    border: none;
+    color:#2B3D5B ;
+}
