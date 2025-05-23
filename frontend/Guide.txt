@@ -1,0 +1,38 @@
+Font : Kantumruy Pro
+
+Font-Size
+    For Navigation Bar : Bold , 24px
+    For Tab Bar in Profile/Admin/Help : Normal , 36px
+
+    For fields' names : Bold , 28/20px 
+    For fields' values : Normal , 28/20px
+    For Buttons not in boxes (Edit Account,Create ... etc) : Bold, 28px
+    For Buttons in boxes (Select Area,Add to fleet ... etc) : Normal 16px
+    For Listings
+        Fields : Bold , 16px
+        Fields values : Normal , 16px
+        Buttons : Normal ,16 px
+
+    For PopUps
+        Text : Normal 20px
+        Buttons : Normal 16px
+
+Colors :
+    Main Pallete :
+        White : #FFFFFF
+        Gray : #D9D9D9
+        Blue : #2B3D5B
+        Orange : #CC7D51
+        Red-Orange: #FF4928
+
+    Ship Types :
+        Cargo : #C00000
+        Tankers : #0064D0
+        Passenger : #EDBE00
+        Tugs & Special Crafts : #1BAF40
+        High Speed Crafts : #50378F
+        Fishing Boats : #72D2FF
+        Pleasure Crafts : #F58DAB
+        Navigation Aids : #FF9500
+        Unspecified Vessels : #D9D9D9
+
