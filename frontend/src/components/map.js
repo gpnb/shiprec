@@ -40,7 +40,7 @@ function MapButtons({map,setMapFilters}) {
 
 
 
-function MapFunctions({map}) {
+function MapFunctions({map,setDarkMode}) {
 
 
     return(  
@@ -52,9 +52,9 @@ function MapFunctions({map}) {
     );
 }
 
-function MapWrapper() {
+function MapWrapper({setDarkMode}) {
     const map = useMap();
-    return <MapFunctions map={map} />;
+    return <MapFunctions map={map} setDarkMode={setDarkMode} />;
 }
 
 
@@ -89,7 +89,7 @@ function Map() {
             maxZoom={12}
         />
 
-        <MapWrapper/>
+        <MapWrapper setDarkMode={setDarkMode}/>
         </MapContainer>
     </div>
     );

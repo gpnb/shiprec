@@ -12,17 +12,25 @@
     position: relative;
 }
 
-.map_buttons {
+
+.map_functions {
     position: absolute;
     z-index: 10000;
+    width: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none; 
+}
+
+.map_buttons {
+    position: absolute;
     left: 90%;
     top: 2%;
     padding: 1rem;
-    width: 20%;
     display: flex;
     flex-direction: column;
-    height: 90%;
-    background-color: rgba(255, 255, 255, 0.05); /* optional for visibility */
+    height: 100%;
+    width: 100%;
 }
 
 .zoom_buttons {

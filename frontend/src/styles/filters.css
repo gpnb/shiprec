@@ -1,6 +1,7 @@
 .map_filters {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .filter-toggle {
