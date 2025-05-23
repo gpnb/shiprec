@@ -67,7 +67,7 @@ function SearchBar({map}) {
             
             {showFilters &&  
                 <div className='search-filters'>
-                    {['ports', 'areas', 'vessels', 'companies', 'my_fleets', 'all'].map(id => (
+                    {['ports', 'areas', 'vessels', 'companies', 'my_fleets', 'Everything'].map(id => (
                     <button key={id} id={id} onClick={toggleSearchFilters} className={activeFilters.includes(id) ? 'active' : ''}>
                         {id.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}
                     </button>
