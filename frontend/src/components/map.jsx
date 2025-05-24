@@ -3,23 +3,48 @@ import { MapContainer, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/map.css';
 import { useMap } from "react-leaflet";
-import select from '../icons/select.png';
+import select from '../icons/Buttons/Select-Area.png';
 import NavigationBar from "./navigationBar";
 import SearchBar from "./searchBar";
 import Filters from "./filters";
+import '../styles/toggle.css'
+import light from '../icons/Buttons/Light-outlined.png'
+import dark from '../icons/Buttons/Dark-outlined.png'
 
-function MapButtons({map,setMapFilters}) {
+
+function ToggleDisplayMode({setDarkMode,darkMode}) {
+    
+
+    return (
+        <div className="toggle">
+           <button className={darkMode ? 'inactive-light' : 'active-light'}  onClick={() => setDarkMode(false)}>
+                <img src={light} alt="light mode"/>
+           </button>
+           
+           <button className={darkMode ? 'active-dark' : 'inactive-dark'}  onClick={() => setDarkMode(true)}>
+                <img src={dark} alt="dark mode"/>
+           </button>
+        
+        </div>        
+    )
+
+
+}
+
+
+
+
+
+function MapButtons({map,setDarkMode,darkMode}) {
 
 
 
     return (
           <div className="map_buttons">
 
-                <div className="display_mode">
-                   
-                </div>
+                <ToggleDisplayMode setDarkMode={setDarkMode} darkMode={darkMode} />
 
-                <Filters map = {map} setMapFilters={setMapFilters}/>
+                <Filters map = {map}/>
 
                 
                 <div className="zoom_buttons">
@@ -40,21 +65,21 @@ function MapButtons({map,setMapFilters}) {
 
 
 
-function MapFunctions({map,setDarkMode}) {
+function MapFunctions({map,setDarkMode,darkMode}) {
 
 
     return(  
         <div className="map_functions">
             <NavigationBar/>  
             <SearchBar map = {map}/>
-            <MapButtons map = {map}/>  
+            <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode}/>  
         </div> 
     );
 }
 
-function MapWrapper({setDarkMode}) {
+function MapWrapper({setDarkMode,darkMode}) {
     const map = useMap();
-    return <MapFunctions map={map} setDarkMode={setDarkMode} />;
+    return <MapFunctions map={map} setDarkMode={setDarkMode}  darkMode={darkMode} />;
 }
 
 
@@ -89,7 +114,7 @@ function Map() {
             maxZoom={12}
         />
 
-        <MapWrapper setDarkMode={setDarkMode}/>
+        <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode}/>
         </MapContainer>
     </div>
     );

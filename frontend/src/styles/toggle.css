@@ -1,0 +1,57 @@
+.toggle {
+    margin-top: 0%;
+    height: 5%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-left: 10%;
+    pointer-events: all;  
+    gap: 0;
+    cursor: auto;
+}
+
+.inactive-light{
+    background-color: #2B3D5B;
+    opacity: 80%;
+    border: none;
+    border-top-left-radius:50px;
+    border-bottom-left-radius:50px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 80%;
+    width: 3%;
+}
+
+.active-light{
+    background-color: #2B3D5B;
+    border: none;
+    border-top-left-radius:50px;
+    border-bottom-left-radius:50px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 80%;
+    width: 3%;
+}
+
+.active-dark{
+    background-color: #2B3D5B;
+    border: none;
+    border-top-right-radius:50px;
+    border-bottom-right-radius:50px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 80%;
+    width: 3%;
+}
+
+.inactive-dark{
+    background-color: #2B3D5B;
+    opacity: 80%;
+    border: none;
+    border-top-right-radius:50px;
+    border-bottom-right-radius:50px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 80%;
+    width: 3%;
+}

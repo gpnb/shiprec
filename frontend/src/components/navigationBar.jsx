@@ -15,66 +15,68 @@ import logo_closed from "../icons/Logo/ShipRecNav-Closed.png"
 
 
 const NavigationBar = ({ isRegistered  = true }) => {
-  const [isHovered, setIsHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
-  const commonTabs = [
-    { icon: map, label: "Live Map" },
-    { icon: vessel, label: "Vessels" },
-    { icon: port, label: "Ports" },
-  ];
- 
-  const guestTabs = [
-    { icon: register, label: "Sign Up"},
-    { icon: signin, label: "Sign In"},
-    { icon: help, label: "Help" },
-  ];
+    const commonTabs = [
+        { icon: map, label: "Live Map" },
+        { icon: vessel, label: "Vessels" },
+        { icon: port, label: "Ports" },
+    ];
 
-  const registeredTabs = [
-    { icon: profile, label: "My Account" },
-    { icon: settings, label: "Settings" },
-    { icon: help, label: "Help" },
-    { icon: signout, label: "Sign Out" },
-  ];
+    const guestTabs = [
+        { icon: register, label: "Sign Up"},
+        { icon: signin, label: "Sign In"},
+        { icon: help, label: "Help" },
+    ];
 
-  const tabsToRender = [...commonTabs, ...(isRegistered ? registeredTabs : guestTabs)];
+    const registeredTabs = [
+        { icon: profile, label: "My Account" },
+        { icon: settings, label: "Settings" },
+        { icon: help, label: "Help" },
+        { icon: signout, label: "Sign Out" },
+    ];
 
-  return (
-    <div
-      className={`side-nav ${isHovered ? "expanded" : "collapsed"}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-    <div className="nav-body">
-    <div className="logo-container">
-      <img
-        src={isHovered ? logo_open : logo_closed}
-        alt="Logo"
-        className="logo-icon"
-      />
-    </div>
+    const tabsToRender = [...commonTabs, ...(isRegistered ? registeredTabs : guestTabs)];
+
+    return (
 
 
+
+    <div className={`side-nav ${isHovered ? "expanded" : "collapsed"}`} onMouseEnter={() => setIsHovered(true)}onMouseLeave={() => setIsHovered(false)}>
+        <div className="nav-body">
+
+            <div>
+                <div className="logo-container">
+                    <img src={isHovered ? logo_open : logo_closed} alt="Logo"className="logo-icon"/>
+                </div>
+
+                <div className="top-tabs">
+                    {commonTabs.map((tab, index) => (
+                        <div key={index} className={`tab ${tab.style || ""}`}>
+                        <img src={tab.icon} alt={tab.label} className="tab-icon" />
+                        {isHovered && <span className="tab-label">{tab.label}</span>}
+                        </div>
+                    ))}
+                </div>
+
+            </div>
     
-      <div className="top-tabs">
-        {commonTabs.map((tab, index) => (
-          <div key={index} className={`tab ${tab.style || ""}`}>
-            <img src={tab.icon} alt={tab.label} className="tab-icon" />
-            {isHovered && <span className="tab-label">{tab.label}</span>}
-          </div>
-        ))}
-      </div>
 
-      <div className="bottom-tabs">
+
+
+
+
+        <div className="bottom-tabs">
         {(isRegistered ? registeredTabs : guestTabs).map((tab, index) => (
-          <div key={index} className={`tab ${tab.style || ""}`}>
+            <div key={index} className={`tab ${tab.style || ""}`}>
             <img src={tab.icon} alt={tab.label} className="tab-icon" />
             {isHovered && <span className="tab-label">{tab.label}</span>}
-          </div>
+            </div>
         ))}
-      </div>
+        </div>
     </div>
     </div>
-  );
+    );
 };
 
 export default NavigationBar;

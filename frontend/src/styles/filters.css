@@ -2,16 +2,111 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 75%;
 }
 
-.filter-toggle {
-    height: 10%;
-    background-color: #2B3D5B; 
-    opacity: 0.8;
-    width: 20%;
-}
-
-.filter-toggle img {
+.inactive-toggle{
+    background-color: #2B3D5B;
+    opacity: 80%;
+    height: 8%;
+    border-radius: 18px;
     border: none;
-    color:#2B3D5B ;
+    width: 5%;
+    margin-left: 11%;
+    margin-top: 2%;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.active-toggle{
+    background-color: #2B3D5B;
+    opacity: 100%;
+    height: 8%;
+    border-radius: 18px;
+    border: none;
+    width: 5%;
+    margin-left: 11%;
+    margin-top: 2%;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.active-toggle:hover{
+    opacity: 60%;
+}
+
+.inactive-toggle:hover {
+    opacity: 60%;
+}
+
+.inactive-toggle img {
+    filter: opacity(80);
+}
+
+
+.filter-list {
+    background-color: #2B3D5B;
+    opacity: 0.6;
+    pointer-events: all;
+    cursor: auto;
+    margin-left: -0.6%;
+    width:13%;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding: 1%;
+    gap: 1%;
+    height: 60%;
+    margin-left: 1.6%;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+    gap: 5%;
+    height: 10%;
+    padding: 2%;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.filter span{
+    display: flex;
+    align-items: center;
+    gap: 5%;
+    height: 10%;
+    padding: 2%;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.filter:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.filter-check {
+    appearance: none;
+    width: 8%;
+    height: 60%;
+    border: 2px solid white;
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.filter-check:checked {
+    background-color: white;
+}
+
+.filter-icon {
+  width: 8%;
+  height: 60%;
+  object-fit: contain;
 }

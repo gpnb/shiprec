@@ -9,7 +9,7 @@ function SearchBar({map}) {
 
     const [searchTerm, setSearchTerm]= useState('');
 
-    const [activeFilters, setActiveFilters] = useState([]);
+    const [activeFilters, setActiveFilters] = useState(['everything','ports', 'areas', 'vessels', 'companies', 'my_fleets']);
 
      useEffect(() => {
         console.log('Active filters updated:', activeFilters);
@@ -27,22 +27,43 @@ function SearchBar({map}) {
     const handleSearch = (e) => {
         e.preventDefault();
         alert(`Search term is: ${searchTerm}`);
+        alert(`Search filters are is: ${activeFilters}`);
     }
 
 
     const toggleSearchFilters = (e) => {
+   
         const id = e.target.id;
 
-        if(activeFilters.length === 5 ) {
-            setActiveFilters(['all']);
-           
 
-            console.log(activeFilters)
-            return;
-        }
+        setActiveFilters(prev => {
+            
+            if (id === 'everything') {
+                return prev.includes('everything') ? [] : [...['ports', 'areas', 'vessels', 'companies', 'my_fleets'], 'everything'];
+            }
 
+            // remove "everything" if any other filter is clicked
+            let updated = prev.filter(f => f !== 'everything');
 
-        setActiveFilters(prev => prev.includes(id) ? prev.filter(filter => filter !== id) : [...prev, id]);
+            // if a filter is already selected remove it
+            if (updated.includes(id)) {
+                updated = updated.filter(f => f !== id);
+            } 
+            
+            // else add it
+            else {
+                updated.push(id);
+            }
+
+            // if all filters are selected, add "everything"
+            const allSelected = ['ports', 'areas', 'vessels', 'companies', 'my_fleets'].every(f => updated.includes(f));
+            
+            if (allSelected && !updated.includes('everything')) {
+                updated.push('everything');
+            }
+
+            return updated;
+        });
     };
 
     
@@ -67,7 +88,7 @@ function SearchBar({map}) {
             
             {showFilters &&  
                 <div className='search-filters'>
-                    {['ports', 'areas', 'vessels', 'companies', 'my_fleets', 'Everything'].map(id => (
+                    {['ports', 'areas', 'vessels', 'companies', 'my_fleets', 'everything'].map(id => (
                     <button key={id} id={id} onClick={toggleSearchFilters} className={activeFilters.includes(id) ? 'active' : ''}>
                         {id.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}
                     </button>
