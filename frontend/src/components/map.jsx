@@ -70,7 +70,7 @@ function MapFunctions({map,setDarkMode,darkMode}) {
 
     return(  
         <div className="map_functions">
-            <NavigationBar/>  
+            <NavigationBar isRegistered={false} isAdmin={false} currentTab="Live Map"/>  
             <SearchBar map = {map}/>
             <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode}/>  
         </div> 

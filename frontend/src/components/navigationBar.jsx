@@ -12,31 +12,36 @@ import admin from "../icons/NavBar/Admin-page.png"
 import signout from "../icons/NavBar/Sign-out.png"
 import logo_open from "../icons/Logo/ShipRecNav-Open.png"
 import logo_closed from "../icons/Logo/ShipRecNav-Closed.png"
+import admin_open from "../icons/Logo/ShipRecAdmin-Open.png"
+import admin_closed from "../icons/Logo/ShipRecAdmin-Closed.png"
 
-
-const NavigationBar = ({ isRegistered  = true }) => {
+const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const commonTabs = [
-        { icon: map, label: "Live Map" },
+        { icon: map, label: "Live Map"},
         { icon: vessel, label: "Vessels" },
         { icon: port, label: "Ports" },
     ];
 
     const guestTabs = [
-        { icon: register, label: "Sign Up"},
-        { icon: signin, label: "Sign In"},
+        { icon: register, label: "Register", style: "register"},
+        { icon: signin, label: "Sign In" , style: "signin"},
         { icon: help, label: "Help" },
     ];
 
-    const registeredTabs = [
+
+    const baseRegisteredTabs = [
         { icon: profile, label: "My Account" },
         { icon: settings, label: "Settings" },
         { icon: help, label: "Help" },
-        { icon: signout, label: "Sign Out" },
+        { icon: signout, label: "Sign Out", style: "signout" },
     ];
 
-    const tabsToRender = [...commonTabs, ...(isRegistered ? registeredTabs : guestTabs)];
+    const registeredTabs = isAdmin
+        ? [{ icon: admin, label: "Admin Page"}, ...baseRegisteredTabs]
+        : baseRegisteredTabs;
+
 
     return (
 
@@ -47,14 +52,14 @@ const NavigationBar = ({ isRegistered  = true }) => {
 
             <div>
                 <div className="logo-container">
-                    <img src={isHovered ? logo_open : logo_closed} alt="Logo"className="logo-icon"/>
+                <img src={ isAdmin ? isHovered ? admin_open : admin_closed : isHovered ? logo_open : logo_closed} alt="Logo" className="logo-icon"/>
                 </div>
 
                 <div className="top-tabs">
                     {commonTabs.map((tab, index) => (
-                        <div key={index} className={`tab ${tab.style || ""}`}>
-                        <img src={tab.icon} alt={tab.label} className="tab-icon" />
-                        {isHovered && <span className="tab-label">{tab.label}</span>}
+                        <div key={index} className="tab">
+                        <img src={tab.icon} alt={tab.label} className={`tab-icon ${currentTab === tab.label ? "active-tab" : ""}`} />
+                        {isHovered && <span className={`tab-label ${tab.style || ""}  ${currentTab === tab.label ? "active-tab" : ""}` }>{tab.label}</span>}
                         </div>
                     ))}
                 </div>
@@ -68,9 +73,9 @@ const NavigationBar = ({ isRegistered  = true }) => {
 
         <div className="bottom-tabs">
         {(isRegistered ? registeredTabs : guestTabs).map((tab, index) => (
-            <div key={index} className={`tab ${tab.style || ""}`}>
-            <img src={tab.icon} alt={tab.label} className="tab-icon" />
-            {isHovered && <span className="tab-label">{tab.label}</span>}
+                <div  key={index} className={`tab ${tab.style || ""} ${currentTab === tab.label ? "active-tab" : ""}`} >
+                <img src={tab.icon} alt={tab.label} className="tab-icon" />
+                {isHovered && <span className="tab-label">{tab.label}</span>}
             </div>
         ))}
         </div>

@@ -3,6 +3,7 @@
     flex-direction: column;
     width: 100%;
     height: 75%;
+    
 }
 
 .inactive-toggle{
@@ -11,11 +12,12 @@
     height: 8%;
     border-radius: 18px;
     border: none;
-    width: 5%;
-    margin-left: 11%;
+    width: 4%;
+    margin-left: 12%;
     margin-top: 2%;
     pointer-events: all;
     cursor: pointer;
+    padding: 5px 5px;
 }
 
 .active-toggle{
@@ -24,15 +26,16 @@
     height: 8%;
     border-radius: 18px;
     border: none;
-    width: 5%;
-    margin-left: 11%;
+    width: 4%;
+    margin-left: 12%;
     margin-top: 2%;
     pointer-events: all;
     cursor: pointer;
+    padding: 5px 5px;
 }
 
 .active-toggle:hover{
-    opacity: 60%;
+    opacity: 80%;
 }
 
 .inactive-toggle:hover {
