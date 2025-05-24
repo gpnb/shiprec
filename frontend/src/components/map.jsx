@@ -85,38 +85,36 @@ function MapWrapper({setDarkMode,darkMode}) {
 
 function Map() {
 
-    const darkmodeUrl = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";           // it's black :(
+    // const darkmodeUrl = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";           // it's black :(
     const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
+
+    const [darkMode, setDarkMode] = useState(false);
     
-    const [darkMode,setDarkMode] = useState(false);
-
-
     return (
-    <div className="map">
+        <div className={`map ${darkMode ? 'dark' : ''}`}>
         <MapContainer
-            center={[50, 0]}    // puts the user at the center of the map when the page loads
-            zoom={2}            // default zoom
-            attributionControl={false} // hides the attribution credits
-            closePopupOnClick={false}   // a popup won't close when the user clicks out of it
-            zoomAnimation={true}    // zoom animation is enabled
-            maxBounds={[[-85.0511, -180], [85.0511, 180]]}  // set the world bounds 
-            maxBoundsViscosity={1.0}    
-            scrollWheelZoom={true}  // enable scrolling
-            dragging={true} // and dragging
+            center={[50, 0]}
+            zoom={2}
+            attributionControl={false}
+            closePopupOnClick={false}
+            zoomAnimation={true}
+            maxBounds={[[-85.0511, -180], [85.0511, 180]]}
+            maxBoundsViscosity={1.0}
+            scrollWheelZoom={true}
+            dragging={true}
             zoomControl={false}
         >
-
-        <TileLayer
-            url= {darkMode ? darkmodeUrl : lightmodeUrl}
+            <TileLayer
+            url={lightmodeUrl}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             subdomains="abcd"
             minZoom={2}
             maxZoom={12}
-        />
-
-        <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode}/>
+            />
+    
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} />
         </MapContainer>
-    </div>
+        </div>
     );
 }
 

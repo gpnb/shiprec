@@ -10,6 +10,11 @@
 
 }
 
+.inactive-light:hover,
+.inactive-dark:hover{
+    opacity: 0.6;
+}
+
 .inactive-light{
     background-color: #2B3D5B;
     opacity: 80%;
@@ -33,6 +38,7 @@
     height: 80%;
     width: 3%;
     padding: 5px 5px;
+    box-shadow: 0 0 0.25rem #FFFFFF;
 }
 
 .active-dark{
@@ -45,6 +51,7 @@
     height: 80%;
     width: 3%;
     padding: 5px 5px;
+    box-shadow: 0 0 0.75rem #FFFFFF;
 }
 
 .inactive-dark{

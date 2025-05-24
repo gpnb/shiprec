@@ -46,8 +46,7 @@
 }
 
 .zoom_button {
-    background-color: #2B3D5B;
-    opacity: 0.8;
+    background-color: hwb(218 17% 64% / 0.8);
     color: white;
     border: none;
     width: 40%;
@@ -61,15 +60,15 @@
 }
 
 .zoom_button:hover {
-    opacity: 0.6;
+    background-color: hwb(218 17% 64% / 0.4);
 }
 
 .select_area {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #2B3D5B;
-    opacity: 0.8;
+    background-color: hwb(218 17% 64% / 0.8);
+
     color: white;
     border: none;
     cursor: pointer;
@@ -94,7 +93,13 @@
 }
 
 .select_area:hover {
-    opacity: 0.6;
+    background-color: hwb(218 17% 64% / 0.4);
 }
 
 
+.dark .leaflet-layer,
+.dark .leaflet-control-zoom-in,
+.dark .leaflet-control-zoom-out,
+.dark .leaflet-control-attribution {
+    filter: invert(100%) saturate(20%) invert(25%) sepia(20%) saturate(350%) hue-rotate(173deg) brightness(80%) contrast(110%);
+}
