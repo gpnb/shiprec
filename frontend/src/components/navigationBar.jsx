@@ -14,32 +14,33 @@ import logo_open from "../icons/Logo/ShipRecNav-Open.png"
 import logo_closed from "../icons/Logo/ShipRecNav-Closed.png"
 import admin_open from "../icons/Logo/ShipRecAdmin-Open.png"
 import admin_closed from "../icons/Logo/ShipRecAdmin-Closed.png"
+import { href } from 'react-router-dom';
 
 const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const commonTabs = [
-        { icon: map, label: "Live Map"},
-        { icon: vessel, label: "Vessels" },
-        { icon: port, label: "Ports" },
+        { icon: map, label: "Live Map", href: '/'},
+        { icon: vessel, label: "Vessels", href: '/Vessels' },
+        { icon: port, label: "Ports", href: '/Ports' },
     ];
 
     const guestTabs = [
-        { icon: register, label: "Register", style: "register"},
-        { icon: signin, label: "Sign In" , style: "signin"},
-        { icon: help, label: "Help" },
+        { icon: register, label: "Register", style: "register", href: '/Register'},
+        { icon: signin, label: "Sign In" , style: "signin", href: '/SignIn'},
+        { icon: help, label: "Help" , href: '/Help'},
     ];
 
 
     const baseRegisteredTabs = [
-        { icon: profile, label: "My Account" },
-        { icon: settings, label: "Settings" },
-        { icon: help, label: "Help" },
+        { icon: profile, label: "My Account", href: '/MyAccount' },
+        { icon: settings, label: "Settings" , href: '/Settings'},
+        { icon: help, label: "Help", href: '/Help' },
         { icon: signout, label: "Sign Out", style: "signout" },
     ];
 
     const registeredTabs = isAdmin
-        ? [{ icon: admin, label: "Admin Page"}, ...baseRegisteredTabs]
+        ? [{ icon: admin, label: "Admin Page", href: '/Admin'}, ...baseRegisteredTabs]
         : baseRegisteredTabs;
 
 
@@ -57,9 +58,9 @@ const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
 
                 <div className="top-tabs">
                     {commonTabs.map((tab, index) => (
-                        <div key={index} className="tab">
+                        <div key={index} className="tab" onClick={() => window.location.href = tab.href}>
                         <img src={tab.icon} alt={tab.label} className={`tab-icon ${currentTab === tab.label ? "active-tab" : ""}`} />
-                        {isHovered && <span className={`tab-label ${tab.style || ""}  ${currentTab === tab.label ? "active-tab" : ""}` }>{tab.label}</span>}
+                        {isHovered && <span className={`tab-label ${tab.style || ""}  ${currentTab === tab.label ? "active-tab" : ""}` } >{tab.label}</span>}
                         </div>
                     ))}
                 </div>
@@ -73,7 +74,7 @@ const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
 
         <div className="bottom-tabs">
         {(isRegistered ? registeredTabs : guestTabs).map((tab, index) => (
-                <div  key={index} className={`tab ${tab.style || ""} ${currentTab === tab.label ? "active-tab" : ""}`} >
+                <div  key={index} className={`tab ${tab.style || ""} ${currentTab === tab.label ? "active-tab" : ""}`}  onClick={() => window.location.href = tab.href}>
                 <img src={tab.icon} alt={tab.label} className="tab-icon" />
                 {isHovered && <span className="tab-label">{tab.label}</span>}
             </div>
