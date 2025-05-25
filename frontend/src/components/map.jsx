@@ -35,51 +35,57 @@ function ToggleDisplayMode({setDarkMode,darkMode}) {
 
 
 
-function MapButtons({map,setDarkMode,darkMode}) {
-
-
-
+function MapButtons({ map, setDarkMode, darkMode, isRegistered }) {
     return (
-          <div className="map_buttons">
-
-                <ToggleDisplayMode setDarkMode={setDarkMode} darkMode={darkMode} />
-
-                <Filters map = {map}/>
-
-                
-                <div className="zoom_buttons">
-                        <button onClick={() => map.zoomIn()} className="zoom_button" style={{borderTopLeftRadius: "8px", borderTopRightRadius: "8px"}}>+</button>
-                        <button onClick={() => map.zoomOut()} className="zoom_button"  style={{borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px"}}>−</button>
-                </div>
-
-                <button  className="select_area">
-                    <img src= {select} alt = 'select area'/>
-                    <p> Select Area </p>
-                </button>    
-                
-
+      <div className="map_buttons">
+        <ToggleDisplayMode setDarkMode={setDarkMode} darkMode={darkMode} />
+  
+        <Filters map={map} />
+  
+        <div className="zoom_buttons">
+          <button
+            onClick={() => map.zoomIn()}
+            className="zoom_button"
+            style={{ borderTopLeftRadius: "8px", borderTopRightRadius: "8px" }}
+          >
+            +
+          </button>
+          <button
+            onClick={() => map.zoomOut()}
+            className="zoom_button"
+            style={{ borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px" }}
+          >
+            −
+          </button>
         </div>
-    );  
-     
-}
+  
+        {isRegistered && (
+          <button className="select_area">
+            <img src={select} alt="select area" />
+            <p>Select Area</p>
+          </button>
+        )}
+      </div>
+    );
+  }
 
 
 
-function MapFunctions({map,setDarkMode,darkMode}) {
+function MapFunctions({map,setDarkMode,darkMode,isRegistered,isAdmin}) {
 
 
     return(  
         <div className="map_functions">
-            <NavigationBar isRegistered={false} isAdmin={false} currentTab="Live Map"/>  
+            <NavigationBar isRegistered={isRegistered} isAdmin={isAdmin} currentTab="Live Map"/>  
             <SearchBar map = {map}/>
-            <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode}/>  
+            <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered}/>  
         </div> 
     );
 }
 
-function MapWrapper({setDarkMode,darkMode}) {
+function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin}) {
     const map = useMap();
-    return <MapFunctions map={map} setDarkMode={setDarkMode}  darkMode={darkMode} />;
+    return <MapFunctions map={map} setDarkMode={setDarkMode}  darkMode={darkMode} isRegistered = {isRegistered} isAdmin= {isAdmin} />;
 }
 
 
@@ -112,7 +118,7 @@ function Map() {
             maxZoom={12}
             />
     
-            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} />
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={false} isAdmin={false}/>
         </MapContainer>
         </div>
     );

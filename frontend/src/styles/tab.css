@@ -1,0 +1,79 @@
+.tabHeader{
+    margin-left: 5.5%;
+    width: 94.5%;
+    height: 8%;
+    background-color: hsla(0, 0%, 75%, 0.28);
+    display: flex;
+    
+}
+
+.tabHeader-Text{
+    padding-left: 1rem;
+    padding-top: 1.4rem;
+    font-weight: bolder;
+    font-size: 36px;
+    font-style: italic;
+    color: #363636;
+}
+
+.tabHeader-Name{
+    padding-left: 1.2rem;
+    padding-top: 1.8rem;
+    font-weight: 500;
+    font-size: 28px;
+    color: #363636;
+    
+}
+
+.MainTabs{
+    margin-left: 5.5%;
+    width: 94.5%;
+    height: 8%;
+    display: flex;
+    background-color: #2B3D5B;
+}
+
+.NoTab {
+    margin-left: 5.5%;
+    width: 94.5%;
+    height: 8%;
+    background-color: #2B3D5B;
+}
+
+.Tab-Choice {
+    color: white;
+    font-size: 28px;
+    font-weight: 500;
+    border-right: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    white-space: nowrap;
+    height: 100%;
+    border-bottom: 5px solid #CCCFD5;
+}
+
+.Tab-Choice:hover{
+    background-color: rgba(255, 255, 255, 0.23);
+}
+
+.Tab-Label{
+    text-align-last: right;
+    margin-top: 3rem;
+}
+
+.Tab-Choice.active {
+    background-color: rgb(255, 255, 255); /* lighter to show active */
+    color:#2B3D5B;
+    border-top: 5px solid #CCCFD5;
+    margin-left: -3px;
+    border-left: 5px solid #CCCFD5;
+    border-right: 5px solid #CCCFD5;
+    border-bottom: 0px;
+}
+
+/* Optional: remove right border from last tab */
+.MainTabs .Tab-Choice:last-child {
+  border-right: none;
+}
