@@ -5,6 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.backend.entity.CountryCodes;
 
-public interface CountryRepo extends JpaRepository<CountryCodes,int> {
+public interface CountryRepo extends JpaRepository<CountryCodes,Integer> {
     List <CountryCodes> findAll();
 }
