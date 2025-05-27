@@ -118,7 +118,7 @@ function Map() {
             maxZoom={12}
             />
     
-            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={false} isAdmin={false}/>
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={true} isAdmin={false}/>
         </MapContainer>
         </div>
     );

@@ -25,4 +25,11 @@ public class CountryCodes {
     @Column
     private String country;
 
+    public CountryCodes(int id, String country) {
+        this.id = id;
+        this.country = country;
+    }
+
+    
+
 }
