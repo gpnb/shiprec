@@ -6,7 +6,7 @@ function RegisterPage() {
 
     return (
         <div>
-            Login
+            Register
         </div>
     )
 }

@@ -1,0 +1,54 @@
+.background {
+    background-image: url('/public/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    margin: 0;  
+    position: relative;
+}
+
+.form-container {
+    height: 70%;
+    width: 25%;
+    background-color: rgba(204, 125, 81, 0.3);
+    padding: 2%;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    margin-left: 58.5%;
+    margin-top: 7%;
+    flex-direction: column;
+    position: absolute;
+}
+
+.containers-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-top: 10%;
+}
+
+.logo-container {
+    height: 180px;
+    width: 380px;
+    background-color: rgba(245, 245, 245, 0.5);
+    padding: 3%;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-message {
+    font-style: italic;
+    font-size: xx-large;
+    color: #2B3D5B;
+    margin-top: 10%;
+}
+
+.message-logo {
+    filter: brightness(0) saturate(100%) invert(23%) sepia(15%) saturate(1537%) hue-rotate(179deg) brightness(91%) contrast(95%);
+    height: 50%;
+    margin-top: 10%;
+}
