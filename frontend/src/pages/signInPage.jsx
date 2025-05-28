@@ -16,7 +16,27 @@ function SignInPage() {
                     </div>
                     <img src={logo} alt="ShipRec" className="message-logo"></img>
                 </div>
-                the form
+
+                {/* The form */}
+                <form className="form-input">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="Enter your email..." />
+
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Enter your password..." />
+
+                    <div className="forgot-password">
+                        {/* update this to handle password */}
+                        <a href="?">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" className="sign-button">Sign In</button>
+
+                    <div className="register-link">
+                        Don't have an account? <a href="/Register">Register</a>
+                    </div>
+                </form>
+                
             </div>
         </div>
     )
