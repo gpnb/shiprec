@@ -3,26 +3,24 @@ package com.example.backend.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="Countries")
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-public class CountryCodes {
-    
+public class NavigationalStatus {
+
     @Id
-    private int id;
+    private int code;
 
     @Column
-    private String country;
+    private String status;
 
-    public CountryCodes(int id, String country) {
-        this.id = id;
-        this.country = country;
+    public NavigationalStatus(int code,String status) {
+        this.code = code;
+        this.status = status;
     }
 }
