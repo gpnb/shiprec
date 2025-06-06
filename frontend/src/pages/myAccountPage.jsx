@@ -4,6 +4,11 @@ import TabContainer from "../components/tabContainer";
 import NavigationBar from "../components/navigationBar";
 import { Routes, Route } from "react-router-dom";
 
+import MyProfilePage from "../pages/myProfilePage";
+// import MyFleetsPage from "../pages/myFleetsPage";
+// import MyAreasPage from "../pages/myAreasPage";
+// import MyNotificationsPage from "../pages/myNotificationsPage";
+
 function MyAccountPage() {
 
     const accountTabs = [
@@ -16,13 +21,14 @@ function MyAccountPage() {
     return (
         <div className="body">
             <NavigationBar isRegistered = {true} currentTab="My Account"/>
-            <TabContainer currentTab="My Account" username="Athanasios" tabs={accountTabs}/>
+            <TabContainer currentTab="My Account" username="Athanasios" tabs={accountTabs}>
             <Routes>
-                <Route path="/"/>
+                <Route path="/" element={<MyProfilePage/>}/>
                 <Route path="fleets"/>
                 <Route path="areas"/>
                 <Route path="notifications"/>
             </Routes>
+            </TabContainer>
             <div className="footer"/>
         </div>
     )

@@ -118,7 +118,7 @@ function Map() {
             maxZoom={12}
             />
             {/* Change isRegistered to true if we need to see the user's abilities */}
-            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={false} isAdmin={false}/>
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={true} isAdmin={false}/>
         </MapContainer>
         </div>
     );
