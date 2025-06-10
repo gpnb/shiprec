@@ -53,7 +53,7 @@ const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
 
             <div>
                 <div className="shipreclogo-container">
-                <img src={ isAdmin ? isHovered ? admin_open : admin_closed : isHovered ? logo_open : logo_closed} alt="Logo" className="logo-icon"/>
+                <img src={ isAdmin ? isHovered ? admin_open : admin_closed : isHovered ? logo_open : logo_closed} alt="Logo" className="shipreclogo-icon"/>
                 </div>
 
                 <div className="top-tabs">

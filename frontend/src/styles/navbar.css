@@ -29,7 +29,7 @@
     height: 20%;
 }
 
-.logo-icon {
+.shipreclogo-icon {
     width: fit-content;
     height: 65px;
     filter: brightness(0) saturate(100%) invert(64%) sepia(7%) saturate(3807%) hue-rotate(333deg) brightness(87%) contrast(81%);
@@ -38,7 +38,7 @@
 
 }
 
-.side-nav.expanded:hover .logo-icon {
+.side-nav.expanded:hover .shipreclogo-icon {
     padding-left: 6%;
 }
 
