@@ -22,7 +22,7 @@ public class Vessel{
     private int mmsi;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id") 
+    @JoinColumn(name = "country_id") 
     private CountryCode country;
 
     @Column

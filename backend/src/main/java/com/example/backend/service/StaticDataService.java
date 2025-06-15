@@ -1,11 +1,15 @@
 package com.example.backend.service;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -49,6 +53,7 @@ public class StaticDataService {
         Reader reader = null;
         CSVParser parser = null;
 
+        
         try {
             reader = new FileReader(filePath);
 
@@ -128,6 +133,7 @@ public class StaticDataService {
 
 
 
+
     @PostConstruct
     public void init() {
 
@@ -168,31 +174,99 @@ public class StaticDataService {
         // initialize the vessels table
         if(vesselRepo.count()<=0) {
             
+
+            final int THREADS = 9;
+            final int BATCH_SIZE = 538;
+            final String FILE_PATH = "../data-source/data/vessels.csv";
+            
             executePythonScript("../data-source/create_vessels.py");
-            List<String[]> allData = this.readCSV("vessels.csv");
-            for (String[] row : allData) {
-                Vessel vessel = new Vessel(
-                    Integer.parseInt(row[0]), // mmsi
-                    Integer.parseInt(row[1]), // imonumber
-                    row[2],                   // callsign
-                    row[3],                   // shipname
-                    Integer.parseInt(row[4]), // shiptype
-                    Integer.parseInt(row[5]), // to_bow
-                    Integer.parseInt(row[6]), // to_stern 
-                    Integer.parseInt(row[7]), // to_starboard 
-                    Integer.parseInt(row[8])  // toport 
-                );
-                int countryId = Integer.parseInt(String.valueOf(vessel.getMmsi()).substring(0, 3));
-                vessel.setCountry(countryRepo.findById(countryId).orElse(null));
-                vessel.setShiptype(typeRepo.findType(vessel.getShiptype_code()));
-                vesselRepo.save(vessel);
+            ExecutorService executor = Executors.newFixedThreadPool(THREADS);
 
+            try (
+                Reader reader = new BufferedReader(new FileReader(FILE_PATH));
+                CSVParser parser = new CSVParser(reader,CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build())) 
+                
+            {
 
+                List<CSVRecord> batch = new ArrayList<>(BATCH_SIZE);
 
-           }
+                for (CSVRecord record : parser) {
+                    batch.add(record);
+
+                    if (batch.size() >= BATCH_SIZE) {
+                        List<CSVRecord> taskBatch = new ArrayList<>(batch);
+                        executor.submit(() -> processBatch(taskBatch));
+                        batch.clear();
+                    }
+                }
+
+                // Submit any remaining records
+                if (!batch.isEmpty()) {
+                    List<CSVRecord> taskBatch = new ArrayList<>(batch);
+                    executor.submit(() -> processBatch(taskBatch));
+                }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            executor.shutdown();
+
+            try {
+                if (!executor.awaitTermination(5, TimeUnit.MINUTES)) {
+                    executor.shutdownNow();
+                }
+            } 
+            
+            catch (InterruptedException e) {
+                executor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
         }
         
 
     }
+
+    private void processBatch(List<CSVRecord> allData) {
+        List<Vessel> vessels = new ArrayList<>();
+        for (CSVRecord row : allData) {
+        
+            try {
+                // Create Vessel instance from CSV fields
+                Vessel vessel = new Vessel(
+                    Integer.parseInt(row.get("sourcemmsi")),     // mmsi
+                    Integer.parseInt(row.get("imonumber")),      // imonumber
+                    row.get("callsign"),                         // callsign
+                    row.get("shipname"),                         // shipname
+                    Integer.parseInt(row.get("shiptype")),       // shiptype
+                    Integer.parseInt(row.get("tobow")),          // to_bow
+                    Integer.parseInt(row.get("tostern")),        // to_stern
+                    Integer.parseInt(row.get("tostarboard")),    // to_starboard
+                    Integer.parseInt(row.get("toport"))          // to_port
+                );
+
+                // Get countryId from first 3 digits of MMSI
+                int countryId = Integer.parseInt(String.valueOf(vessel.getMmsi()).substring(0, 3));
+
+                // Lookup and assign relations
+                vessel.setCountry(countryRepo.findById(countryId).orElse(null));
+                vessel.setShiptype(typeRepo.findType(vessel.getShiptype_code()));
+                
+                vessels.add(vessel);
+                // Save to DB
+                vesselRepo.save(vessel);
+            } 
+            
+            catch (NumberFormatException e) {
+                System.err.println("Failed to parse or save row: " + row.toString());
+                e.printStackTrace();
+            }
+        }
+
+        if (!vessels.isEmpty()) {
+                vesselRepo.saveAll(vessels); 
+            }
+        }
+
 }
 
