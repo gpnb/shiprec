@@ -1,7 +1,9 @@
 package com.example.backend.service;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +91,41 @@ public class StaticDataService {
     }
     
 
+    public String executePythonScript(String scriptPath) {
+        StringBuilder output = new StringBuilder();
+        ProcessBuilder pb = new ProcessBuilder();
+        
+        // Build the command (python + script path + arguments)
+        List<String> command = new ArrayList<>();
+        command.add("python3");
+        command.add(scriptPath);
+        
+        pb.command(command);
+        pb.redirectErrorStream(true);
+        
+        try {
+            Process process = pb.start();
+            
+            // // Read the output
+            // BufferedReader reader = new BufferedReader(
+            //     new InputStreamReader(process.getInputStream()));
+            
+            // String line;
+            // while ((line = reader.readLine()) != null) {
+            //     output.append(line).append("\n");
+            // }
+            
+            int exitCode = process.waitFor();
+            output.append("\nProcess exited with code: ").append(exitCode);
+            
+        } catch (IOException | InterruptedException e) {
+            output.append("Error executing Python script: ").append(e.getMessage());
+            e.printStackTrace();
+        }
+        
 
+        return output.toString();
+    }
 
 
 
