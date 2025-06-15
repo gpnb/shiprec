@@ -6,11 +6,12 @@
 
 # then it starts the server (topic creation will be done by the consumer or producer)
 
-
+rm -rf .cluster-initialized
 if [ ! -f .cluster-initialized ] ; then
     KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
     ./bin/kafka-storage.sh format --standalone -t $KAFKA_CLUSTER_ID -c config/server.properties
     touch .cluster-initialized
 fi
+
 
 ./bin/kafka-server-start.sh config/server.properties

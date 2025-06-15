@@ -1,9 +1,8 @@
 package com.example.backend.service;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +13,14 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.backend.entity.CountryCodes;
+import com.example.backend.entity.CountryCode;
 import com.example.backend.entity.NavigationalStatus;
 import com.example.backend.entity.ShipType;
+import com.example.backend.entity.Vessel;
 import com.example.backend.repo.CountryRepo;
 import com.example.backend.repo.ShipTypeRepo;
 import com.example.backend.repo.StatusRepo;
+import com.example.backend.repo.VesselRepo;
 
 import jakarta.annotation.PostConstruct;
 
@@ -36,9 +37,11 @@ public class StaticDataService {
     @Autowired
     private ShipTypeRepo typeRepo;
 
+    @Autowired
+    private VesselRepo vesselRepo;
     
     // reads the contents of any csv file
-    @SuppressWarnings("CallToPrintStackTrace")
+    @SuppressWarnings({"CallToPrintStackTrace", "ConvertToStringSwitch"})
     public List<String[]> readCSV(String fileName) {
         
         String filePath = "../data-source/data/" + fileName;
@@ -52,7 +55,7 @@ public class StaticDataService {
             if("../data-source/data/Navigational Status.csv".equals(filePath)) {
                 parser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setDelimiter(';').setSkipHeaderRecord(false).build());
             }
-            else if("../data-source/data/Ship Types List.csv".equals(filePath)) {
+            else if("../data-source/data/Ship Types List.csv".equals(filePath) ||"../data-source/data/vessels.csv".equals(filePath) ) {
                 parser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build());
             }
 
@@ -91,39 +94,35 @@ public class StaticDataService {
     }
     
 
+    @SuppressWarnings("UseSpecificCatch")
     public String executePythonScript(String scriptPath) {
         StringBuilder output = new StringBuilder();
-        ProcessBuilder pb = new ProcessBuilder();
-        
-        // Build the command (python + script path + arguments)
-        List<String> command = new ArrayList<>();
-        command.add("python3");
-        command.add(scriptPath);
-        
-        pb.command(command);
-        pb.redirectErrorStream(true);
+        StringBuilder errors = new StringBuilder();
         
         try {
+            // Normalize the path and change working directory
+            File scriptFile = new File(scriptPath);
+            String absolutePath = scriptFile.getAbsolutePath();
+            File workingDir = scriptFile.getParentFile();
+            
+            ProcessBuilder pb = new ProcessBuilder("python3", absolutePath);
+            pb.directory(workingDir);  // Set working directory to script location
+            pb.redirectErrorStream(false);
+            
             Process process = pb.start();
             
-            // // Read the output
-            // BufferedReader reader = new BufferedReader(
-            //     new InputStreamReader(process.getInputStream()));
-            
-            // String line;
-            // while ((line = reader.readLine()) != null) {
-            //     output.append(line).append("\n");
-            // }
-            
             int exitCode = process.waitFor();
-            output.append("\nProcess exited with code: ").append(exitCode);
             
-        } catch (IOException | InterruptedException e) {
-            output.append("Error executing Python script: ").append(e.getMessage());
-            e.printStackTrace();
+            if (exitCode != 0) {
+                output.append("Script failed with exit code: ").append(exitCode)
+                    .append("\nError Output:\n").append(errors);
+            }
+            
+        } 
+        catch (Exception e) {
+            output.append("Execution failed: ").append(e.getMessage());
         }
         
-
         return output.toString();
     }
 
@@ -132,13 +131,15 @@ public class StaticDataService {
     @PostConstruct
     public void init() {
 
+       
+
         
         // initialize the countries table
         if(countryRepo.count()<=0) {
             
             List<String[]> allData = this.readCSV("MMSI Country Codes.csv");
             for (String[] row : allData) {
-                CountryCodes countryCode = new CountryCodes(Integer.parseInt(row[0]),row[1]);
+                CountryCode countryCode = new CountryCode(Integer.parseInt(row[0]),row[1]);
                 countryRepo.save(countryCode);
             }
         }
@@ -164,6 +165,32 @@ public class StaticDataService {
             }
         }
 
+        // initialize the vessels table
+        if(vesselRepo.count()<=0) {
+            
+            executePythonScript("../data-source/create_vessels.py");
+            List<String[]> allData = this.readCSV("vessels.csv");
+            for (String[] row : allData) {
+                Vessel vessel = new Vessel(
+                    Integer.parseInt(row[0]), // mmsi
+                    Integer.parseInt(row[1]), // imonumber
+                    row[2],                   // callsign
+                    row[3],                   // shipname
+                    Integer.parseInt(row[4]), // shiptype
+                    Integer.parseInt(row[5]), // to_bow
+                    Integer.parseInt(row[6]), // to_stern 
+                    Integer.parseInt(row[7]), // to_starboard 
+                    Integer.parseInt(row[8])  // toport 
+                );
+                int countryId = Integer.parseInt(String.valueOf(vessel.getMmsi()).substring(0, 3));
+                vessel.setCountry(countryRepo.findById(countryId).orElse(null));
+                vessel.setShiptype(typeRepo.findType(vessel.getShiptype_code()));
+                vesselRepo.save(vessel);
+
+
+
+           }
+        }
         
 
     }
