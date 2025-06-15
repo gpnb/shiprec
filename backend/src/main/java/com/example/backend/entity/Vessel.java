@@ -6,23 +6,15 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Data
-@Getter
-@Setter
-@NoArgsConstructor
-public class Vessel{
+public class Vessel {
 
     @Id
     private int mmsi;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id") 
+    @JoinColumn(name = "country_id")
     private CountryCode country;
 
     @Column
@@ -42,7 +34,7 @@ public class Vessel{
 
     @Column
     private int to_bow;
-    
+
     @Column
     private int toport;
 
@@ -51,6 +43,10 @@ public class Vessel{
 
     @Column
     private int to_stern;
+
+    public Vessel() {
+        // no-args constructor
+    }
 
     public Vessel(int mmsi, int imonumber, String callsign, String shipname, int shiptype, int to_bow, int to_stern, int to_starboard, int toport) {
         this.mmsi = mmsi;
@@ -64,8 +60,92 @@ public class Vessel{
         this.toport = toport;
     }
 
+    public int getMmsi() {
+        return mmsi;
+    }
 
+    public void setMmsi(int mmsi) {
+        this.mmsi = mmsi;
+    }
 
-    
+    public CountryCode getCountry() {
+        return country;
+    }
 
+    public void setCountry(CountryCode country) {
+        this.country = country;
+    }
+
+    public int getImonumber() {
+        return imonumber;
+    }
+
+    public void setImonumber(int imonumber) {
+        this.imonumber = imonumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCallsign() {
+        return callsign;
+    }
+
+    public void setCallsign(String callsign) {
+        this.callsign = callsign;
+    }
+
+    public int getShiptype_code() {
+        return shiptype_code;
+    }
+
+    public void setShiptype_code(int shiptype_code) {
+        this.shiptype_code = shiptype_code;
+    }
+
+    public String getShiptype() {
+        return shiptype;
+    }
+
+    public void setShiptype(String shiptype) {
+        this.shiptype = shiptype;
+    }
+
+    public int getTo_bow() {
+        return to_bow;
+    }
+
+    public void setTo_bow(int to_bow) {
+        this.to_bow = to_bow;
+    }
+
+    public int getToport() {
+        return toport;
+    }
+
+    public void setToport(int toport) {
+        this.toport = toport;
+    }
+
+    public int getTo_starboard() {
+        return to_starboard;
+    }
+
+    public void setTo_starboard(int to_starboard) {
+        this.to_starboard = to_starboard;
+    }
+
+    public int getTo_stern() {
+        return to_stern;
+    }
+
+    public void setTo_stern(int to_stern) {
+        this.to_stern = to_stern;
+    }
 }
+

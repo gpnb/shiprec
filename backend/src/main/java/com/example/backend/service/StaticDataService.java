@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.Objects;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -136,96 +138,91 @@ public class StaticDataService {
 
     @PostConstruct
     public void init() {
-
-       
-
-        
-        // initialize the countries table
-        if(countryRepo.count()<=0) {
-            
+        // Initialize Country Codes
+        if (countryRepo.count() <= 0) {
             List<String[]> allData = this.readCSV("MMSI Country Codes.csv");
             for (String[] row : allData) {
-                CountryCode countryCode = new CountryCode(Integer.parseInt(row[0]),row[1]);
+                CountryCode countryCode = new CountryCode(Integer.parseInt(row[0]), row[1]);
                 countryRepo.save(countryCode);
             }
         }
 
-        // initialize the Navigational Status table
-        if(statusRepo.count()<=0) {
-            
+        // Initialize Navigational Status
+        if (statusRepo.count() <= 0) {
             List<String[]> allData = this.readCSV("Navigational Status.csv");
             for (String[] row : allData) {
-                NavigationalStatus status = new NavigationalStatus(Integer.parseInt(row[0]),row[1]);
+                NavigationalStatus status = new NavigationalStatus(Integer.parseInt(row[0]), row[1]);
                 statusRepo.save(status);
             }
         }
 
-
-        // initialize the Ship Type table
-        if(typeRepo.count()<=0) {
-            
+        // Initialize Ship Types
+        if (typeRepo.count() <= 0) {
             List<String[]> allData = this.readCSV("Ship Types List.csv");
             for (String[] row : allData) {
-                ShipType type = new ShipType(Integer.parseInt(row[0]),Integer.parseInt(row[1]),Integer.parseInt(row[2]),row[3],row[4]);
+                ShipType type = new ShipType(
+                    Integer.parseInt(row[0]),
+                    Integer.parseInt(row[1]),
+                    Integer.parseInt(row[2]),
+                    row[3],
+                    row[4]
+                );
                 typeRepo.save(type);
             }
         }
 
-        // initialize the vessels table
-        if(vesselRepo.count()<=0) {
-            
-
-            final int THREADS = 9;
-            final int BATCH_SIZE = 538;
-            final String FILE_PATH = "../data-source/data/vessels.csv";
-            
+        // Initialize Vessels
+        if (vesselRepo.count() <= 0) {
             executePythonScript("../data-source/create_vessels.py");
-            ExecutorService executor = Executors.newFixedThreadPool(THREADS);
+            final String FILE_PATH = "../data-source/data/vessels.csv";
 
             try (
                 Reader reader = new BufferedReader(new FileReader(FILE_PATH));
-                CSVParser parser = new CSVParser(reader,CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build())) 
-                
-            {
+                CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build())
+            ) {
+                List<CSVRecord> records = parser.getRecords();
 
-                List<CSVRecord> batch = new ArrayList<>(BATCH_SIZE);
+                List<Vessel> vessels = records.parallelStream()
+                    .map(this::recordToVessel)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
 
-                for (CSVRecord record : parser) {
-                    batch.add(record);
+                vesselRepo.saveAll(vessels);
+                System.out.println("Imported vessels: " + vessels.size());
 
-                    if (batch.size() >= BATCH_SIZE) {
-                        List<CSVRecord> taskBatch = new ArrayList<>(batch);
-                        executor.submit(() -> processBatch(taskBatch));
-                        batch.clear();
-                    }
-                }
-
-                // Submit any remaining records
-                if (!batch.isEmpty()) {
-                    List<CSVRecord> taskBatch = new ArrayList<>(batch);
-                    executor.submit(() -> processBatch(taskBatch));
-                }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            executor.shutdown();
-
-            try {
-                if (!executor.awaitTermination(5, TimeUnit.MINUTES)) {
-                    executor.shutdownNow();
-                }
-            } 
-            
-            catch (InterruptedException e) {
-                executor.shutdownNow();
-                Thread.currentThread().interrupt();
+            } catch (IOException e) {
+                System.err.println("Failed to load vessels CSV:");
+                e.printStackTrace();
             }
         }
-        }
-        
-
     }
+
+    private Vessel recordToVessel(CSVRecord row) {
+        try {
+            Vessel vessel = new Vessel(
+                Integer.parseInt(row.get("sourcemmsi")),
+                Integer.parseInt(row.get("imonumber")),
+                row.get("callsign"),
+                row.get("shipname"),
+                Integer.parseInt(row.get("shiptype")),
+                Integer.parseInt(row.get("tobow")),
+                Integer.parseInt(row.get("tostern")),
+                Integer.parseInt(row.get("tostarboard")),
+                Integer.parseInt(row.get("toport"))
+            );
+    
+            int countryId = Integer.parseInt(String.valueOf(vessel.getMmsi()).substring(0, 3));
+            vessel.setCountry(countryRepo.findById(countryId).orElse(null));
+            vessel.setShiptype(typeRepo.findType(vessel.getShiptype_code()));
+            return vessel;
+    
+        } catch (Exception e) {
+            System.err.println("Skipping row due to error: " + row);
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 
     private void processBatch(List<CSVRecord> allData) {
         List<Vessel> vessels = new ArrayList<>();
