@@ -22,14 +22,17 @@ public class ConsumerService {
                 .build();
     }
 
-    // called automatically whenever something is posted on the "test-topic" topic
+    // called automatically whenever something is posted on the "ais-data" topic
     @KafkaListener(id = "listener-1", topics = "ais-data")
-    public void listen(String in) {
-        System.out.println("Received message: " + in);
+    public void listen(String message) {
+        System.out.println("Received message: " + message);
         System.out.println("\n\n\n ");
+
     }
 
-    
+
+
+
 
 
 }

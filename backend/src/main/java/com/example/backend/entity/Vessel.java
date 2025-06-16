@@ -1,11 +1,14 @@
 package com.example.backend.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Vessel {
@@ -16,6 +19,11 @@ public class Vessel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private CountryCode country;
+
+
+
+    @OneToMany(fetch=FetchType.LAZY)
+    List<VesselInstance> vessel_instances;
 
     @Column
     private int imonumber;

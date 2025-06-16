@@ -14,3 +14,5 @@ vessels_df['tostern'] = vessels_df['tostern'].fillna(-1).astype('int64')
 vessels_df.sort_values(by='t',ascending=True)
 vessels_df = vessels_df.drop_duplicates(subset='sourcemmsi', keep='first')
 vessels_df.to_csv('./data/vessels.csv', index=False)
+
+
