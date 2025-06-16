@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -138,6 +135,8 @@ public class StaticDataService {
 
     @PostConstruct
     public void init() {
+
+
         // Initialize Country Codes
         if (countryRepo.count() <= 0) {
             List<String[]> allData = this.readCSV("MMSI Country Codes.csv");
@@ -223,47 +222,5 @@ public class StaticDataService {
         }
     }
     
-
-    private void processBatch(List<CSVRecord> allData) {
-        List<Vessel> vessels = new ArrayList<>();
-        for (CSVRecord row : allData) {
-        
-            try {
-                // Create Vessel instance from CSV fields
-                Vessel vessel = new Vessel(
-                    Integer.parseInt(row.get("sourcemmsi")),     // mmsi
-                    Integer.parseInt(row.get("imonumber")),      // imonumber
-                    row.get("callsign"),                         // callsign
-                    row.get("shipname"),                         // shipname
-                    Integer.parseInt(row.get("shiptype")),       // shiptype
-                    Integer.parseInt(row.get("tobow")),          // to_bow
-                    Integer.parseInt(row.get("tostern")),        // to_stern
-                    Integer.parseInt(row.get("tostarboard")),    // to_starboard
-                    Integer.parseInt(row.get("toport"))          // to_port
-                );
-
-                // Get countryId from first 3 digits of MMSI
-                int countryId = Integer.parseInt(String.valueOf(vessel.getMmsi()).substring(0, 3));
-
-                // Lookup and assign relations
-                vessel.setCountry(countryRepo.findById(countryId).orElse(null));
-                vessel.setShiptype(typeRepo.findType(vessel.getShiptype_code()));
-                
-                vessels.add(vessel);
-                // Save to DB
-                vesselRepo.save(vessel);
-            } 
-            
-            catch (NumberFormatException e) {
-                System.err.println("Failed to parse or save row: " + row.toString());
-                e.printStackTrace();
-            }
-        }
-
-        if (!vessels.isEmpty()) {
-                vesselRepo.saveAll(vessels); 
-            }
-        }
-
 }
 

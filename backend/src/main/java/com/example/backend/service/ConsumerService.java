@@ -16,16 +16,20 @@ public class ConsumerService {
 
     @Bean
     public NewTopic topic() {
-        return TopicBuilder.name("test-topic") // here goes real topic name (e.g. ais-data or ship-locations)
+        return TopicBuilder.name("ais-data")
                 .partitions(1)
                 .replicas(1)
                 .build();
     }
 
     // called automatically whenever something is posted on the "test-topic" topic
-    @KafkaListener(id = "listener-1", topics = "test-topic")
+    @KafkaListener(id = "listener-1", topics = "ais-data")
     public void listen(String in) {
         System.out.println("Received message: " + in);
+        System.out.println("\n\n\n ");
     }
+
+    
+
 
 }
