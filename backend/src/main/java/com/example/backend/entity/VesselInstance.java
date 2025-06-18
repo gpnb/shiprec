@@ -3,11 +3,12 @@ package com.example.backend.entity;
 import java.util.Date;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,11 +19,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class VesselInstance {
     
-    @Id
-    private Date timestamp;
+    @EmbeddedId
+    private VesselInstanceId id;
+
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mmsi")
+    @MapsId("mmsi")  
     private Vessel mmsi;
 
     
@@ -30,8 +34,36 @@ public class VesselInstance {
     @JoinColumn(name = "status")
     private NavigationalStatus status_id;
 
-    // @Column
-    // private 
+    @Column
+    private double rate_of_turn;
 
+    @Column
+    private double speed_over_ground;
+
+    @Column
+    private double course_over_ground;
+
+    @Column
+    private double heading;
+
+    @Column
+    private double longitude;
+
+    @Column
+    private double latitude;
+
+    @Column
+    private Date eta;
+
+    @Column
+    private String destination;
+
+
+    @Column
+    private double draught;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mothership_mmsi")
+    private Vessel mothership_mmsi;
 
 }

@@ -25,6 +25,10 @@ public class Vessel {
     @OneToMany(fetch=FetchType.LAZY)
     List<VesselInstance> vessel_instances;
 
+    @OneToMany(fetch=FetchType.LAZY)
+    List<VesselInstance> child_vessels;
+
+
     @Column
     private int imonumber;
 
