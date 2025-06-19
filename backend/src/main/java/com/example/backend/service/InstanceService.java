@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,18 +12,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.example.backend.entity.NavigationalStatus;
 import com.example.backend.entity.Vessel;
 import com.example.backend.entity.VesselInstance;
 import com.example.backend.entity.VesselInstanceId;
+import com.example.backend.handler.WebSocketMessageHandler;
 import com.example.backend.repo.StatusRepo;
 import com.example.backend.repo.VesselInstanceRepo;
 import com.example.backend.repo.VesselRepo;
+import com.example.dto.VesselInstanceDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
@@ -30,7 +35,6 @@ import com.example.backend.repo.VesselRepo;
 // the spring boot consumer first makes a topic on kafka and then waits to consume the data that the producer will post on this kafka topic
 
 @Service
-@Configuration
 public class InstanceService {
 
     @Autowired
@@ -185,8 +189,133 @@ public class InstanceService {
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
-    public void sendToClient(String message) {
-       
+    public VesselInstanceDto sendToClient(String message) {
+        
+        try {
+            JSONObject data = new JSONObject(message);
+            
+            int source_mmsi = ((Number) data.get("sourcemmsi")).intValue();
+            int nav_status =  ((Number) data.get("navigationalstatus")).intValue();
+
+            // if we don't find a vessel in the vessels table, the vessel is invalid so we don't send  the instance
+            if(vesselRepo.findById(source_mmsi).isEmpty()) {
+                return null;
+            }
+
+            Vessel vessel = vesselRepo.findById(source_mmsi).get();
+
+            // if we don't find the status in the status table, the status is invalid so we don't send the instance
+            if(statusRepo.findById(nav_status).isEmpty()) {
+                return null; 
+            }
+            NavigationalStatus status = statusRepo.findById(nav_status).get();
+
+            
+            // we convert the timestamp string to a Date object
+            Date timestamp;
+            try{
+                String timestampStr = data.getString("t").replace("T", " ");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                timestamp = formatter.parse(timestampStr);
+            } 
+            catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+            
+            // we parse the rest of the dynamic data
+            double rate_of_turn =  ((Number) data.get("rateofturn")).doubleValue();
+            double speed_over_ground =  ((Number) data.get("speedoverground")).doubleValue();
+            double course_over_ground = ((Number) data.get("courseoverground")).doubleValue();
+            double true_heading = ((Number) data.get("trueheading")).doubleValue();
+            double longitude = ((Number) data.get("lon")).doubleValue();
+            double latitude = ((Number) data.get("lat")).doubleValue();
+
+            Date eta = null;
+            String destination;
+            double draught;
+
+            // if the instance has a valid eta we save it
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            if (!data.isNull("eta")) {
+                String etaStr = data.getString("eta").replace("T", " ");
+                try {
+                    eta = formatter.parse(etaStr);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } 
+            
+            // else we find the last valid eta and if we doesn't exist, we store a dummy eta
+            else {
+                Optional<Date> lastETA = instanceRepo.findLastETA(vessel, timestamp);
+                if (lastETA.isPresent()) {
+                    eta = lastETA.get();
+                } else {
+                    try {
+                        eta = formatter.parse("1970-01-01 12:53:42");
+                    } 
+                    catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // if the instance has a valid destination we save it
+            if (!data.isNull("destination")) {
+                destination = data.getString("destination");
+            } 
+            // else we find the last valid destination and if we doesn't exist, we save it as "Unknown"
+            else {
+                Optional<String> lastDestination = instanceRepo.findLastDestination(vessel, timestamp);
+                if (lastDestination.isPresent()) {
+                    destination = lastDestination.get();
+                } else {
+                    destination = "Unknown";
+                }
+            }
+
+            // if the instance has a valid draught we save it
+            if (!data.isNull("draught")) {
+                draught = ((Number) data.get("draught")).doubleValue();
+            } 
+            
+            // else we find the last valid draught and if we doesn't exist, we save it as -1
+            else {
+                Optional<Double> lastDraught = instanceRepo.findLastDraught(vessel, timestamp);
+                if (lastDraught.isPresent()) {
+                    draught = lastDraught.get();
+                } else {
+                    draught = -1.0;
+                }
+            }
+   
+            // fill the instance's fields
+            VesselInstanceDto instance = new VesselInstanceDto();
+            instance.setEta(eta);
+            instance.setDestination(destination);
+            instance.setDraught(draught);
+            instance.setRate_of_turn(rate_of_turn);
+            instance.setLatitude(latitude);
+            instance.setLongitude(longitude);
+            instance.setSpeed_over_ground(speed_over_ground);
+            instance.setCourse_over_ground(course_over_ground);
+            instance.setHeading(true_heading);
+            instance.setTime_received(timestamp);
+            instance.setImonumber(vessel.getImonumber());
+            instance.setShip_name(vessel.getName());
+            instance.setShip_type(vessel.getShiptype());
+            instance.setNavigational_status(status.getStatus());
+
+            return instance;
+
+            
+        }
+
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -194,6 +323,26 @@ public class InstanceService {
     @KafkaListener(id = "listener-1", topics = "ais-data")
     @SuppressWarnings("CallToPrintStackTrace")
     public void listen(String message) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+
+        for (WebSocketSession session : WebSocketMessageHandler.getWebSocketSessions()) {
+            try {
+                VesselInstanceDto vesselDto = sendToClient(message);
+                String vessel = objectMapper.writeValueAsString(vesselDto);
+
+                
+                session.sendMessage(new TextMessage(vessel));
+            } 
+            
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        sendToClient(message);
+
         try {
             saveNewInstance(message);
         } catch (ParseException e) {

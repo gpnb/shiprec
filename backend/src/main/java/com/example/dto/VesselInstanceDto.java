@@ -27,8 +27,18 @@ public class VesselInstanceDto {
 
     private double speed_over_ground;
 
+    private double rate_of_turn;
+
+    private double latitude;
+
+    private double longitude;
+
     private Date eta;
 
+    private double heading;
+
     private double draught;
+
+    private String destination;
 
 }

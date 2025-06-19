@@ -10,6 +10,7 @@ import Filters from "./filters";
 import '../styles/toggle.css'
 import light from '../icons/Buttons/Light-outlined.png'
 import dark from '../icons/Buttons/Dark-outlined.png'
+import { useEffect } from "react";
 
 
 function ToggleDisplayMode({setDarkMode,darkMode}) {
@@ -91,31 +92,48 @@ function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin}) {
 
 function Map() {
 
-    // const darkmodeUrl = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";           // it's black :(
     const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
 
     const [darkMode, setDarkMode] = useState(false);
-    
+
+    const [liveVessels,setLiveVessels] = useState([]);
+    const [ws, setWs] = useState(null);
+
+
+    useEffect(() => {
+            const websocket = new WebSocket('ws://localhost:8080/ws');
+            setWs(websocket);
+
+            websocket.onopen = () => console.log('Connected to WebSocket server');
+            websocket.onmessage = (event) => {
+            setLiveVessels((vessels) => [...vessels, event.data]);};
+            websocket.onclose = () => console.log('Disconnected from WebSocket server');
+            console.log(liveVessels)
+
+            // Cleanup on unmount
+            return () => websocket.close();
+    }, []);
+
     return (
         <div className={`map ${darkMode ? 'dark' : ''}`}>
         <MapContainer
-            center={[50, 0]}
-            zoom={2}
-            attributionControl={false}
-            closePopupOnClick={false}
-            zoomAnimation={true}
-            maxBounds={[[-85.0511, -180], [85.0511, 180]]}
-            maxBoundsViscosity={1.0}
-            scrollWheelZoom={true}
-            dragging={true}
-            zoomControl={false}
+                center={[50, 0]}
+                zoom={2}
+                attributionControl={false}
+                closePopupOnClick={false}
+                zoomAnimation={true}
+                maxBounds={[[-85.0511, -180], [85.0511, 180]]}
+                maxBoundsViscosity={1.0}
+                scrollWheelZoom={true}
+                dragging={true}
+                zoomControl={false}
         >
             <TileLayer
-            url={lightmodeUrl}
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            subdomains="abcd"
-            minZoom={2}
-            maxZoom={12}
+                url={lightmodeUrl}
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                subdomains="abcd"
+                minZoom={2}
+                maxZoom={12}
             />
             {/* Change isRegistered to true if we need to see the user's abilities */}
             <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={false} isAdmin={false}/>

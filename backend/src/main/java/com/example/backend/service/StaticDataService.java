@@ -134,6 +134,7 @@ public class StaticDataService {
 
 
     @PostConstruct
+    @SuppressWarnings("CallToPrintStackTrace")
     public void init() {
 
 
@@ -196,6 +197,7 @@ public class StaticDataService {
         }
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     private Vessel recordToVessel(CSVRecord row) {
         try {
             Vessel vessel = new Vessel(
@@ -215,7 +217,7 @@ public class StaticDataService {
             vessel.setShiptype(typeRepo.findType(vessel.getShiptype_code()));
             return vessel;
     
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             System.err.println("Skipping row due to error: " + row);
             e.printStackTrace();
             return null;
