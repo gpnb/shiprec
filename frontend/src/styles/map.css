@@ -59,6 +59,10 @@
     pointer-events: all;
 }
 
+.dark-zoom {
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.4));
+}
+
 .zoom_button:hover {
     background-color: hwb(218 17% 64% / 0.4);
 }

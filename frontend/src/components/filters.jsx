@@ -12,7 +12,7 @@ import tugs from '../icons/ships/tugs.png'
 import tankers from '../icons/ships/tankers.png'
 
 
-function Filters({map,setMapFilters}) {
+function Filters({map,darkMode,setMapFilters}) {
 
     const [showFilters,setShowFilters] = useState(false);
     const [activeFilters,setActiveFilters] = useState(['all'])
@@ -53,8 +53,8 @@ function Filters({map,setMapFilters}) {
 
     return(
         <div className="map_filters">
-            <button className={showFilters ? 'active-toggle' : 'inactive-toggle'} onClick={() => setShowFilters(!showFilters) } >
-                  <img src= {filter} alt='filter toggle'/>
+            <button  className={`${showFilters ? 'active-toggle' : 'inactive-toggle'} ${darkMode ? 'dark-zoom' : ''}`} onClick={() => setShowFilters(!showFilters) } >
+                  <img src= {filter} alt='filter toggle' className={` ${darkMode ? 'dark-zoom' : ''}`}/>
             </button>
 
             {showFilters && (
@@ -66,55 +66,55 @@ function Filters({map,setMapFilters}) {
 
                     <label className="filter">
                         <input type="checkbox" id="cargo" className="filter-check" onChange={toggleFilters} checked={activeFilters.includes("cargo")}/>
-                        <img src={cargo} alt="cargo" className="filter-icon" />
+                        <img src={cargo} alt="cargo" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span>Cargo Vessels</span>
                     </label>
 
                     <label className="filter">
                         <input type="checkbox" id="tankers" className="filter-check" onChange={toggleFilters} checked={activeFilters.includes("tankers")}/>
-                        <img src={tankers} alt="tankers" className="filter-icon" />
+                        <img src={tankers} alt="tankers" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span>Tankers</span>
                     </label>
                     
                     <label className="filter">
                         <input type="checkbox" id="passenger" className="filter-check" onChange={toggleFilters} checked={activeFilters.includes("passenger")}/>
-                        <img src={passenger} alt="passenger" className="filter-icon" />
+                        <img src={passenger} alt="passenger" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span>Passenger Vessels</span>
                     </label>
                     
                     <label className="filter">
                         <input type="checkbox" id="tugs" className="filter-check" onChange={toggleFilters} checked={activeFilters.includes("tugs")}/>
-                        <img src={tugs} alt="tugs" className="filter-icon" />
+                        <img src={tugs} alt="tugs" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span>Tugs & Special Crafts</span>
                     </label>
 
                     <label className="filter">
                         <input type="checkbox" id="speed" className="filter-check" onChange={toggleFilters} checked={activeFilters.includes("speed")}/>
-                        <img src={speed} alt="speed" className="filter-icon" />
+                        <img src={speed} alt="speed" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span>High Speed Crafts</span>
                     </label>
 
                      <label className="filter">
                         <input type="checkbox" id="fishing" className="filter-check" onChange={toggleFilters} checked={activeFilters.includes("fishing")} />
-                        <img src={fishing} alt="fishing" className="filter-icon" />
+                        <img src={fishing} alt="fishing" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span>Fishing Boats</span>
                     </label>
 
                     <label className="filter">
                         <input type="checkbox" id="pleasure" className="filter-check" onChange={toggleFilters} checked={activeFilters.includes("pleasure")}/>
-                        <img src={pleasure} alt="pleasure" className="filter-icon" />
+                        <img src={pleasure} alt="pleasure" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span>Pleasure Crafts</span>
                     </label>
 
                      <label className="filter">
                         <input type="checkbox" id="navigation" className="filter-check" onChange={toggleFilters} checked={activeFilters.includes("navigation")}/>
-                        <img src={navigation} alt="navigation" className="filter-icon" />
+                        <img src={navigation} alt="navigation" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span>Navigation Aids</span>
                     </label>
 
                     <label className="filter">
                         <input type="checkbox" id="other" className="filter-check" onChange={toggleFilters}  checked={activeFilters.includes("other")}/>
-                        <img src={other} alt="other" className="filter-icon" />
+                        <img src={other} alt="other" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span> Unspecified Vessels</span>
                     </label>
                 </div>

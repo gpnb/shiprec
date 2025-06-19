@@ -125,3 +125,7 @@
   object-fit: contain;
 }
 
+
+.dark-filter-icon {
+    filter: saturate(3.75) brightness(1.4) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+  }

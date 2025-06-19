@@ -18,12 +18,12 @@ function ToggleDisplayMode({setDarkMode,darkMode}) {
 
     return (
         <div className="toggle">
-           <button className={darkMode ? 'inactive-light' : 'active-light'}  onClick={() => setDarkMode(false)}>
-                <img src={light} alt="light mode"/>
+           <button className={darkMode ? 'inactive-light' : 'active-light dark-zoom'}  onClick={() => setDarkMode(false)}>
+                <img src={light} alt="light mode" className={`${darkMode ? '' : 'dark-zoom'}`}/>
            </button>
            
-           <button className={darkMode ? 'active-dark' : 'inactive-dark'}  onClick={() => setDarkMode(true)}>
-                <img src={dark} alt="dark mode"/>
+           <button className={darkMode ? 'active-dark dark-zoom' : 'inactive-dark'}  onClick={() => setDarkMode(true)}>
+                <img src={dark} alt="dark mode" className={`${darkMode ? 'dark-zoom' : ''}`}/>
            </button>
         
         </div>        
@@ -41,19 +41,19 @@ function MapButtons({ map, setDarkMode, darkMode, isRegistered }) {
       <div className="map_buttons">
         <ToggleDisplayMode setDarkMode={setDarkMode} darkMode={darkMode} />
   
-        <Filters map={map} />
+        <Filters map={map} darkMode={darkMode}/>
   
         <div className="zoom_buttons">
           <button
             onClick={() => map.zoomIn()}
-            className="zoom_button"
+            className={`zoom_button ${darkMode ? 'dark-zoom' : ''}`}
             style={{ borderTopLeftRadius: "8px", borderTopRightRadius: "8px" }}
           >
             +
           </button>
           <button
             onClick={() => map.zoomOut()}
-            className="zoom_button"
+            className={`zoom_button ${darkMode ? 'dark-zoom' : ''}`}
             style={{ borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px" }}
           >
             −
@@ -61,7 +61,7 @@ function MapButtons({ map, setDarkMode, darkMode, isRegistered }) {
         </div>
   
         {isRegistered && (
-          <button className="select_area">
+          <button className={`select_area ${darkMode ? 'dark-zoom' : ''}`}>
             <img src={select} alt="select area" />
             <p>Select Area</p>
           </button>
@@ -78,7 +78,7 @@ function MapFunctions({map,setDarkMode,darkMode,isRegistered,isAdmin}) {
     return(  
         <div className="map_functions">
             <NavigationBar isRegistered={isRegistered} isAdmin={isAdmin} currentTab="Live Map"/>  
-            <SearchBar map = {map}/>
+            <SearchBar map = {map} isRegistered={isRegistered} darkMode={darkMode}/>
             <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered}/>  
         </div> 
     );
@@ -136,7 +136,7 @@ function Map() {
                 maxZoom={12}
             />
             {/* Change isRegistered to true if we need to see the user's abilities */}
-            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={false} isAdmin={false}/>
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={true} isAdmin={false}/>
         </MapContainer>
         </div>
     );

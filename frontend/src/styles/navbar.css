@@ -72,8 +72,7 @@
 
 
 .tab:hover {
-    background-color: #ffffff3a;
-    opacity: 90%;
+    filter: saturate(0.4) opacity(0.6);
 }
 
 .tab-icon {
@@ -102,6 +101,7 @@
 
 .register:hover {
   background-color: #ff4828cf;
+  filter: saturate(0.8) opacity(0.9);
 }
 
 .signin {
@@ -111,9 +111,10 @@
 
 .signin:hover{
   background-color: #f0f0f0;
-  color: #22262E
+  color: #22262E;
+  filter: saturate(0.8) opacity(0.9);
 }
 
 .active-tab {
-  text-shadow: 0 0 0.5rem #FFFFFF;
+  filter:  brightness(1.4) drop-shadow(0 0 8px rgba(255, 255, 255, 1.2));
 }
