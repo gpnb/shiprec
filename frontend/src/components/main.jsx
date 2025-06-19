@@ -90,10 +90,10 @@ const Main=()=>{
             <Route exact path='/Ports' element={<PortsPage/>}></Route>
             <Route exact path='/MyAccount/*' element={<MyAccountPage/>}></Route>
             <Route exact path='/Settings' element={<SettingsPage/>}></Route>
-            <Route exact path='/Help' element={<HelpPage/>}></Route>
+            <Route exact path='/Help/*' element={<HelpPage/>}></Route>
             <Route exact path='/SignIn' element={<SignInPage/>}></Route>
             <Route exact path='/Register' element={<RegisterPage/>}></Route>
-            <Route exact path='/Admin' element={<AdminPage/>}></Route>
+            <Route exact path='/Admin/*' element={<AdminPage/>}></Route>
             {/* <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}> */}
                 {/* add paths when jwt is set up */}
             {/* </Route> */}

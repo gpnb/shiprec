@@ -1,10 +1,22 @@
 import React from "react";
 import '../styles/register.css'
 import logo from '../icons/Logo/ShipRec.png'
-// import { useState,useEffect } from 'react';
+import { useState,useEffect } from 'react';
+import Select from "react-select"; // Use npm install react-select
+import { getData } from "country-list"; // Use npm install country-list
+
+const countries = getData();
 
 function RegisterPage() {
 
+    // Transform country list to react-select format
+    const countryOptions = countries.map((country) => ({
+        value: country.code,
+        label: country.name,
+    }));
+    
+  
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
     return (
         <div className="background">
@@ -38,7 +50,18 @@ function RegisterPage() {
 
                     {/* Drop-down style to select country -> add more later or use database */}
                     <label htmlFor="country">Country*</label>
-                        <select id="country" className="country-select">
+                        <Select
+                        id="country"
+                        options={countryOptions}
+                        value={selectedCountry}
+                        onChange={setSelectedCountry}
+                        placeholder="Choose your country..."
+                        className="country-select"
+                        classNamePrefix="rs"
+                        />
+
+{/* 
+<select id="country" className="country-select">
                             <option value="">Choose your country...</option>
                             <option value="US">United States</option>
                             <option value="UK">United Kingdom</option>
@@ -49,7 +72,7 @@ function RegisterPage() {
                             <option value="JP">Japan</option>
                             <option value="BR">Brazil</option>
                             <option value="IN">India</option>
-                        </select>
+                        </select> */}
 
                     <button type="submit" className="sign-button">Register</button>
     

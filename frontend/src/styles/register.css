@@ -138,4 +138,17 @@
     border-radius: 10px;
     border: none;
     background-color: white;
+
 }
+
+  
+.rs__menu {
+    z-index: 9999;          
+    min-height: 13.5rem;
+    overflow-y: auto;
+  
+  }
+
+  .rs__option {
+    height: 2rem;
+  }

@@ -3,6 +3,9 @@ import React from "react";
 import TabContainer from "../components/tabContainer";
 import NavigationBar from "../components/navigationBar";
 import { Routes, Route } from "react-router-dom";
+import Contact from "../pages/contact";
+import FAQ from "../pages/faq";
+
 
 function HelpPage() {
 
@@ -14,11 +17,12 @@ function HelpPage() {
     return (
         <div className="body">
             <NavigationBar isRegistered = {true} currentTab="Help"/>
-            <TabContainer currentTab="Help" username="" tabs={accountTabs}/>
+            <TabContainer currentTab="Help" username="" tabs={accountTabs}>
             <Routes>
-                <Route path="/Help"/>
-                <Route path="/Help/contact"/>
+                <Route path="/"  element={<FAQ/>}/>
+                <Route path="contact"  element={<Contact/>}/>
             </Routes>
+            </TabContainer>
             <div className="footer"/>
         </div>
     )
