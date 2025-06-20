@@ -8,5 +8,5 @@ import com.example.backend.entity.ShipType;
 
 public interface ShipTypeRepo extends JpaRepository<ShipType, Integer>  {
      @Query("SELECT s.ais_type FROM ShipType s WHERE :shipTypeId BETWEEN s.shiptype_min AND s.shiptype_max")
-     public  String findType(@Param("shipTypeId") int shiptypeId);
+     public String findType(@Param("shipTypeId") int shiptypeId);
 }

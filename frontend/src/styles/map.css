@@ -107,3 +107,38 @@
 .dark .leaflet-control-attribution {
     filter: invert(100%) saturate(20%) invert(25%) sepia(20%) saturate(350%) hue-rotate(173deg) brightness(80%) contrast(110%);
 }
+
+
+.vessel_popup {
+    height: 40vh;
+    width: 40vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+}
+
+.popup_header {
+    display: flex;
+    flex-direction: row;
+    height: 20%;
+    padding-left: 5%;
+}
+
+
+.popup_header img{
+    display: flex;
+    flex-direction: row;
+    filter: brightness(0) saturate(100%) invert(19%) sepia(9%) saturate(3172%) hue-rotate(179deg) brightness(97%) contrast(86%);
+}
+
+.leaflet-popup-tip {
+	visibility: hidden;;
+}
+
+.popup_header_info {
+    display: flex;
+    flex-direction: column;
+}

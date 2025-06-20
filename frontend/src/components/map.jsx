@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MapContainer, TileLayer} from 'react-leaflet';
+import { MapContainer, TileLayer,Marker,Popup} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/map.css';
 import { useMap } from "react-leaflet";
@@ -11,7 +11,9 @@ import '../styles/toggle.css'
 import light from '../icons/Buttons/Light-outlined.png'
 import dark from '../icons/Buttons/Dark-outlined.png'
 import { useEffect } from "react";
-
+import ship from '../icons/ships/cargo.png'
+import L from 'leaflet';
+import logo from '../icons/Logo/ShipRec.png'
 
 function ToggleDisplayMode({setDarkMode,darkMode}) {
     
@@ -97,22 +99,62 @@ function Map() {
     const [darkMode, setDarkMode] = useState(false);
 
     const [liveVessels,setLiveVessels] = useState([]);
+
+
     const [ws, setWs] = useState(null);
 
 
+
     useEffect(() => {
-            const websocket = new WebSocket('ws://localhost:8080/ws');
-            setWs(websocket);
+        const websocket = new WebSocket('ws://localhost:8080/ws');
+        setWs(websocket);
 
-            websocket.onopen = () => console.log('Connected to WebSocket server');
-            websocket.onmessage = (event) => {
-            setLiveVessels((vessels) => [...vessels, event.data]);};
-            websocket.onclose = () => console.log('Disconnected from WebSocket server');
-            console.log(liveVessels)
+        websocket.onopen = () => console.log('Connected to WebSocket server');
+        websocket.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
 
-            // Cleanup on unmount
-            return () => websocket.close();
+                const lat = Number(data.latitude);
+                const lon = Number(data.longitude);
+
+                if (!isNaN(lat) && !isNaN(lon)) {
+                const id = data.imonumber || data.ship_name || crypto.randomUUID();
+
+                setLiveVessels((prev) => {
+                    const existing = prev[id];
+
+                    // Check if location changed
+                    const hasMoved = !existing || existing.latitude !== lat || existing.longitude !== lon;
+
+                    if (!hasMoved) return prev; // Skip update if position didn't change
+
+                    return {
+                    ...prev,
+                    [id]: {
+                        ...data,
+                        latitude: lat,
+                        longitude: lon,
+                    }
+                    };
+                });
+                }
+            } 
+            catch (error) {
+                console.error("Failed to parse message:", event.data);
+            }
+        };
+
+        // Cleanup on unmount
+        return () => websocket.close();
     }, []);
+    
+    const shipIcon = L.icon({
+        iconUrl: ship,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12],
+    });
+
+
 
     return (
         <div className={`map ${darkMode ? 'dark' : ''}`}>
@@ -135,8 +177,32 @@ function Map() {
                 minZoom={2}
                 maxZoom={12}
             />
+
+                      {/* Render each ship marker */}
+                {Object.values(liveVessels).map((vessel) => (
+                    <Marker key={vessel.ship_name} position={[vessel.latitude, vessel.longitude]}icon={shipIcon}>
+                        <Popup className="vessel_popup" autoPan={false} maxHeight={0} offset={-8}>
+                            <div className="popup_header">
+                                  <img src={logo} alt="logo" style={{transform:'rotate({})'}}/>
+                                  
+                                  <div className="popup_header_info">
+
+                                  </div>
+                            </div>
+
+
+                            <strong>{vessel.ship_name || "Unknown"}</strong><br />
+                            Speed: {vessel.speed_over_ground} knots
+                        </Popup>
+                    </Marker>
+            ))}
+
             {/* Change isRegistered to true if we need to see the user's abilities */}
             <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={false} isAdmin={false}/>
+            
+            
+
+
         </MapContainer>
         </div>
     );

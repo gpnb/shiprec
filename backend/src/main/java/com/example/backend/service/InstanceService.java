@@ -23,6 +23,7 @@ import com.example.backend.entity.Vessel;
 import com.example.backend.entity.VesselInstance;
 import com.example.backend.entity.VesselInstanceId;
 import com.example.backend.handler.WebSocketMessageHandler;
+import com.example.backend.repo.ShipTypeRepo;
 import com.example.backend.repo.StatusRepo;
 import com.example.backend.repo.VesselInstanceRepo;
 import com.example.backend.repo.VesselRepo;
@@ -46,7 +47,8 @@ public class InstanceService {
     @Autowired
     private StatusRepo statusRepo;
 
-
+    @Autowired
+    private ShipTypeRepo typeRepo;
 
     @Bean
     public NewTopic topic() {
@@ -304,7 +306,17 @@ public class InstanceService {
             instance.setTime_received(timestamp);
             instance.setImonumber(vessel.getImonumber());
             instance.setShip_name(vessel.getName());
-            instance.setShip_type(vessel.getShiptype());
+
+            String type = typeRepo.findType(vessel.getShiptype_code());
+
+            if(type!=null) {
+                instance.setShip_type(type);
+            }
+
+            else {
+                instance.setShip_type("other");
+            }
+            
             instance.setNavigational_status(status.getStatus());
 
             return instance;
@@ -330,10 +342,12 @@ public class InstanceService {
         for (WebSocketSession session : WebSocketMessageHandler.getWebSocketSessions()) {
             try {
                 VesselInstanceDto vesselDto = sendToClient(message);
-                String vessel = objectMapper.writeValueAsString(vesselDto);
-
                 
-                session.sendMessage(new TextMessage(vessel));
+                if(vesselDto!=null) {
+                    String vessel = objectMapper.writeValueAsString(vesselDto);
+                    session.sendMessage(new TextMessage(vessel));
+                }
+               
             } 
             
             catch (IOException e) {

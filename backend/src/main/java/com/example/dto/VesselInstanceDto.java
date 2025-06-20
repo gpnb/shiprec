@@ -9,8 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-
-
 public class VesselInstanceDto {
     
     private Date time_received;
