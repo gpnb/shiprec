@@ -2,12 +2,12 @@
 .side-nav {
     height: 100vh;
     position: absolute;
-    background: linear-gradient(to bottom, #2B3D5B, #1E1E1E);
+    background: linear-gradient(to bottom, rgb(43, 61, 91), #1E1E1E);
     pointer-events: all;
     background-color: transparent;
     display: flex;
     flex-direction: column;
-    border-right: 10px solid #CC7D51;
+    border-right: 10px solid rgb(204, 125, 81);
     color: white;
     overflow: hidden;
     transition: width 0.3s ease-in-out;
@@ -38,9 +38,27 @@
 
 }
 
+.shipreclogo-icon-admin-logo {
+  width: fit-content;
+  height: 65px;
+  filter: brightness(0) saturate(100%) invert(64%) sepia(7%) saturate(3807%) hue-rotate(333deg) brightness(87%) contrast(81%);
+  margin-bottom: auto;
+  position: center;
+  padding-top: 8px;
+  transform: scale(1.15);
+  padding-left: 4%;
+}
+
+
 .side-nav.expanded:hover .shipreclogo-icon {
     padding-left: 6%;
 }
+
+.side-nav.expanded:hover .shipreclogo-icon-admin-logo{
+  padding-top: 2px;
+  padding-left: 10.5% !important;
+}
+
 
 .nav-body {
     flex: 3;
@@ -72,7 +90,7 @@
 
 
 .tab:hover {
-    filter: saturate(0.4) opacity(0.6);
+    filter: opacity(0.6) drop-shadow(0 0 4px rgb(43, 61, 91));
 }
 
 .tab-icon {
@@ -95,13 +113,17 @@
   background-color: #232B37;
 }
 
+.signout:hover{
+  filter: saturate(0.8) opacity(0.8);
+}
+
 .register {
   background-color: #FF4928;
 }
 
 .register:hover {
-  background-color: #ff4828cf;
-  filter: saturate(0.8) opacity(0.9);
+
+  filter: saturate(0.8) opacity(0.8);
 }
 
 .signin {
@@ -110,11 +132,9 @@
 }
 
 .signin:hover{
-  background-color: #f0f0f0;
-  color: #22262E;
-  filter: saturate(0.8) opacity(0.9);
+  filter: saturate(0.8) opacity(0.8);
 }
 
 .active-tab {
-  filter:  brightness(1.4) drop-shadow(0 0 8px rgba(255, 255, 255, 1.2));
+  filter: drop-shadow(0 0 4px rgb(255, 255, 255));
 }

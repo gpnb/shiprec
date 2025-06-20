@@ -24,7 +24,7 @@ function RegisterPage() {
                 <div className="logo-container">
                     <div className="containers-container">
                     <h1 className="welcome-message">Welcome to</h1>
-                    <h1 className="welcome-message" style={{'marginTop': '-20%'}}>ShipRec !</h1>
+                    <h1 className="welcome-message" style={{'marginTop': '-22%'}}>ShipRec !</h1>
                     </div>
                     <img src={logo} alt="ShipRec" className="message-logo"></img>
                 </div>

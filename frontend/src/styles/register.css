@@ -6,9 +6,11 @@
     min-height: 100vh;
     margin: 0;  
     position: relative;   
+    overflow: hidden;
 }
 
 .form-container {
+    outline: 2px solid #d9d9d9;
     height: auto;
     max-height: 90vh;
     width: 25%;
@@ -28,30 +30,36 @@
     flex-direction: column;
     align-items: left;
     margin-top: 10%;
+    filter: drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.5));
 }
 
 .logo-container {
     height: 180px;
     width: 380px;
-    background-color: rgba(245, 245, 245, 0.5);
+    background-color: rgba(245, 245, 245, 0.5) ;
     padding: 3%;
     border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.5);
+
 }
 
 .welcome-message {
     font-style: italic;
-    font-size: xx-large;
+    font-weight: 1200;
+    font-size: 40px;
     color: #2B3D5B;
-    margin-top: 10%;
+    margin-top: 8%;
 }
 
 .message-logo {
-    filter: brightness(0) saturate(100%) invert(23%) sepia(15%) saturate(1537%) hue-rotate(179deg) brightness(91%) contrast(95%);
+    filter: brightness(0) saturate(100%) invert(23%) sepia(15%) saturate(1537%) hue-rotate(179deg) brightness(91%) contrast(95%) drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.5));
     height: 50%;
     margin-top: 10%;
+    margin-left: -8%;
+    
 }
 
 /* for sign-in page */

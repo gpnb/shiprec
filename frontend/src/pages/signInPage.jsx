@@ -8,17 +8,17 @@ function SignInPage() {
 
     return (
         <div className="background">
-            <div className="form-container">
-                <div className="logo-container">
+            <div className="form-container" style={{'marginTop': '6%'}}>
+                <div className="logo-container" >
                     <div className="containers-container">
                     <h1 className="welcome-message">Welcome back </h1>
                     <h1 className="welcome-message" style={{'marginTop': '-20%'}}>to ShipRec !</h1>
                     </div>
-                    <img src={logo} alt="ShipRec" className="message-logo"></img>
+                    <img src={logo} alt="ShipRec" className="message-logo" style={{'marginTop': '12%'}}></img>
                 </div>
 
                 {/* The form */}
-                <form className="form-input">
+                <form className="form-input" style={{'marginTop': '15%'}}>
                     <label>Email</label>
                     <input type="email" id="email" placeholder="Enter your email..." />
 

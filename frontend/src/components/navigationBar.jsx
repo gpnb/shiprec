@@ -53,14 +53,14 @@ const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
 
             <div>
                 <div className="shipreclogo-container">
-                <img src={ isAdmin ? isHovered ? admin_open : admin_closed : isHovered ? logo_open : logo_closed} alt="Logo" className="shipreclogo-icon"/>
+                    <img src={ isAdmin ? isHovered ? admin_open : admin_closed : isHovered ? logo_open : logo_closed} alt="Logo" className={`shipreclogo-icon${isAdmin ? '-admin-logo' : ''}`}/>
                 </div>
 
                 <div className="top-tabs">
                     {commonTabs.map((tab, index) => (
-                        <div key={index} className="tab" onClick={() => window.location.href = tab.href}>
-                        <img src={tab.icon} alt={tab.label} className={`tab-icon ${currentTab === tab.label ? "active-tab" : ""}`} />
-                        {isHovered && <span className={`tab-label ${tab.style || ""}  ${currentTab === tab.label ? "active-tab" : ""}` } >{tab.label}</span>}
+                        <div key={index} className={`tab ${tab.style || ""} ${currentTab === tab.label ? "active-tab" : ""}`} onClick={() => window.location.href = tab.href}>
+                        <img src={tab.icon} alt={tab.label} className="tab-icon" />
+                        {isHovered && <span className="tab-label">{tab.label}</span>}
                         </div>
                     ))}
                 </div>
