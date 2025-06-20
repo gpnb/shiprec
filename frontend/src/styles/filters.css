@@ -123,6 +123,7 @@
   width: 8%;
   height: 60%;
   object-fit: contain;
+  filter: drop-shadow(0 0 5px rgb(43, 61, 91));
 }
 
 

@@ -11,6 +11,16 @@ import '../styles/toggle.css'
 import light from '../icons/Buttons/Light-outlined.png'
 import dark from '../icons/Buttons/Dark-outlined.png'
 import { useEffect } from "react";
+
+import cargo from '../icons/ships/cargo.png'
+import fishing from '../icons/ships/fishing.png'
+import navigation from '../icons/ships/navigation.png'
+import other from '../icons/ships/other.png'
+import passenger from '../icons/ships/passenger.png'
+import pleasure from '../icons/ships/pleasure.png'
+import speed from '../icons/ships/speed.png'
+import tugs from '../icons/ships/tugs.png'
+import tankers from '../icons/ships/tankers.png'
 import ship from '../icons/ships/cargo.png'
 import L from 'leaflet';
 import logo from '../icons/Logo/ShipRec.png'
@@ -91,6 +101,20 @@ function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin}) {
     return <MapFunctions map={map} setDarkMode={setDarkMode}  darkMode={darkMode} isRegistered = {isRegistered} isAdmin= {isAdmin} />;
 }
 
+export function getShipIconByType(type = '') {
+  const normalized = type.toLowerCase();
+
+  if (normalized.includes('cargo')) return cargo;
+  if (normalized.includes('fishing')) return fishing;
+  if (normalized.includes('navigation') || normalized.includes('nav')) return navigation;
+  if (normalized.includes('passenger')) return passenger;
+  if (normalized.includes('pleasure') || normalized.includes('yacht') || normalized.includes('recreational')) return pleasure;
+  if (normalized.includes('speed') || normalized.includes('fast')) return speed;
+  if (normalized.includes('tug')) return tugs;
+  if (normalized.includes('tanker')) return tankers;
+  return other;
+}
+
 
 function Map() {
 
@@ -106,43 +130,43 @@ function Map() {
 
 
     useEffect(() => {
-        const websocket = new WebSocket('ws://localhost:8080/ws');
-        setWs(websocket);
+      const websocket = new WebSocket('ws://localhost:8080/ws');
+      setWs(websocket);
 
-        websocket.onopen = () => console.log('Connected to WebSocket server');
-        websocket.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
+      websocket.onopen = () => console.log('Connected to WebSocket server');
+      websocket.onmessage = (event) => {
+          try {
+              const data = JSON.parse(event.data);
 
-                const lat = Number(data.latitude);
-                const lon = Number(data.longitude);
+              const lat = Number(data.latitude);
+              const lon = Number(data.longitude);
 
-                if (!isNaN(lat) && !isNaN(lon)) {
-                const id = data.imonumber || data.ship_name || crypto.randomUUID();
+              if (!isNaN(lat) && !isNaN(lon)) {
+              const id = data.imonumber || data.ship_name || crypto.randomUUID();
 
-                setLiveVessels((prev) => {
-                    const existing = prev[id];
+              setLiveVessels((prev) => {
+                  const existing = prev[id];
 
-                    // Check if location changed
-                    const hasMoved = !existing || existing.latitude !== lat || existing.longitude !== lon;
+                  // Check if location changed
+                  const hasMoved = !existing || existing.latitude !== lat || existing.longitude !== lon;
 
-                    if (!hasMoved) return prev; // Skip update if position didn't change
+                  if (!hasMoved) return prev; // Skip update if position didn't change
 
-                    return {
-                    ...prev,
-                    [id]: {
-                        ...data,
-                        latitude: lat,
-                        longitude: lon,
-                    }
-                    };
-                });
-                }
-            } 
-            catch (error) {
-                console.error("Failed to parse message:", event.data);
-            }
-        };
+                  return {
+                  ...prev,
+                  [id]: {
+                      ...data,
+                      latitude: lat,
+                      longitude: lon,
+                  }
+                  };
+              });
+              }
+          } 
+          catch (error) {
+              console.error("Failed to parse message:", event.data);
+          }
+      };
 
         // Cleanup on unmount
         return () => websocket.close();
@@ -153,6 +177,26 @@ function Map() {
         iconSize: [24, 24],
         iconAnchor: [12, 12],
     });
+
+function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') {
+  return L.divIcon({
+    className: '', // prevent Leaflet default class
+    html: `
+      <div class="filter-icon ${classList}" style="
+        transform: rotate(${heading}deg);
+        width: ${size[0]}px;
+        height: ${size[1]}px;
+        background-image: url(${imageUrl});
+        background-size: contain;
+        background-repeat: no-repeat;
+      "></div>
+    `,
+    iconSize: size,
+    iconAnchor: [size[0] / 2, size[1] / 2],
+  });
+}
+
+
 
 
 
@@ -178,21 +222,37 @@ function Map() {
                 maxZoom={12}
             />
 
-                      {/* Render each ship marker */}
-                {Object.values(liveVessels).map((vessel) => (
-                    <Marker key={vessel.ship_name} position={[vessel.latitude, vessel.longitude]}icon={shipIcon}>
-                        <Popup className="vessel_popup" autoPan={false} maxHeight={0} offset={-8}>
+
+              {Object.values(liveVessels).map((vessel) => (
+                    <Marker key={vessel.ship_name} position={[vessel.latitude, vessel.longitude]}   icon={getRotatedShipIcon(
+                      vessel.heading || 0,
+                      getShipIconByType(vessel.ship_type),
+                      [40, 40],
+                      darkMode ? 'dark-filter-icon' : '')}>
+                        <Popup className="vessel_popup" autoPan={false} offset={0}>
                             <div className="popup_header">
-                                  <img src={logo} alt="logo" style={{transform:'rotate({})'}}/>
+                                  <img src={logo} alt="logo" />
                                   
                                   <div className="popup_header_info">
-
-                                  </div>
+                                    <h3 className="vessel_name">{vessel.ship_name || "Unknown"}</h3>
+                                    <p className="vessel_meta">
+                                        <strong>IMO:</strong> {vessel.imonumber || "N/A"}<br />
+                                        <strong>Type:</strong> {vessel.ship_type || "N/A"}<br />
+                                        <strong>Status:</strong> {vessel.navigational_status || "N/A"}<br />
+                                        <strong>Speed:</strong> {vessel.speed_over_ground} knots<br />
+                                        <strong>Course:</strong> {vessel.course_over_ground}°<br />
+                                        <strong>Heading:</strong> {vessel.heading}°<br />
+                                        <strong>Draught:</strong> {vessel.draught >= 0 ? vessel.draught + " m" : "N/A"}<br />
+                                        <strong>Destination:</strong> {vessel.destination || "Unknown"}<br />
+                                    </p>
+                                    </div>
                             </div>
 
+                            <div className="popup_buttons">
+                                    {/* <button onClick={()=> navigate('/Vessels') } value={"Vessel Details"}/> */}
+                                    <button/>
+                            </div>
 
-                            <strong>{vessel.ship_name || "Unknown"}</strong><br />
-                            Speed: {vessel.speed_over_ground} knots
                         </Popup>
                     </Marker>
             ))}
