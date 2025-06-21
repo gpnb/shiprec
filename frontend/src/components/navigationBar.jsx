@@ -36,7 +36,7 @@ const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
         { icon: profile, label: "My Account", href: '/MyAccount' },
         { icon: settings, label: "Settings" , href: '/Settings'},
         { icon: help, label: "Help", href: '/Help' },
-        { icon: signout, label: "Sign Out", style: "signout" },
+        { icon: signout, label: "Sign Out", style: "signout", href: '/' },
     ];
 
     const registeredTabs = isAdmin

@@ -5,6 +5,7 @@ import NavigationBar from "../components/navigationBar";
 import { Routes, Route } from "react-router-dom";
 
 import MyProfilePage from "../pages/myProfilePage";
+import Return from "../components/return";
 // import MyFleetsPage from "../pages/myFleetsPage";
 // import MyAreasPage from "../pages/myAreasPage";
 // import MyNotificationsPage from "../pages/myNotificationsPage";
@@ -28,6 +29,7 @@ function MyAccountPage() {
                 <Route path="areas"/>
                 <Route path="notifications"/>
             </Routes>
+            <Return/>
             </TabContainer>
             <div className="footer"/>
         </div>

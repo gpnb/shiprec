@@ -5,6 +5,7 @@ import NavigationBar from "../components/navigationBar";
 import { Routes, Route } from "react-router-dom";
 import Contact from "../pages/contact";
 import FAQ from "../pages/faq";
+import Return from "../components/return";
 
 
 function HelpPage() {
@@ -22,7 +23,9 @@ function HelpPage() {
                 <Route path="/"  element={<FAQ/>}/>
                 <Route path="contact"  element={<Contact/>}/>
             </Routes>
+            <Return/>
             </TabContainer>
+
             <div className="footer"/>
         </div>
     )

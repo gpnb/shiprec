@@ -118,16 +118,41 @@ export function getShipIconByType(type = '') {
 
 function Map() {
 
+    {/* Change isRegistered to true if we need to see the user's abilities */}
+    const isRegistered = true;
+    const isAdmin = false;
+
     const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
 
     const [darkMode, setDarkMode] = useState(false);
 
     const [liveVessels,setLiveVessels] = useState([]);
 
+    const fakeVessel = {
+      ship_name: "Happy Birthday Ntina",
+      latitude: 37.86375081807442,             
+      longitude: 23.749947150715165,
+      heading: 120,
+      course_over_ground: 0.2,
+      speed_over_ground: 0.2,
+      ship_type: "tanker",
+      imonumber: "21062003",
+      navigational_status: "Hating Frontend",
+      draught: 7.8,
+      destination: "Port of •(-*•",
+      timestamp: "2025-06-21 00:01 UTC"
+    };
+
 
     const [ws, setWs] = useState(null);
 
-
+    useEffect(() => {
+      if (!ws) {
+        setLiveVessels({
+          [fakeVessel.imonumber]: fakeVessel
+        });
+      }
+    }, [ws]);
 
     useEffect(() => {
       const websocket = new WebSocket('ws://localhost:8080/ws');
@@ -197,7 +222,18 @@ function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') 
 }
 
 
-
+    function getBackgroundColorByShipType(type = '') {
+      const normalized = type.toLowerCase();
+      if (normalized.includes('cargo')) return '#C00000';
+      if (normalized.includes('fishing')) return '#72D2FF';
+      if (normalized.includes('navigation') || normalized.includes('nav')) return '#FF9500';
+      if (normalized.includes('passenger')) return '#EDBE00';
+      if (normalized.includes('pleasure') || normalized.includes('yacht') || normalized.includes('recreational')) return '#F58DAB';
+      if (normalized.includes('speed') || normalized.includes('fast')) return '#50378F';
+      if (normalized.includes('tug')) return '#1BAF40';
+      if (normalized.includes('tanker')) return '#0064D0';
+      return '#D9D9D9'; // default
+    }
 
 
     return (
@@ -231,37 +267,55 @@ function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') 
                       darkMode ? 'dark-filter-icon' : '')}>
                         <Popup className="vessel_popup" autoPan={false} offset={0}>
                             <div className="popup_header">
-                                  <img src={logo} alt="logo" />
-                                  
-                                  <div className="popup_header_info">
-                                    <h3 className="vessel_name">{vessel.ship_name || "Unknown"}</h3>
-                                    <p className="vessel_meta">
-                                        <strong>IMO:</strong> {vessel.imonumber || "N/A"}<br />
-                                        <strong>Type:</strong> {vessel.ship_type || "N/A"}<br />
-                                        <strong>Status:</strong> {vessel.navigational_status || "N/A"}<br />
-                                        <strong>Speed:</strong> {vessel.speed_over_ground} knots<br />
-                                        <strong>Course:</strong> {vessel.course_over_ground}°<br />
-                                        <strong>Heading:</strong> {vessel.heading}°<br />
-                                        <strong>Draught:</strong> {vessel.draught >= 0 ? vessel.draught + " m" : "N/A"}<br />
-                                        <strong>Destination:</strong> {vessel.destination || "Unknown"}<br />
-                                    </p>
-                                    </div>
-                            </div>
+                                <div className="popup_header_2"  style={{backgroundColor: getBackgroundColorByShipType(vessel.ship_type)}} >
+                                <img src={logo} alt="logo" />
+                                </div>
 
-                            <div className="popup_buttons">
-                                    {/* <button onClick={()=> navigate('/Vessels') } value={"Vessel Details"}/> */}
-                                    <button/>
+                                  <div className="popup_title">
+                                    <div className="vessel_name">{vessel.ship_name || "Unknown"}</div>
+                                    <div className="meta_data">
+                                      <div className="meta_line"><strong>IMO:</strong> {vessel.imonumber || "N/A"}</div>
+                                      <div className="meta_line"><strong>Type:</strong> {vessel.ship_type || "N/A"}</div>
+                                    </div>
+                                  </div>
                             </div>
+                                  <div className="popup_header_info">
+                                    
+                                      <div className="vessel_meta">
+                                          
+                                        <div className="meta_line_2"><strong>Status:</strong> {vessel.navigational_status || "N/A"}</div>
+                                        <div className="meta_line_2"><strong>Speed:</strong> {vessel.speed_over_ground} knots</div>
+                                            
+                                            
+                                        <div className="meta_line_2"><strong>Course:</strong> {vessel.course_over_ground}°</div>
+                                        <div className="meta_line_2"><strong>Heading:</strong> {vessel.heading}°</div>
+                                            
+                                            
+                                        <div className="meta_line_2"><strong>Draught:</strong> {vessel.draught >= 0 ? vessel.draught + " m" : "N/A"}</div>
+                                        <div className="meta_line_2"><strong>Destination:</strong> {vessel.destination || "Unknown"}</div>
+                                        <div className="meta_line_3"><strong>Received:</strong> {vessel.timestamp || "No Time"}</div>
+                                      </div>
+                                      
+                                    </div>
+                            
+                                <div className="popup_buttons">
+                                  <button className="view_button">
+                                    <div>Vessel Details</div>
+                                  </button>
+
+                                  {isRegistered && (
+                                    <button className="add_fleet">
+                                      <div>Add to Fleet</div>
+                                    </button>
+                                  )}
+                                </div>
 
                         </Popup>
                     </Marker>
             ))}
 
-            {/* Change isRegistered to true if we need to see the user's abilities */}
-            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={false} isAdmin={false}/>
-            
-            
 
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin}/>
 
         </MapContainer>
         </div>

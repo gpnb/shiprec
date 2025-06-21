@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/myprofile.css'
 import editIcon from '../icons/Misc/Edit_dark.png';
 import arrowIcon from '../icons/Misc/Arrow.png'
+import Return from "../components/return";
 
 
 function MyProfilePage() {
@@ -48,16 +49,14 @@ function MyProfilePage() {
 
         
         <div className="button-container">
-            <button type="button" className="return-button" onClick={() => navigate('/')}>
-                <img src={arrowIcon} alt="Arrow icon" className="ret-icon"/>
-                Return
-            </button>
+            <div></div>
             <button type="button" className="edit-button" onClick={() => navigate('/editprofile')}>
                 Edit Account 
                 <img src={editIcon} alt="Edit icon" className="edit-icon" />
             </button>
         </div>
          
+        
         </div>
     </div>
   );

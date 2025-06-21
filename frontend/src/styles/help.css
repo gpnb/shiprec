@@ -1,0 +1,158 @@
+.column-container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.help-container {
+    padding: 20px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.help-card-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+.help-card {
+    background-color: #f9f9f9;
+    padding: 20px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1400px;
+
+    text-align: center;
+}
+
+.help-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+
+}
+
+.faq-container {
+    font-size: 24px;
+    color: #2c3e50;
+    min-width: 100%;
+    margin: 20px auto;
+    max-height: 60vh;
+    overflow: scroll;
+  }
+  
+  .faq-item {
+    border: 3px solid #ccc;
+    font-size: 24px;
+    color: #2c3e50;
+    border-radius: 15px;
+    margin-bottom: 2.5vh;
+    height: 5vh;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  
+  }
+  
+  .faq-question {
+    border-radius: 15px;
+    background-color: #f9f9f9;
+    width: 100%;
+    font-size: 24px;
+    color: #2c3e50;
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 0;  
+  }
+  
+  .faq-question:hover {
+    background-color: #f0f0f0;
+  }
+
+  .faq-answer {
+    border: 3px solid #ccc;
+    font-size: 24px;
+    color: #2c3e50;
+    border-radius: 15px;
+    margin-bottom: 2.5vh;
+    height: 5vh;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: relative;       /* Detach from normal flow */
+    margin-top: 0.5rem;
+    background-color: #f9f9f9;
+    padding: 15px 20px;
+    margin-left: -3px;
+    font-size: 24px;
+    color: #333;
+    text-align: left;
+    z-index: 30;              /* Above other items */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 97.15%;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: row;
+    color: rgb(43, 61, 91,0.8);
+    box-shadow: 4px 4px 30px inset #00000010 ;
+  }
+
+  
+  
+  .faq-arrow {
+    width: 36px;
+    height: 36px;
+
+    transition: transform 0.3s ease;
+    filter: brightness(0) saturate(100%) invert(20%) sepia(7%) saturate(3839%) hue-rotate(179deg) brightness(92%) contrast(86%);
+  }
+  
+  .faq-arrow.open {
+    transform: rotate(180deg);
+  }
+
+.faq-answer-sentence{
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+
+
+
+.edit-button {
+  background: none;
+  border: none;
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+
+.edit-button:hover {
+  text-decoration: underline;
+}
+
+.edit-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* to fix error of form taking up more space downwards */
+body {
+    margin: 0;
+}
+
+main, .help-container, .help-card {
+    min-height: auto;
+    height: auto;
+}
