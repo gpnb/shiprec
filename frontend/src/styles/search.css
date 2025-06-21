@@ -88,6 +88,10 @@
     content: center;
 }
 
+
+
+
+
 .search-filters button {
     cursor: pointer;
     background-color: transparent;
@@ -116,3 +120,4 @@
   border: 2px solid white;
   color: #5B89B5;
 }
+

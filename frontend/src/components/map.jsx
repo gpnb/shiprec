@@ -48,12 +48,12 @@ function ToggleDisplayMode({setDarkMode,darkMode}) {
 
 
 
-function MapButtons({ map, setDarkMode, darkMode, isRegistered }) {
+function MapButtons({ map, setDarkMode, darkMode, isRegistered,activeFilters,setActiveFilters }) {
     return (
       <div className="map_buttons">
         <ToggleDisplayMode setDarkMode={setDarkMode} darkMode={darkMode} />
   
-        <Filters map={map} darkMode={darkMode}/>
+        <Filters map={map} darkMode={darkMode} activeFilters={activeFilters}  setActiveFilters={setActiveFilters}/>
   
         <div className="zoom_buttons">
           <button
@@ -84,24 +84,24 @@ function MapButtons({ map, setDarkMode, darkMode, isRegistered }) {
 
 
 
-function MapFunctions({map,setDarkMode,darkMode,isRegistered,isAdmin}) {
+function MapFunctions({map,setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters,liveVessels}) {
 
 
     return(  
         <div className="map_functions">
             <NavigationBar isRegistered={isRegistered} isAdmin={isAdmin} currentTab="Live Map"/>  
-            <SearchBar map = {map} isRegistered={isRegistered} darkMode={darkMode}/>
-            <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered}/>  
+            <SearchBar map = {map} isRegistered={isRegistered} darkMode={darkMode} liveVessels={liveVessels}/>
+            <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} activeFilters={activeFilters}  setActiveFilters={setActiveFilters}/>  
         </div> 
     );
 }
 
-function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin}) {
+function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters}) {
     const map = useMap();
-    return <MapFunctions map={map} setDarkMode={setDarkMode}  darkMode={darkMode} isRegistered = {isRegistered} isAdmin= {isAdmin} />;
+    return <MapFunctions map={map} setDarkMode={setDarkMode}  darkMode={darkMode} isRegistered = {isRegistered} isAdmin= {isAdmin} activeFilters={activeFilters}  setActiveFilters={setActiveFilters}/>;
 }
 
-export function getShipIconByType(type = '') {
+function getShipIconByType(type = '') {
   const normalized = type.toLowerCase();
 
   if (normalized.includes('cargo')) return cargo;
@@ -119,7 +119,7 @@ export function getShipIconByType(type = '') {
 function Map() {
 
     {/* Change isRegistered to true if we need to see the user's abilities */}
-    const isRegistered = true;
+    const isRegistered = false;
     const isAdmin = false;
 
     const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
@@ -127,6 +127,8 @@ function Map() {
     const [darkMode, setDarkMode] = useState(false);
 
     const [liveVessels,setLiveVessels] = useState([]);
+
+    const [activeFilters,setActiveFilters] = useState(['all']);
 
     const fakeVessel = {
       ship_name: "Happy Birthday Ntina",
@@ -155,85 +157,101 @@ function Map() {
     }, [ws]);
 
     useEffect(() => {
-      const websocket = new WebSocket('ws://localhost:8080/ws');
-      setWs(websocket);
+        const websocket = new WebSocket('ws://localhost:8080/ws');
+        setWs(websocket);
 
-      websocket.onopen = () => console.log('Connected to WebSocket server');
-      websocket.onmessage = (event) => {
-          try {
-              const data = JSON.parse(event.data);
+        websocket.onopen = () => console.log('Connected to WebSocket server');
+        websocket.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
 
-              const lat = Number(data.latitude);
-              const lon = Number(data.longitude);
+                const lat = Number(data.latitude);
+                const lon = Number(data.longitude);
 
-              if (!isNaN(lat) && !isNaN(lon)) {
-              const id = data.imonumber || data.ship_name || crypto.randomUUID();
+                if (!isNaN(lat) && !isNaN(lon)) {
+                const id = data.imonumber || data.ship_name || crypto.randomUUID();
 
-              setLiveVessels((prev) => {
-                  const existing = prev[id];
+                setLiveVessels((prev) => {
+                    const existing = prev[id];
 
-                  // Check if location changed
-                  const hasMoved = !existing || existing.latitude !== lat || existing.longitude !== lon;
+                    // Check if location changed
+                    const hasMoved = !existing || existing.latitude !== lat || existing.longitude !== lon;
 
-                  if (!hasMoved) return prev; // Skip update if position didn't change
+                    if (!hasMoved) return prev; // Skip update if position didn't change
 
-                  return {
-                  ...prev,
-                  [id]: {
-                      ...data,
-                      latitude: lat,
-                      longitude: lon,
-                  }
-                  };
-              });
-              }
-          } 
-          catch (error) {
-              console.error("Failed to parse message:", event.data);
-          }
-      };
+                    return {
+                    ...prev,
+                    [id]: {
+                        ...data,
+                        latitude: lat,
+                        longitude: lon,
+                    }
+                    };
+                });
+                }
+            } 
+            catch (error) {
+                console.error("Failed to parse message:", event.data);
+            }
+        };
 
         // Cleanup on unmount
         return () => websocket.close();
     }, []);
     
-    const shipIcon = L.icon({
-        iconUrl: ship,
-        iconSize: [24, 24],
-        iconAnchor: [12, 12],
-    });
-
-function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') {
-  return L.divIcon({
-    className: '', // prevent Leaflet default class
-    html: `
-      <div class="filter-icon ${classList}" style="
-        transform: rotate(${heading}deg);
-        width: ${size[0]}px;
-        height: ${size[1]}px;
-        background-image: url(${imageUrl});
-        background-size: contain;
-        background-repeat: no-repeat;
-      "></div>
-    `,
-    iconSize: size,
-    iconAnchor: [size[0] / 2, size[1] / 2],
-  });
-}
+    function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') {
+        return L.divIcon({
+            className: '', // prevent Leaflet default class
+            html: `
+            <div class="filter-icon ${classList}" style="
+                transform: rotate(${heading}deg);
+                width: ${size[0]}px;
+                height: ${size[1]}px;
+                background-image: url(${imageUrl});
+                background-size: contain;
+                background-repeat: no-repeat;
+            "></div>
+            `,
+            iconSize: size,
+            iconAnchor: [size[0] / 2, size[1] / 2],
+        });
+    }
 
 
     function getBackgroundColorByShipType(type = '') {
-      const normalized = type.toLowerCase();
-      if (normalized.includes('cargo')) return '#C00000';
-      if (normalized.includes('fishing')) return '#72D2FF';
-      if (normalized.includes('navigation') || normalized.includes('nav')) return '#FF9500';
-      if (normalized.includes('passenger')) return '#EDBE00';
-      if (normalized.includes('pleasure') || normalized.includes('yacht') || normalized.includes('recreational')) return '#F58DAB';
-      if (normalized.includes('speed') || normalized.includes('fast')) return '#50378F';
-      if (normalized.includes('tug')) return '#1BAF40';
-      if (normalized.includes('tanker')) return '#0064D0';
-      return '#D9D9D9'; // default
+        const normalized = type.toLowerCase();
+        
+        if (normalized.includes('cargo')) return '#C00000';
+        if (normalized.includes('fishing')) return '#72D2FF';
+        if (normalized.includes('navigation') || normalized.includes('nav')) return '#FF9500';
+        if (normalized.includes('passenger')) return '#EDBE00';
+        if (normalized.includes('pleasure') || normalized.includes('yacht') || normalized.includes('recreational')) return '#F58DAB';
+        if (normalized.includes('speed') || normalized.includes('fast')) return '#50378F';
+        if (normalized.includes('tug')) return '#1BAF40';
+        if (normalized.includes('tanker')) return '#0064D0';
+        
+        return '#D9D9D9'; 
     }
+
+    function renderFilters(type) {
+
+
+        const normalized = type?.toLowerCase();
+         
+        if (normalized.includes('cargo')) return 'cargo';
+        if (normalized.includes('fishing')) return 'fishing';
+        if (normalized.includes('navigation') || normalized.includes('nav')) return 'navigation';
+        if (normalized.includes('passenger')) return 'passenger';
+        if (normalized.includes('pleasure') || normalized.includes('yacht') || normalized.includes('recreational')) return 'pleasure';
+        if (normalized.includes('speed') || normalized.includes('fast')) return 'speed';
+        if (normalized.includes('tug')) return 'tugs';
+        if (normalized.includes('tanker')) return 'tankers';
+
+
+        return 'other';
+
+    }
+
 
 
     return (
@@ -259,7 +277,8 @@ function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') 
             />
 
 
-              {Object.values(liveVessels).map((vessel) => (
+              {Object.values(liveVessels).filter(vessel => activeFilters.includes('all') || activeFilters.includes(renderFilters(vessel.ship_type)))
+              .map((vessel) => (
                     <Marker key={vessel.ship_name} position={[vessel.latitude, vessel.longitude]}   icon={getRotatedShipIcon(
                       vessel.heading || 0,
                       getShipIconByType(vessel.ship_type),
@@ -293,7 +312,7 @@ function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') 
                                             
                                         <div className="meta_line_2"><strong>Draught:</strong> {vessel.draught >= 0 ? vessel.draught + " m" : "N/A"}</div>
                                         <div className="meta_line_2"><strong>Destination:</strong> {vessel.destination || "Unknown"}</div>
-                                        <div className="meta_line_3"><strong>Received:</strong> {vessel.timestamp || "No Time"}</div>
+                                        <div className="meta_line_3"><strong>Received:</strong> {vessel.time_received? new Date(vessel.time_received).toLocaleString(): 'No Time'}</div>
                                       </div>
                                       
                                     </div>
@@ -315,14 +334,12 @@ function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') 
             ))}
 
 
-            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin}/>
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin} activeFilters={activeFilters} setActiveFilters={setActiveFilters}/>
 
         </MapContainer>
         </div>
     );
 }
-
-
 
 
 export default Map;

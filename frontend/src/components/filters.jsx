@@ -12,10 +12,9 @@ import tugs from '../icons/ships/tugs.png'
 import tankers from '../icons/ships/tankers.png'
 
 
-function Filters({map,darkMode,setMapFilters}) {
+function Filters({map,darkMode,activeFilters,setActiveFilters}) {
 
     const [showFilters,setShowFilters] = useState(false);
-    const [activeFilters,setActiveFilters] = useState(['all'])
 
     const toggleFilters = (e) => {
         const id = e.target.id;

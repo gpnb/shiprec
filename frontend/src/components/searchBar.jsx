@@ -1,13 +1,19 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import '../styles/search.css'
 import search from '../icons/Buttons/Search-outlined.png'
 
-function SearchBar({map,isRegistered,darkMode}) {
+function SearchBar({map,isRegistered,darkMode,liveVessels}) {
 
 
     const [showFilters, setShowFilters] = useState(false);
 
     const [searchTerm, setSearchTerm]= useState('');
+
+    const [searchResults,setSearchResults] = useState([]);
+
+
+    const [isListVisible, setIsListVisible] = useState(false);
+
 
     const initialFilters = isRegistered
     ? ['everything', 'ports', 'my_areas', 'vessels', 'companies', 'my_fleets']
@@ -70,9 +76,31 @@ function SearchBar({map,isRegistered,darkMode}) {
             return updated;
         });
     };
-      
-
     
+
+    // "ship_name":"F/V LE NATIF 2 ","ship_type":"Fishing","imonumber":0,"navigational_status":" not defined = default (also used by AIS-SART under test)","course_over_ground":184.5,"speed_over_ground":7.3,"rate_of_turn":-127.0,"latitude":48.029633,"longitude":-4.7729535,"eta":39222000,"heading":511.0,"draught":0.0,"destination":"ST GILLE + DE UIE "}
+
+
+    const handleFilter = (event) => {
+        setSearchTerm(event.target.value);
+
+        if (searchTerm === "") {
+            setSearchResults([]);
+            setIsListVisible(false);
+        } 
+        else {  // the user can search based on ship name, status,type and imonumber
+            const newFilter = liveVessels.filter(vessel => 
+                (vessel.ship_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                vessel.ship_type?.toLowerCase().includes(searchTerm.toLowerCase())) || 
+                vessel.navigational_status?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                vessel.imonumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                false
+            );
+            setSearchResults(newFilter);
+            setIsListVisible(true);
+        }
+    };
+
 
     return(
         <div className="search">
@@ -88,28 +116,58 @@ function SearchBar({map,isRegistered,darkMode}) {
 
                
               
-                <p className='toggle-search-filters' onClick={() => setShowFilters(!showFilters) }> ... </p>
+                { isRegistered &&  <p className='toggle-search-filters' onClick={() => setShowFilters(!showFilters) }> ... </p>}
             </div>   
             
             
-            {showFilters &&  
+            {(showFilters  && isRegistered) && 
                 <div className='search-filters'>
-                {(isRegistered 
-                    ? ['companies', 'my_areas', 'my_fleets', 'ports', 'vessels', 'everything']
-                    : ['companies', 'ports', 'vessels', 'everything']
-                ).map(id => (
-                    <button
-                    key={id}
-                    id={id}
-                    onClick={toggleSearchFilters}
-                    className={activeFilters.includes(id) ? 'active' : ''}
-                    >
-                    {id.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                    </button>
-                ))}
+                    {(isRegistered 
+                        ? ['companies', 'my_areas', 'my_fleets', 'ports', 'vessels', 'everything']
+                        : ['companies', 'ports', 'vessels', 'everything']
+                    ).map(id => (
+                        <button
+                        key={id}
+                        id={id}
+                        onClick={toggleSearchFilters}
+                        className={activeFilters.includes(id) ? 'active' : ''}
+                        >
+                        {id.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                        </button>
+                    ))}
                 </div>
             }
 
+
+            
+                {/* {isListVisible && searchTerm !== "" && searchResults.length > 0 &&  (
+                       <ul className='dataResult'>
+                    {searchResults.slice(0, 15).map((value) => {
+                        
+    
+                        return (
+                            <li key={value.id} className="dataItem">
+                                <p>
+                                <img src={value.profilePicture?`data:image/jpeg;base64,${value.profilePicture}`:placeholder } alt = 'profile'className='picture'/>
+                                    {value.firstName} {value.lastName}
+                                    <a href={`/VisitProfile/${value.id}`}> Visit Profile </a>
+                                        
+                                    
+                                </p>
+                            </li>
+                        );
+                       
+                    })}
+                    </ul>
+                )   
+                
+                
+                } */}
+            
+
+  
+
+        
 
         </div>
     )
