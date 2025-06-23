@@ -181,6 +181,12 @@ public class InstanceService {
             instance.setMothership_mmsi(mothership);
             instance.setHeading(true_heading);
 
+
+            // if the instance already exists in the database, return
+            if(!instanceRepo.findById(id).isEmpty()) {
+                return;
+            }
+
             // save the instance in the database
             instanceRepo.save(instance);
 
