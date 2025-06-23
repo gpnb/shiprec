@@ -86,8 +86,8 @@ const Main=()=>{
         // all app routes
         <Routes>
             <Route exact path='/' element={<MapPage/>} ></Route>
-            <Route exact path='/Vessels' element={<VesselsPage/>}></Route>
-            <Route exact path='/Ports' element={<PortsPage/>}></Route>
+            <Route exact path='/Vessels/*' element={<VesselsPage/>}></Route>
+            <Route exact path='/Ports/*' element={<PortsPage/>}></Route>
             <Route exact path='/MyAccount/*' element={<MyAccountPage/>}></Route>
             <Route exact path='/Settings' element={<SettingsPage/>}></Route>
             <Route exact path='/Help/*' element={<HelpPage/>}></Route>

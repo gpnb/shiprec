@@ -115,6 +115,20 @@ function getShipIconByType(type = '') {
   return other;
 }
 
+function getShipType(type = '') {
+  const normalized = type.toLowerCase();
+
+  if (normalized.includes('cargo')) return "Cargo";
+  if (normalized.includes('fishing')) return "Fishing";
+  if (normalized.includes('navigation') || normalized.includes('nav')) return "Navigation Aid";
+  if (normalized.includes('passenger')) return "Passenger";
+  if (normalized.includes('pleasure') || normalized.includes('yacht') || normalized.includes('recreational')) return "Pleasure";
+  if (normalized.includes('speed') || normalized.includes('fast')) return "High Speed";
+  if (normalized.includes('tug')) return "Tug/Special";
+  if (normalized.includes('tanker')) return "Tanker";
+  return "Other";
+}
+
 
 function Map() {
 
@@ -131,20 +145,19 @@ function Map() {
     const [activeFilters,setActiveFilters] = useState(['all']);
 
     const fakeVessel = {
-      ship_name: "Happy Birthday Ntina",
+      ship_name: "Test Vessel",
       latitude: 37.86375081807442,             
       longitude: 23.749947150715165,
-      heading: 120,
+      heading: 21,
       course_over_ground: 0.2,
       speed_over_ground: 0.2,
-      ship_type: "tanker",
+      ship_type: "speed",
       imonumber: "21062003",
-      navigational_status: "Hating Frontend",
+      navigational_status: "template status",
       draught: 7.8,
-      destination: "Port of •(-*•",
+      destination: "Port of testing",
       timestamp: "2025-06-21 00:01 UTC"
     };
-
 
     const [ws, setWs] = useState(null);
 
@@ -294,7 +307,7 @@ function Map() {
                                     <div className="vessel_name">{vessel.ship_name || "Unknown"}</div>
                                     <div className="meta_data">
                                       <div className="meta_line"><strong>IMO:</strong> {vessel.imonumber || "N/A"}</div>
-                                      <div className="meta_line"><strong>Type:</strong> {vessel.ship_type || "N/A"}</div>
+                                      <div className="meta_line" style={{ color: getBackgroundColorByShipType(vessel.ship_type), filter: 'brightness(0.65)'}} ><strong>Type:</strong> {getShipType(vessel.ship_type) || "N/A"}</div>
                                     </div>
                                   </div>
                             </div>
@@ -302,16 +315,16 @@ function Map() {
                                     
                                       <div className="vessel_meta">
                                           
-                                        <div className="meta_line_2"><strong>Status:</strong> {vessel.navigational_status || "N/A"}</div>
-                                        <div className="meta_line_2"><strong>Speed:</strong> {vessel.speed_over_ground} knots</div>
+                                        <div className="meta_line_2"><strong>• Status:</strong> {vessel.navigational_status || "N/A"}</div>
+                                        <div className="meta_line_2"><strong>• Speed:</strong> {vessel.speed_over_ground} knots</div>
                                             
                                             
-                                        <div className="meta_line_2"><strong>Course:</strong> {vessel.course_over_ground}°</div>
-                                        <div className="meta_line_2"><strong>Heading:</strong> {vessel.heading}°</div>
+                                        <div className="meta_line_2"><strong>• Course:</strong> {vessel.course_over_ground}°</div>
+                                        <div className="meta_line_2"><strong>• Heading:</strong> {vessel.heading}°</div>
                                             
                                             
-                                        <div className="meta_line_2"><strong>Draught:</strong> {vessel.draught >= 0 ? vessel.draught + " m" : "N/A"}</div>
-                                        <div className="meta_line_2"><strong>Destination:</strong> {vessel.destination || "Unknown"}</div>
+                                        <div className="meta_line_2"><strong>• Draught:</strong> {vessel.draught >= 0 ? vessel.draught + " m" : "N/A"}</div>
+                                        <div className="meta_line_2"><strong>• Destination:</strong> {vessel.destination || "Unknown"}</div>
                                         <div className="meta_line_3"><strong>Received:</strong> {vessel.time_received? new Date(vessel.time_received).toLocaleString(): 'No Time'}</div>
                                       </div>
                                       

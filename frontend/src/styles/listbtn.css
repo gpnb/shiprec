@@ -1,0 +1,40 @@
+.listbtn-container {           
+    display: flex;
+    justify-content: flex-start;
+    min-height: auto;
+    height: auto;
+    margin-left: 10.75vw;
+}
+
+.list-btn {
+    display: flex;              /* Needed for flex centering */
+    align-items: center;        /* Vertical centering */
+    justify-content: left;    /* Horizontal centering */
+    background-color:  rgb(43, 61, 91, 0.70);
+    color: rgb(255, 255, 255,0.85);
+    border: none;
+    font-size: 20px;
+    font-weight: 300;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: auto;
+    max-height: 4vh;
+    width: 12.5vw;
+    margin-right: 0.75rem; 
+    margin-top: 2vh;
+    padding: 10px 10px;
+    height: 4vh;
+}
+
+.list-btn:hover {
+    background-color: #22303ddf;
+}
+
+.list-btn img{
+    padding: 10px;
+    max-width: 24px;
+    max-height: 24px;  
+    margin-left: 4px;
+}
+

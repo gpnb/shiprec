@@ -122,31 +122,6 @@
     margin-right: 0.5rem;
 }
 
-
-
-
-.edit-button {
-  background: none;
-  border: none;
-  color: #2c3e50;
-  font-size: 18px;
-  font-weight: 500;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0;
-}
-
-.edit-button:hover {
-  text-decoration: underline;
-}
-
-.edit-icon {
-  width: 18px;
-  height: 18px;
-}
-
 /* to fix error of form taking up more space downwards */
 body {
     margin: 0;

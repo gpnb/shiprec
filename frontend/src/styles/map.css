@@ -171,7 +171,7 @@
     overflow: hidden;          
     text-overflow: ellipsis;   
     max-width: 100%;   
-    
+    color: rgba(43, 61, 91);
 }
 
 .meta_data {
@@ -183,12 +183,12 @@
 
 .meta_line {
     flex-direction: column;
-    margin-left: 1rem;
+    margin-left: 0.2rem;
     white-space: nowrap;       
     overflow: hidden;          
     text-overflow: ellipsis;   
-    max-width: 100%;        
-    margin-top: -4%;   
+    max-width: 80%;        
+    margin-top: -1%;   
 }
 
 .popup_header_info{
@@ -216,18 +216,27 @@
 
 .meta_line_2 {
     font-size: 14px;
-    margin-left: 1rem;
     max-width: 120%;     
     flex-direction: row;      
     white-space: nowrap;      
     overflow: hidden;          
     text-overflow: ellipsis;   
-    max-width: 100%;      
+    max-width: 100%;  
+    margin-left: 1.2rem;
+    color: rgba(43, 61, 91);
 }
 
+.meta_line_2 strong{
+    opacity: 60%;
+    color: black;
+}
+
+
 .meta_line_3 {
-    font-size: 12px;
-    margin-left: 0.8rem;
+    color: rgba(43, 61, 91, 0.60);
+    font-size: 10px;
+    margin-top: 0.6rem;
+    margin-left: 0.6rem;
     max-width: 120%;     
     flex-direction: row;      
     white-space: nowrap;      
@@ -235,6 +244,7 @@
     text-overflow: ellipsis;   
     max-width: 100%;
     font-style: italic;     
+    justify-self: center;
 }
 
 .popup_buttons{
@@ -249,7 +259,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(43, 61, 91, 0.80);
+    background-color: rgba(43, 61, 91);
     color: white;
     border: none;
     cursor: pointer;
@@ -268,9 +278,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    outline: 2px solid rgba(43, 61, 91, 0.80);
+    outline: 2px solid rgba(43, 61, 91);
     background-color: rgba(255, 255, 255, 0.8);
-    color: rgba(43, 61, 91, 0.80);
+    color: rgba(43, 61, 91);
     border: none;
     cursor: pointer;
     border-radius: 8px;
