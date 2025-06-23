@@ -18,8 +18,8 @@ function VesselsPage() {
             <NavigationBar isRegistered = {true} currentTab="Vessels"/>
             <TabContainer currentTab="Vessels" username={username}>
             <Routes>
-                <Route index element={<ItemLists/>} />
-                {/* <Route path="" element={<Details/>} /> */}
+                <Route index element={<ItemLists type="vessels"/>} />
+                {/* <Route path="" element={<Details type="vessels"/>} /> */}
             </Routes>
             <Return/>
             </TabContainer>

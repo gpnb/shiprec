@@ -8,10 +8,10 @@
 
 .itemlists-card {
     background-color: #f9f9f9;
-    padding: 20px 30px;
+    padding: 20px 0px;
     border-radius: 20px;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1460px;
     text-align: left;
 }
 
@@ -34,7 +34,7 @@
     height: 100%;
     border: 2px solid rgb(43, 61, 91);
     border-radius: 4px;
-    background-color: transparent;
+    background-color: f9f9f9;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
@@ -65,8 +65,8 @@
     width: 14px;
     height: 8px;
     padding-bottom: 6px;
-    filter: brightness(0) saturate(100%) invert(18%) sepia(22%) saturate(1483%) hue-rotate(178deg) brightness(92%) contrast(82%);    cursor: pointer;
-
+    filter: brightness(0) saturate(100%) invert(18%) sepia(22%) saturate(1483%) hue-rotate(178deg) brightness(92%) contrast(82%);
+        cursor: pointer;
 }
 
 .dropdown-icon.open {
@@ -110,19 +110,16 @@
 }
 
 .dropdown-option.selected {
-    background-color: #2b3d5b;
+    background-color: rgb(43, 61, 91,0.8);
     color: white;
 }
 
-.dropdown-option.selected {
-    background-color: #2b3d5b;
-    color: white;
-}
+
 
 
 .dropdown-option:hover {
-    opacity: 40%;
-    background-color: #2b3d5b;
+
+    background-color: rgb(43, 61, 91,0.4);
     color: white;
 }
 
@@ -149,11 +146,12 @@
 }
 
 .itemlists-right {
-    margin-left: 55vw;
+    margin-left: 62vw;
     color: #2b3d5b;
     display: flex;
     flex-direction: row;
     align-items: center;
+    align-self: right;
     gap: 8px;
     font-size: 14px;
     appearance: none;
@@ -196,6 +194,104 @@
     width: 24px;
     height: 24px;
     filter: brightness(0) saturate(100%) invert(20%) sepia(7%) saturate(3839%) hue-rotate(179deg) brightness(92%) contrast(86%);
+}
+
+/* Table styling */
+.itemlists-table {
+    overflow-x: auto;
+    max-height: 48vh;
+    overflow: scroll;
+  }
+  
+  .itemlists-table table {
+    width: 100%;
+    border-collapse: collapse;
+    color:#2b3d5b;
+    margin-top: 8px;
+    background-color: rgb(255, 255, 255,0.6);
+  }
+  
+  .itemlists-table th,
+  .itemlists-table td,
+  .itemlists-table tr {
+    color:#2b3d5b;
+    border-top:2px solid #2b3d5b;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 14px;
+  }
+
+
+  .itemlists-table tr.hide:hover{
+    background-color: rgb(255, 255, 255,0.6);
+  }
+
+  .itemlists-table tr.hide{
+    background-color: rgb(255, 255, 255,0.6);
+  }
+
+  .itemlists-table .selectall-list {
+    padding-top: 10px;
+    padding-left: 25px;  
+    
+  }
+  
+  .itemlists-table th {
+
+    background-color: rgb(255, 255, 255,0.6);
+    font-weight: bolder;
+  }
+  
+.itemlists-table tr:hover {
+    background-color: #00000024;
+}
+  
+.sortable-header {
+    cursor: pointer;
+    user-select: none;
+    align-items: center;
+    gap: 10px;
+}
+.header-label {
+    margin-right: 5px;
+}
+
+.dropdown-icon.sorting {
+    padding-left: 0px;
+}
+
+/* 180° for descending */
+.dropdown-icon.sorting.rotated {
+    transform: rotate(180deg), translateX(-5px);
+}
+
+
+.dropdown-icon.sorting.lowered {
+    transform: translateY(6px); 
+}
+
+.row-selected {
+    background-color: rgba(42, 60, 90, 0.4); 
+    transition: background-color 0.2s ease;
+    color: white;
+}
+
+.row-selected td{
+    color: white;
+}
+
+.itemlists-table tr.row-selected:hover {
+    background-color: rgba(42, 60, 90, 0.8); /* or any color you prefer */
+}
+
+.row-selected .selectall-check:checked {
+    background-color: rgb(43, 61, 91);
+    box-shadow: inset 0 0 0 2px #A5ACB8;
+    border-color: rgb(43, 61, 91);
+}
+
+.row-selected:hover {
+    background-color: hsla(218, 36%, 26%, 0.40);
 }
 
 body {
