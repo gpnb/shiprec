@@ -19,7 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
 
-   
+
     @Bean // encrypts the passwords stored in the database using BCrypt hash function
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); 
@@ -34,7 +34,14 @@ public class SecurityConfig {
         // the REST API methods allowed
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
         // any domain can make requests to the server
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        // configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+
+        // Added by Maria
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedHeaders(Arrays.asList("*")); // allow all headers
+        configuration.setAllowCredentials(true);
+        // End of added by Maria
+
         // send header to the client
         configuration.addExposedHeader("Authorization");
         configuration.setAllowCredentials(true);
