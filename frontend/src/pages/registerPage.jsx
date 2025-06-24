@@ -1,7 +1,7 @@
 import React from "react";
 import '../styles/register.css'
 import logo from '../icons/Logo/ShipRec.png'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Select from "react-select"; // Use npm install react-select
 import { getData } from "country-list"; // Use npm install country-list
 
@@ -15,8 +15,64 @@ function RegisterPage() {
         label: country.name,
     }));
     
-  
-  const [selectedCountry, setSelectedCountry] = useState(null);
+
+    const [selectedCountry, setSelectedCountry] = useState(null);
+
+    // Initialize register data with empty values
+    const [registerData, setRegisterData] = useState({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        country: "",
+    });
+
+    // to correctly get country chosen
+    useEffect(() => {
+        if (selectedCountry) {
+            setRegisterData((prev) => ({
+                ...prev,
+                country: selectedCountry.value,
+            }));
+        }
+    }, [selectedCountry]);
+
+    // Function that changes the value of a field when altered
+    const handleFieldChange = (e) => {
+        setRegisterData((prev) => ({
+            ...prev,
+            [e.target.id]: e.target.value,
+        }));
+    };
+
+    // Function to handle field submission, on clicking "Register"
+    const handleSubmit = async(e) => {
+        e.preventDefault(); // this is to prevent register form reload
+
+        console.log("Submitting registration form...", registerData); // to debug
+
+        try {
+            const fetchResult = await fetch("http://localhost:8080/api/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include", // required for allowCredentials
+                body: JSON.stringify(registerData),
+            });
+
+            const result = await fetchResult.text();
+            if (fetchResult.ok) {
+                alert("User Registered successfully.");
+            } else {
+                alert(`Error registering user :  ${result}`);
+            }
+        } catch (err) {
+            alert("Failed to reach backend : " + err.message);
+        }
+    };
+
+
 
     return (
         <div className="background">
@@ -30,21 +86,21 @@ function RegisterPage() {
                 </div>
 
                 {/* The form */}
-                <form className="form-input">
+                <form className="form-input" onSubmit={handleSubmit}>
                     <label>Email*</label>
-                    <input type="email" id="email" placeholder="Enter your email..." />
+                    <input type="email" id="email" value={registerData.email} onChange={handleFieldChange} placeholder="Enter your email..." />
     
                     <label>Password*</label>
-                    <input type="password" id="password" placeholder="Enter your password..." />
+                    <input type="password" id="password"  value={registerData.password} onChange={handleFieldChange} placeholder="Enter your password..." />
 
                     <div className="name-input">
                         <div className="field-group">
                             <label>First Name*</label>
-                            <input type="text" id="firstName" placeholder="Enter first name..." />
+                            <input type="text" id="firstName" value={registerData.firstName} onChange={handleFieldChange} placeholder="Enter first name..." />
                         </div>
                         <div className="field-group">
                             <label>Last Name*</label>
-                            <input type="text" id="lastName" placeholder="Enter last name..." />
+                            <input type="text" id="lastName" value={registerData.lastName} onChange={handleFieldChange} placeholder="Enter last name..." />
                         </div>
                     </div>
 
@@ -60,7 +116,7 @@ function RegisterPage() {
                         classNamePrefix="rs"
                         />
 
-{/* 
+{/*
 <select id="country" className="country-select">
                             <option value="">Choose your country...</option>
                             <option value="US">United States</option>
