@@ -11,8 +11,8 @@ function ItemLists({ type }) {
     const [data, setData] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
 
-    const [isDropdownOpen, setDropdownOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState("All"); // Default selection
+    // const [isDropdownOpen, setDropdownOpen] = useState(false);
+    // const [selectedOption, setSelectedOption] = useState("All"); // Default selection
 
     const [isPageOpen, setIsPageOpen] = useState(false);
     const [itemsPerPage, setItemsPerPage] = useState(8); // default value
@@ -23,86 +23,22 @@ function ItemLists({ type }) {
 
     const [selectedItems, setSelectedItems] = useState([]);
 
+
     useEffect(() => {
         const fetchData = async () => {
-            // TEMPORARY MOCK for vessels
-            const mockData = {
-                data: [
-                    {
-                        id: 1,
-                        name: "MV Poseidon",
-                        imo: "9876543",
-                        flag: "Greece",
-                        type: "Bulk Carrier"
-                    },
-                    {
-                        id: 2,
-                        name: "SS Neptune",
-                        imo: "1234567",
-                        flag: "Liberia",
-                        type: "Container Ship"
-                    },
-                    {
-                        id: 3,
-                        name: "Ocean Explorer",
-                        imo: "7654321",
-                        flag: "Panama",
-                        type: "Oil Tanker"
-                    },
-                    {
-                        id: 4,
-                        name: "Ocean Explorer",
-                        imo: "7654321",
-                        flag: "Panama",
-                        type: "Oil Tanker"
-                    },
-                    {
-                        id: 5,
-                        name: "Ocean Explorer",
-                        imo: "7654321",
-                        flag: "Panama",
-                        type: "Oil Tanker"
-                    },
-                    {
-                        id: 6,
-                        name: "Ocean Explorer",
-                        imo: "7654321",
-                        flag: "Panama",
-                        type: "Oil Tanker"
-                    },
-                    {
-                        id: 7,
-                        name: "Ocean Explorer",
-                        imo: "7654321",
-                        flag: "Panama",
-                        type: "Oil Tanker"
-                    },
-                    {
-                        id: 8,
-                        name: "Ocean Explorer",
-                        imo: "7654321",
-                        flag: "Panama",
-                        type: "Oil Tanker"
-                    }
-                ]
-            };
+            try {
+                const response = await fetch(`http://localhost:8080/api/${type}?page=${currentPage - 1}&size=${itemsPerPage}`);
+                const result = await response.json();
     
-            setTimeout(() => {
-                setData(mockData.data);
-                setTotalItems(mockData.data.length);
-            }, 300); // simulate slight delay
+                setData(result.content || []);
+                setTotalItems(result.totalElements || 0);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
         };
     
         fetchData();
     }, [type, currentPage, itemsPerPage]);
-
-    const toggleDropdown = () => {
-        setDropdownOpen((prev) => !prev);
-    };
-
-    const handleOptionClick = (option) => {
-        setSelectedOption(option);
-    };
 
 
     const togglePage = () => {
@@ -273,6 +209,7 @@ function ItemLists({ type }) {
                 <table>
                     <thead>
                         <tr className="hide">
+                        {type !== "ports" && (
                         <div className="selectall-list">
                         <input
                             type="checkbox"
@@ -286,7 +223,8 @@ function ItemLists({ type }) {
                                 }
                             }}
                         />
-                        </div>
+                                    </div>
+                                    )}
                             {data[0] && Object.keys(data[0]).map((key) => (
                                 <th
                                 key={key}
@@ -311,14 +249,16 @@ function ItemLists({ type }) {
 
                             return (
                                 <tr key={i} className={isSelected ? 'row-selected' : ''}>
+                                    {type !== "ports" && (
                                     <div className="selectall-list">
                                         <input
-                                            type="checkbox"
-                                            className="selectall-check"
-                                            checked={isSelected}
-                                            onChange={() => handleSelectItem(row.id)}
+                                        type="checkbox"
+                                        className="selectall-check"
+                                        checked={isSelected}
+                                        onChange={() => handleSelectItem(row.id)}
                                         />
                                     </div>
+                                    )}
                                     {Object.values(row).map((value, j) => (
                                         <td key={j}>{String(value)}</td>
                                     ))}

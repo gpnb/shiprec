@@ -1,0 +1,293 @@
+wpi,port,country,size,type,tidal_range,entrance_width,channel_depth,latitude,longitude
+1714,Arnold's Cove,Canada,Small,Coastal (Natural),0.0,0.0,0.0,47.764799042999996,-53.981065504000000
+1750,Port De St Pierre,Saint Pierre and Miquelon,Small,Coastal (Breakwater),1.5,0.0,7.9,46.783332999999999,-56.166666999999997
+1955,Sept Iles,Canada,Medium,River (Natural),10.0,0.0,11.0,50.200000000000003,-66.383332999999993
+2110,La Baie (Port Alfred),Canada,Small,River (Natural),6.0,0.0,9.4,48.333333000000003,-70.883332999999993
+2145,Ile du Gros Cacouna,Canada,Small,River (Natural),0.0,0.0,0.0,47.933333333000000,-69.500000000000000
+2380,Grenville,Canada,Very Small,River (Natural),0.0,0.0,1.8,45.633333000000000,-74.599999999999994
+2530,Hull,Canada,Very Small,River (Natural),0.0,0.0,1.8,45.433332999999998,-75.700000000000003
+3340,Pelee I West Dock,Canada,Very Small,Open Roadstead,0.0,0.0,3.4,41.766666999999998,-82.683333000000005
+3440,Dunkirk,United States,Very Small,Coastal (Breakwater),0.0,0.0,1.8,42.483333000000002,-79.333332999999996
+3450,Erie,United States,Small,Coastal (Natural),0.0,0.0,7.9,42.149999999999999,-80.099999999999994
+3550,Put In Bay,United States,Very Small,Coastal (Natural),0.0,0.0,1.8,41.649999999999999,-82.816666999999995
+3710,Point Edward,Canada,Small,River (Natural),0.0,0.0,6.4,43.000000000000000,-82.416667000000004
+3760,Southampton,Canada,Very Small,Coastal (Breakwater),0.0,0.0,1.8,44.500000000000000,-81.383332999999993
+4710,Holland,United States,Small,River (Natural),0.0,0.0,6.4,42.783332999999999,-86.133332999999993
+4820,Great Lakes,United States,Very Small,Coastal (Breakwater),0.0,0.0,3.4,42.299999999999997,-87.833332999999996
+5310,L Anse,United States,Very Small,Coastal (Natural),0.0,0.0,4.9,46.766666999999998,-88.466667000000001
+5420,La Pointe,United States,Very Small,Coastal (Natural),0.0,0.0,1.8,46.783332999999999,-90.783332999999999
+5700,Havre Aubert,Canada,Medium,Coastal (Natural),0.0,0.0,0.0,47.233333332999997,-61.833333332999999
+5870,Port Hawkesbury,Canada,Very Small,Coastal (Natural),2.0,0.0,4.9,45.616667000000000,-61.366667000000000
+6340,Halifax,Canada,Large,Coastal (Natural),2.0,0.0,20.1,44.649999999999999,-63.583333000000003
+6660,Milbridge,United States,Very Small,River (Natural),3.4,0.0,1.8,44.533332999999999,-67.883332999999993
+6670,Corea,United States,Very Small,Coastal (Natural),3.4,0.0,1.8,44.399999999999999,-67.966667000000001
+6920,Belfast,United States,Very Small,River (Natural),3.0,0.0,3.4,44.416666999999997,-69.000000000000000
+7150,Portland,United States,Medium,Coastal (Natural),2.7,0.0,9.4,43.666666999999997,-70.250000000000000
+7250,Boston,United States,Large,Coastal (Natural),3.0,0.0,11.0,42.350000000000001,-71.049999999999997
+7320,Falmouth,United States,Very Small,Coastal (Natural),0.3,0.0,1.8,41.549999999999997,-70.616667000000007
+7410,Bristol,United States,Very Small,Coastal (Natural),1.2,0.0,6.4,41.666666999999997,-71.266666999999998
+7420,Providence,United States,Medium,River (Natural),1.2,0.0,11.0,41.799999999999997,-71.400000000000006
+8050,Wilmington,United States,Medium,River (Natural),1.8,0.0,6.4,39.733333000000002,-75.549999999999997
+8070,Marcus Hook,United States,Small,River (Natural),1.8,0.0,11.0,39.816667000000002,-75.416667000000004
+8210,Baltimore,United States,Large,River (Natural),0.3,0.0,14.0,39.266666999999998,-76.583332999999996
+8240,Alexandria,United States,Small,River (Natural),0.9,0.0,6.4,38.799999999999997,-77.033332999999999
+8370,Columbia,United States,Very Small,River (Natural),0.0,0.0,3.4,35.916666999999997,-76.250000000000000
+8380,Belhaven,United States,Very Small,River (Natural),0.0,0.0,1.8,35.616667000000000,-76.616667000000007
+8660,Key West,United States,Small,Coastal (Natural),0.3,0.0,9.4,24.550000000000001,-81.816666999999995
+8670,Tampa,United States,Medium,Coastal (Natural),0.6,0.0,12.5,27.916667000000000,-82.450000000000003
+8770,Mobile,United States,Large,River (Natural),0.6,0.0,11.0,30.683333000000001,-88.116667000000007
+8850,Gretna,United States,Very Small,River (Natural),0.0,0.0,9.4,29.916667000000000,-90.066666999999995
+8860,New Orleans,United States,Large,River (Natural),0.0,0.0,11.0,29.949999999999999,-90.049999999999997
+9080,Port Arthur,United States,Medium,Canal or Lake,0.6,0.0,11.0,29.833333000000000,-93.966667000000001
+9240,Houston,United States,Large,River (Tide Gates),0.0,0.0,14.0,29.750000000000000,-95.283332999999999
+9250,Freeport,United States,Very Small,River (Natural),0.0,0.0,11.0,28.949999999999999,-95.333332999999996
+9355,Altamira,Mexico,Very Small,River (Basins),0.6,0.0,12.5,22.483332999999998,-97.849999999999994
+9370,Tuxpan,Mexico,Medium,River (Natural),0.5,0.0,3.4,20.949999999999999,-97.400000000000006
+9380,Veracruz,Mexico,Medium,Coastal (Breakwater),0.6,0.0,14.0,19.199999999999999,-96.133332999999993
+9598,Big Creek,Belize,Small,Coastal (Natural),0.0,120.0,11.0,16.516666666999999,-88.400000000000006
+9960,Hamilton,Bermuda,Small,Coastal (Natural),1.5,0.0,7.9,32.299999999999997,-64.783332999999999
+10100,Bahai De La Habana,Cuba,Large,Coastal (Breakwater),0.4,0.0,12.5,23.133333000000000,-82.366667000000007
+11110,San Juan,Puerto Rico,Small,Open Roadstead,0.0,0.0,9.4,18.466667000000001,-66.116667000000007
+11205,Puerto Yabucoa,Puerto Rico,Very Small,Open Roadstead,0.3,0.0,14.0,18.050000000000001,-65.833332999999996
+11625,Grand Cul De Sac Bay,Saint Lucia,Small,Coastal (Natural),0.0,0.0,23.2,13.983333000000000,-61.016666999999998
+11940,Santa Marta,Colombia,Small,Coastal (Natural),1.0,0.0,23.2,11.250000000000000,-74.216667000000001
+11946,Puerto Bolivar,Colombia,Small,Coastal (Breakwater),1.0,0.0,9.4,12.250000000000000,-71.966667000000001
+12185,Puerto La Cruz,Venezuela,Large,Open Roadstead,0.0,0.0,7.9,10.250000000000000,-64.633332999999993
+12510,Santarem,Brazil,Very Small,Typhoon Harbor,2.0,0.0,9.4,-2.416667000000000,-54.716667000000001
+12540,Itacoatiara,Brazil,Very Small,River (Natural),0.0,0.0,11.0,-3.150000000000000,-58.450000000000003
+12585,Itaqui,Brazil,Small,Coastal (Natural),7.0,0.0,15.5,-2.566667000000000,-44.366667000000000
+12730,Recife,Brazil,Medium,Coastal (Breakwater),2.6,0.0,9.7,-8.050000000000001,-34.866667000000000
+12772,Aratu,Brazil,Small,Open Roadstead,3.0,0.0,17.1,-12.783333000000001,-38.500000000000000
+12775,Madre De Deus,Brazil,Very Small,Open Roadstead,2.0,0.0,11.0,-12.750000000000000,-38.616667000000000
+12850,Vitoria,Brazil,Medium,River (Natural),1.0,0.0,9.4,-20.316666999999999,-40.333333000000003
+12970,Santos,Brazil,Large,Coastal (Natural),1.0,0.0,12.5,-23.949999999999999,-46.299999999999997
+13000,Sao Francisco,Brazil,Small,River (Natural),2.0,0.0,11.0,-26.250000000000000,-48.633333000000000
+13120,Montevideo,Uruguay,Medium,Coastal (Breakwater),1.0,0.0,11.0,-34.899999999999999,-56.216667000000001
+13970,Rio Grande,Argentina,Very Small,River (Natural),6.0,0.0,0.0,-53.783332999999999,-67.683333000000005
+15410,Balboa,Panama,Medium,Canal or Lake,5.0,182.9,12.5,8.949999999999999,-79.566666999999995
+15915,San Juan De La Costa,Mexico,Very Small,Open Roadstead,2.0,0.0,0.0,24.399999999999999,-110.700000000000003
+16310,Yerbabuena Island,United States,Very Small,Coastal (Natural),1.2,0.0,6.4,37.816667000000002,-122.366667000000007
+18850,Sointula,Canada,Very Small,Coastal (Natural),3.0,0.0,23.2,50.633333000000000,-127.016666999999998
+19300,Petersburg,United States,Small,Coastal (Natural),4.3,0.0,6.4,56.816667000000002,-132.949999999999989
+19585,Port Chilkoot,United States,Very Small,Coastal (Natural),2.7,0.0,0.0,59.233333000000002,-135.433333000000005
+20160,Kiska,United States,Very Small,Coastal (Natural),0.9,0.0,21.6,51.966667000000001,177.550000000000011
+20220,Pilot Point,United States,Very Small,Coastal (Natural),0.0,0.0,0.0,57.566667000000002,-157.599999999999994
+21130,Alta,Norway,Very Small,Coastal (Natural),3.0,0.0,0.0,69.973333332999999,23.235277778000000
+23020,Berg,Norway,Very Small,Coastal (Natural),0.0,0.0,4.9,65.365277778000006,12.196666667000001
+23120,Alesund,Norway,Small,Coastal (Breakwater),2.0,0.0,4.9,62.466667000000001,6.166667000000000
+23138,Mongstad,Norway,Medium,Open Roadstead,7.0,0.0,23.2,60.830833333000001,5.036666667000000
+23140,Vaksdal,Norway,Small,River (Natural),0.0,0.0,23.2,60.478333333000002,5.732777778000000
+23480,Stavanger,Norway,Medium,Coastal (Breakwater),1.0,0.0,23.2,58.966667000000001,5.750000000000000
+23670,Porsgrunn,Norway,Small,River (Natural),1.0,0.0,7.9,59.147222222000003,9.653888888999999
+23680,Skien,Norway,Small,River (Natural),1.0,0.0,6.4,59.199722221999998,9.603611110999999
+24210,Malmo,Sweden,Large,Coastal (Breakwater),0.0,0.0,7.9,55.623333332999998,12.984722222000000
+24690,Oskarshamn,Sweden,Small,Coastal (Natural),0.0,0.0,6.4,57.266666999999998,16.449999999999999
+27400,Tornio,Finland,Small,River (Natural),0.0,0.0,7.9,65.766666999999998,24.166667000000000
+27560,Kokkola,Finland,Large,Coastal (Natural),1.0,0.0,4.9,63.850000000000001,23.016667000000002
+28240,Hamina,Finland,Small,Coastal (Natural),0.0,0.0,7.9,60.566667000000002,27.199999999999999
+28300,Vyborg,Russia,Medium,Coastal (Natural),2.0,0.0,6.4,60.716667000000001,28.750000000000000
+28360,Primorsk,Russia,Very Small,Open Roadstead,0.0,0.0,20.1,60.366667000000000,28.633333000000000
+28410,Ust Luga,Russia,Very Small,River (Natural),0.0,0.0,3.4,59.666666999999997,28.316666999999999
+28480,Vanasadam - Port of Tallinn,Estonia,Large,Coastal (Breakwater),0.0,0.0,13.0,59.450127999999999,24.766676000000000
+28660,Klaipeda,Lithuania,Medium,River (Natural),1.0,0.0,15.0,55.716667000000001,21.116667000000000
+28690,Kaliningrad,Russia,Medium,River (Basins),0.0,0.0,7.9,54.700000000000003,20.483332999999998
+28710,Gdansk,Poland,Large,Canal or Lake,0.0,0.0,6.4,54.350000000000001,18.666667000000000
+28740,Gdynia,Poland,Large,Coastal (Breakwater),0.0,0.0,14.0,54.533332999999999,18.550000000000001
+28750,Police,Poland,Small,Coastal (Natural),0.0,0.0,9.4,53.566667000000002,14.566667000000001
+28820,Swinoujscie,Poland,Small,River (Natural),2.0,0.0,14.0,53.916666999999997,14.266667000000000
+28823,Szczecin,Poland,Medium,River (Natural),0.0,0.0,7.9,53.416666999999997,14.550000000000001
+28860,Rostock,Germany,Large,River (Natural),1.0,0.0,7.9,54.100000000000001,12.133333000000000
+28870,Wismar,Germany,Small,Coastal (Natural),3.0,0.0,9.4,53.899999999999999,11.466666999999999
+28912,Orth,Germany,Very Small,Coastal (Breakwater),0.0,0.0,1.8,54.450000000000003,11.050000000000001
+28930,Kiel,Germany,Large,River (Basins),0.0,0.0,11.0,54.316667000000002,10.133333000000000
+28950,Eckernforde,Germany,Small,River (Basins),1.0,0.0,6.4,54.483333000000002,9.833333000000000
+29490,Kalundborg,Denmark,Small,Coastal (Breakwater),1.0,0.0,12.5,55.683332999999998,11.100000000000000
+29930,Assens,Denmark,Small,Coastal (Breakwater),0.0,0.0,6.4,55.266666999999998,9.883333000000000
+30100,Abenra,Denmark,Small,Coastal (Breakwater),2.0,0.0,11.0,55.049999999999997,9.433332999999999
+30260,Arhus,Denmark,Medium,Coastal (Breakwater),0.0,0.0,11.0,56.149999999999999,10.216666999999999
+30400,Alborg,Denmark,Small,River (Natural),1.0,0.0,9.4,57.049999999999997,9.933332999999999
+30680,Husum,Germany,Very Small,River (Natural),3.0,0.0,1.8,54.483333000000002,9.050000000000001
+30720,Brunsbuttel Canal Terminals,Germany,Small,Canal or Lake,5.0,0.0,11.0,53.899999999999999,9.150000000000000
+30780,Hamburg,Germany,Large,Canal or Lake,3.0,0.0,9.4,53.549999999999997,9.933332999999999
+30810,Bremerhaven,Germany,Large,River (Tide Gates),4.0,0.0,11.0,53.533332999999999,8.583333000000000
+30850,Brake,Germany,Medium,River (Tide Gates),4.0,0.0,7.9,53.333333000000003,8.483333000000000
+30900,Bremen,Germany,Large,River (Tide Gates),4.0,0.0,7.9,53.133333000000000,8.766667000000000
+30910,Wilhelmshaven,Germany,Small,Coastal (Tide Gates),4.0,0.0,20.1,53.533332999999999,8.166667000000000
+30950,Emden,Germany,Medium,River (Tide Gates),3.0,0.0,7.9,53.333333000000003,7.183333000000000
+31040,Ijmuiden,Netherlands,Small,Coastal (Tide Gates),2.0,0.0,14.0,52.466667000000001,4.583333000000000
+31060,Amsterdam,Netherlands,Large,Canal or Lake,2.0,0.0,12.5,52.366667000000000,4.900000000000000
+31080,Hoek Van Holland,Netherlands,Very Small,River (Basins),1.0,0.0,17.1,51.950000000000003,4.133333000000000
+31140,Rotterdam,Netherlands,Large,River (Basins),1.0,0.0,11.0,51.899999999999999,4.483333000000000
+31210,Vlissingen,Netherlands,Medium,River (Natural),4.0,0.0,12.5,51.450000000000003,3.600000000000000
+31220,Terneuzen,Netherlands,Medium,River (Tide Gates),4.0,0.0,9.4,51.350000000000001,3.816667000000000
+31250,Antwerpen,Belgium,Large,River (Tide Gates),4.0,0.0,11.0,51.216667000000001,4.400000000000000
+31270,Ghent,Belgium,Medium,Canal or Lake,0.0,0.0,11.0,51.066667000000002,3.733333000000000
+31280,Zeebrugge,Belgium,Medium,Coastal (Breakwater),4.0,0.0,9.4,51.333333000000003,3.200000000000000
+31430,Tilbury,United Kingdom,Small,River (Tide Gates),3.0,0.0,0.0,51.466667000000001,0.333333000000000
+31470,London,United Kingdom,Large,River (Basins),6.0,0.0,7.9,51.500000000000000,-0.083332999999900
+31550,Ipswich,United Kingdom,Small,River (Tide Gates),3.0,0.0,4.9,52.049999999999997,1.166667000000000
+31650,Immingham,United Kingdom,Medium,River (Tide Gates),5.0,0.0,7.9,53.633333000000000,-0.200000000000000
+31668,New Holland,United Kingdom,Very Small,Open Roadstead,5.0,0.0,0.0,53.700000000000003,-0.366667000000000
+31670,Goole,United Kingdom,Small,River (Tide Gates),5.0,0.0,3.4,53.700000000000003,-0.833333000000000
+31720,Teesport,United Kingdom,Large,River (Tide Gates),3.0,0.0,14.0,54.649999999999999,-1.133333000000000
+31930,Leith,United Kingdom,Medium,River (Tide Gates),2.0,0.0,6.4,55.983333000000002,-3.183333000000000
+32980,Castle Bay,United Kingdom,Very Small,Coastal (Natural),3.0,0.0,6.4,56.950000000000003,-7.483333000000000
+33210,Glensanda,United Kingdom,Very Small,River (Natural),4.0,0.0,20.1,56.566667000000002,-5.533333000000000
+33560,Ayr,United Kingdom,Very Small,River (Basins),2.0,0.0,3.4,55.466667000000001,-4.633333000000000
+33680,Warren Point,United Kingdom,Very Small,Coastal (Natural),5.0,0.0,5.4,54.100000000000001,-6.250000000000000
+34400,Waterford,Ireland,Very Small,River (Natural),4.7,0.0,6.5,52.266666999999998,-7.116667000000000
+34480,Dublin,Ireland,Medium,Coastal (Breakwater),4.0,0.0,9.5,53.350000000000001,-6.250000000000000
+34630,Barrow In Furness,United Kingdom,Medium,Coastal (Tide Gates),6.0,0.0,9.4,54.116667000000000,-3.233333000000000
+34690,Liverpool,United Kingdom,Large,River (Tide Gates),6.0,0.0,6.4,53.416666999999997,-3.000000000000000
+34880,Milford Haven,United Kingdom,Medium,River (Natural),4.0,0.0,9.4,51.716667000000001,-5.033333000000000
+34970,Neath,United Kingdom,Very Small,Coastal (Natural),6.0,0.0,3.4,51.633333000000000,-3.833333000000000
+35240,Newlyn,United Kingdom,Very Small,Coastal (Breakwater),5.0,0.0,14.0,50.100000000000001,-5.550000000000000
+35330,Par,United Kingdom,Very Small,Coastal (Breakwater),4.0,0.0,0.0,50.350000000000001,-4.700000000000000
+35590,Fawley Marine Terminal,United Kingdom,Small,River (Natural),5.0,0.0,12.5,50.816667000000002,-1.333333000000000
+35732,Dunkerque Port Ouest,France,Medium,Coastal (Tide Gates),6.0,0.0,20.1,51.066667000000002,2.350000000000000
+35750,Calais,France,Small,Coastal (Breakwater),6.0,0.0,7.9,50.966667000000001,1.850000000000000
+35760,Boulogne-Sur-Mer,France,Medium,River (Tide Gates),8.0,0.0,4.9,50.733333000000002,1.600000000000000
+35830,Fecamp,France,Small,Canal or Lake,6.0,0.0,0.0,49.766666999999998,0.366667000000000
+35835,Port Du Havre-Antifer,France,Small,Coastal (Breakwater),7.0,0.0,23.2,49.649999999999999,0.150000000000000
+35840,Port Of Le Havre,France,Large,River (Tide Gates),7.0,0.0,14.0,49.483333000000002,0.116667000000000
+35850,Port Of Rouen,France,Large,River (Natural),3.0,0.0,9.4,49.450000000000003,1.066667000000000
+35860,Honfleur,France,Very Small,River (Tide Gates),7.0,0.0,3.4,49.416666999999997,0.216667000000000
+36130,Saint-Malo,France,Small,Coastal (Tide Gates),13.0,0.0,3.4,48.649999999999999,-2.016667000000000
+36220,Le Legue,France,Very Small,River (Tide Gates),10.0,0.0,0.0,48.533332999999999,-2.750000000000000
+36370,Port De Roscoff-Bloscon,France,Very Small,Coastal (Breakwater),9.0,0.0,4.9,48.733333000000002,-3.983333000000000
+36460,Rade De Brest,France,Large,Coastal (Breakwater),7.0,305.0,12.5,48.383333000000000,-4.500000000000000
+36620,Concarneau,France,Very Small,Coastal (Breakwater),3.0,0.0,4.9,47.866667000000000,-3.916667000000000
+36680,Lorient,France,Medium,River (Natural),4.0,0.0,7.9,47.750000000000000,-3.350000000000000
+36850,St Nazaire,France,Medium,River (Tide Gates),4.0,0.0,12.5,47.283332999999999,-2.200000000000000
+36855,Montoir,France,Medium,River (Natural),0.0,0.0,12.5,47.299999999999997,-2.133333000000000
+36860,Donges,France,Small,River (Natural),5.0,0.0,14.0,47.299999999999997,-2.066667000000000
+36900,Nantes,France,Medium,River (Natural),4.0,0.0,7.9,47.200000000000003,-1.566667000000000
+36960,Les Sables D' Olonne,France,Medium,River (Basins),11.0,0.0,6.4,46.500000000000000,-1.800000000000000
+37000,La Pallice,France,Medium,Coastal (Tide Gates),3.0,0.0,11.0,46.166666999999997,-1.216667000000000
+37010,La Rochelle,France,Medium,Coastal (Tide Gates),3.0,0.0,11.0,46.149999999999999,-1.150000000000000
+37040,Rochefort,France,Medium,River (Tide Gates),12.0,0.0,1.8,45.933332999999998,-0.950000000000000
+37160,Blaye,France,Small,River (Natural),13.0,0.0,7.9,45.133333000000000,-0.666667000000000
+37170,Ambes,France,Small,River (Natural),13.0,0.0,6.4,45.016666999999998,-0.533333000000000
+37190,Bordeaux,France,Large,River (Tide Gates),0.0,0.0,12.5,44.866667000000000,-0.566667000000000
+37230,Bayonne,France,Medium,River (Natural),3.0,0.0,4.9,43.500000000000000,-1.466667000000000
+37290,Puerto De Pasajes,Spain,Medium,River (Natural),5.0,0.0,9.4,43.333333000000003,-1.933333000000000
+37350,Bermeo,Spain,Very Small,Coastal (Breakwater),5.0,0.0,4.9,43.416666999999997,-2.716667000000000
+37470,Santander,Spain,Medium,River (Natural),3.0,0.0,11.0,43.466667000000001,-3.783333000000000
+37560,Gijon,Spain,Small,Coastal (Breakwater),3.0,0.0,18.6,43.549999999999997,-5.666667000000000
+37600,Aviles,Spain,Small,Canal or Lake,3.0,0.0,9.4,43.600000000000001,-5.933333000000000
+37740,Ferrol,Spain,Medium,River (Natural),4.0,0.0,11.0,43.483333000000002,-8.233333000000000
+37770,La Coruna,Spain,Small,Coastal (Natural),4.0,0.0,17.1,43.366667000000000,-8.400000000000000
+37830,Villagarcia De Arosa,Spain,Very Small,Coastal (Natural),4.0,0.0,20.1,42.600000000000001,-8.766667000000000
+37900,Vigo,Spain,Medium,Coastal (Breakwater),3.0,0.0,23.2,42.233333000000002,-8.716666999999999
+37970,Aveiro,Portugal,Medium,River (Natural),3.0,0.0,6.4,40.649999999999999,-8.650000000000000
+38000,Setubal,Portugal,Small,River (Natural),4.0,0.0,11.0,38.516666999999998,-8.900000000000000
+38005,Sines,Portugal,Medium,Coastal (Breakwater),4.0,0.0,0.0,37.950000000000003,-8.866667000000000
+38050,Vila Real De S Antonio,Portugal,Very Small,River (Natural),2.0,0.0,3.4,37.183332999999998,-7.400000000000000
+38095,Praia De Vitoria,Portugal,Very Small,Coastal (Natural),2.0,0.0,17.1,38.716667000000001,-27.050000000000001
+38130,Funchal,Portugal,Large,Coastal (Breakwater),2.0,0.0,12.5,32.633333000000000,-16.916667000000000
+38170,Las Palmas,Spain,Large,Coastal (Breakwater),2.0,0.0,11.0,28.149999999999999,-15.416667000000000
+38220,Huelva,Spain,Medium,River (Natural),4.0,0.0,12.5,37.250000000000000,-6.950000000000000
+38270,Sevilla,Spain,Medium,Canal or Lake,6.0,0.0,7.9,37.366667000000000,-6.000000000000000
+38280,Rota,Spain,Very Small,Coastal (Breakwater),3.0,0.0,9.4,36.616667000000000,-6.333333000000000
+38290,Cadiz,Spain,Medium,Coastal (Breakwater),4.0,0.0,12.5,36.533332999999999,-6.300000000000000
+38310,Algeciras,Spain,Small,Coastal (Breakwater),1.0,0.0,6.4,36.133333000000000,-5.433333000000000
+38370,Malaga,Spain,Medium,Coastal (Breakwater),1.0,0.0,12.5,36.716667000000001,-4.416667000000000
+38430,Cartagena,Spain,Small,Coastal (Breakwater),1.0,0.0,11.0,37.583333000000003,-0.983333000000000
+38480,Valencia,Spain,Medium,Coastal (Breakwater),0.0,0.0,15.5,39.450000000000003,-0.316667000000000
+38490,Sagunto,Spain,Very Small,Coastal (Breakwater),0.0,0.0,7.9,39.649999999999999,-0.216667000000000
+38540,Tarragona,Spain,Large,Coastal (Breakwater),1.0,0.0,20.1,41.100000000000001,1.233333000000000
+38750,Sete,France,Small,Coastal (Breakwater),1.0,0.0,14.0,43.399999999999999,3.700000000000000
+38775,Fos,France,Very Small,Coastal (Breakwater),0.0,0.0,21.6,43.416666999999997,4.883333000000000
+39120,L'ile Rousse,France,Very Small,Coastal (Breakwater),0.0,0.0,6.4,42.633333000000000,8.933332999999999
+39215,Sarroch Oil Terminal,Italy,Medium,Open Roadstead,0.0,0.0,21.6,39.083333000000003,9.033333000000001
+39470,Genova,Italy,Large,Coastal (Breakwater),1.0,0.0,15.5,44.398000000000003,8.922000000000001
+40110,Milazzo,Italy,Medium,Open Roadstead,0.0,0.0,9.4,38.216667000000001,15.250000000000000
+40115,Gioia Tauro,Italy,Large,Canal or Lake,1.0,0.0,17.1,38.444000000000003,15.890000000000001
+40270,Catania,Italy,Medium,Coastal (Breakwater),0.0,0.0,11.0,37.500000000000000,15.100000000000000
+40340,Marsaxlokk,Malta,Small,Coastal (Natural),0.0,0.0,14.0,35.816667000000002,14.550000000000001
+40470,Taranto,Italy,Large,Coastal (Breakwater),0.0,0.0,14.0,40.466667000000001,17.199999999999999
+40720,Porto Di Corsini,Italy,Medium,Canal or Lake,2.0,0.0,4.9,44.494999999999997,12.291000000000000
+40820,Trieste,Italy,Large,Coastal (Breakwater),1.0,0.0,17.1,45.651000000000003,13.746000000000000
+41415,Neum,Bosnia and Herzegovina,Small, ,0.0,0.0,0.0,42.916666999999997,17.600000000000001
+41640,Bar,Montenegro,Small,Coastal (Breakwater),1.0,0.0,17.1,42.083333000000003,19.083333000000000
+41820,Itea,Greece,Very Small,Open Roadstead,0.0,0.0,9.4,38.433332999999998,22.416667000000000
+42050,Navplio,Greece,Very Small,Coastal (Breakwater),0.0,0.0,4.9,37.566667000000002,22.800000000000001
+42230,Piraievs,Greece,Large,Coastal (Breakwater),0.0,0.0,23.2,37.933332999999998,23.649999999999999
+42440,Stilis,Greece,Very Small,Coastal (Natural),0.0,0.0,3.4,38.916666999999997,22.616667000000000
+42470,Volos,Greece,Medium,Coastal (Breakwater),1.0,0.0,9.4,39.366667000000000,22.949999999999999
+43165,Kali Limenes,Greece,Very Small,Coastal (Natural),1.0,0.0,12.5,34.933332999999998,24.833333000000000
+43340,Gemlik,Turkey,Very Small,Open Roadstead,0.0,0.0,0.0,40.416666999999997,29.116667000000000
+43565,Danube-Black Sea Canal,Romania,Medium,Canal or Lake,0.0,0.0,6.4,44.266666999999998,28.183333000000001
+43745,Chornomors Ke,Ukraine,Very Small,Coastal (Natural),0.0,0.0,7.9,45.516666999999998,32.700000000000003
+44070,Rostov-Na-Donu,Russia,Small,River (Basins),4.0,0.0,1.8,47.166666999999997,39.716667000000001
+44450,Samsun,Turkey,Large,Coastal (Breakwater),1.0,0.0,11.0,41.299999999999997,36.350000000000001
+44460,Sinop,Turkey,Very Small,Open Roadstead,0.0,0.0,3.4,42.049999999999997,35.166666999999997
+44500,Eregli,Turkey,Very Small,Coastal (Breakwater),0.0,0.0,20.1,41.299999999999997,31.449999999999999
+44650,Bandirma,Turkey,Very Small,Coastal (Breakwater),0.0,0.0,23.2,40.350000000000001,27.966667000000001
+44750,Izmir,Turkey,Large,Coastal (Natural),2.0,0.0,9.4,38.433332999999998,27.133333000000000
+44805,Marmaris,Turkey,Very Small,Coastal (Breakwater),0.0,0.0,23.2,36.850000000000001,28.283332999999999
+44880,Iskenderun,Turkey,Very Small,Coastal (Breakwater),1.0,0.0,11.0,36.600000000000001,36.166666999999997
+44970,Famagusta,Cyprus,Small,Coastal (Breakwater),0.0,0.0,9.4,35.116667000000000,33.933332999999998
+45100,Ashdod,Israel,Small,Coastal (Breakwater),0.0,0.0,0.0,31.816666999999999,34.649999999999999
+45140,Bur Sa'id,Egypt,Large,Canal or Lake,0.0,0.0,14.0,31.266667000000002,32.299999999999997
+45151,Damietta,Egypt,Large,Coastal (Breakwater),1.0,0.0,14.0,31.483332999999998,31.750000000000000
+45375,Gabes,Tunisia,Small,Coastal (Breakwater),2.0,0.0,12.5,33.899999999999999,10.116667000000000
+45420,La Goulette,Tunisia,Medium,Coastal (Breakwater),0.0,0.0,11.0,36.799999999999997,10.300000000000001
+45550,Bejaia,Algeria,Small,Coastal (Breakwater),0.0,0.0,14.0,36.750000000000000,5.083333000000000
+45570,Alger,Algeria,Large,Coastal (Breakwater),1.0,0.0,18.6,36.766666999999998,3.066667000000000
+45610,Tenes,Algeria,Very Small,Open Roadstead,0.0,0.0,23.2,36.533332999999999,1.316667000000000
+45730,Ceuta,Spain,Medium,Coastal (Breakwater),1.0,0.0,0.0,35.899999999999999,-5.316667000000000
+45753,Tangier-Mediterranean,Morocco,Large,Coastal (Breakwater),0.0,0.0,0.0,35.899999999999999,-5.516667000000000
+45755,Tanger,Morocco,Medium,Coastal (Breakwater),2.0,0.0,0.0,35.783332999999999,-5.816667000000000
+45793,Casablanca,Morocco,Large,Coastal (Breakwater),4.0,0.0,12.5,33.600000000000001,-7.616667000000000
+45796,El Jorf Lasfar,Morocco,Small,Coastal (Breakwater),3.0,0.0,15.5,33.116667000000000,-8.616667000000000
+45797,Safi,Morocco,Small,Coastal (Breakwater),3.0,0.0,7.9,32.299999999999997,-9.250000000000000
+45809,Laayoune,Western Sahara,Very Small,Coastal (Natural),2.0,0.0,0.0,27.083333000000000,-13.433332999999999
+45818,St Louis,Senegal,Small,River (Natural),1.0,0.0,1.8,16.016667000000002,-16.516667000000002
+45820,Dakar,Senegal,Medium,Coastal (Breakwater),2.0,0.0,11.0,14.683332999999999,-17.433333000000001
+45850,Kamsar,Guinea,Very Small,River (Natural),3.0,0.0,6.4,10.633333000000000,-14.616667000000000
+46000,Abidjan,Cote D'Ivoire,Large,Canal or Lake,1.0,200.0,13.5,5.250000000000000,-4.016667000000000
+46090,Lome,Togo,Medium,Coastal (Breakwater),1.2,295.0,14.5,6.133333000000000,1.283333000000000
+46130,Lagos,Nigeria,Large,River (Natural),7.0,0.0,14.0,6.400000000000000,3.400000000000000
+46208,Onne,Nigeria,Very Small,River (Natural),1.8,0.0,9.2,4.683333000000000,7.150000000000000
+46530,Matadi,Congo (Kinshasa),Small,River (Natural),1.8,167.0,7.9,-5.816667000000000,13.449999999999999
+46542,Kizomba B Terminal,Angola,Very Small,Open Roadstead,0.0,0.0,23.2,-6.350000000000000,11.150000000000000
+46545,Soyo Angola Lng Terminal,Angola,Very Small,River (Natural),1.5,0.0,5.2,-6.116667000000000,12.333333000000000
+46850,Durban,South Africa,Large,Coastal (Breakwater),2.0,0.0,11.0,-29.866667000000000,31.066666999999999
+46920,Porto Belo,Mozambique,Small,Open Roadstead,2.0,0.0,3.4,-17.699999999999999,37.183332999999998
+47010,Dar Es Salaam,Tanzania,Medium,Coastal (Natural),3.0,0.0,9.4,-6.816667000000000,39.299999999999997
+47030,Tanga,Tanzania,Small,Coastal (Natural),4.0,0.0,17.1,-5.083333000000000,39.116667000000000
+47100,Mombasa,Kenya,Medium,Coastal (Tide Gates),3.0,0.0,14.0,-4.066667000000000,39.666666999999997
+47150,Marka,Somalia,Very Small,Open Roadstead,3.0,0.0,23.2,1.716667000000000,44.783332999999999
+48120,Yanbu,Saudi Arabia,Very Small,Coastal (Breakwater),0.8,0.0,14.0,24.083333000000000,38.049999999999997
+48140,Jiddah,Saudi Arabia,Small,Coastal (Breakwater),0.5,0.0,15.5,21.483332999999998,39.183332999999998
+48142,Jizan,Saudi Arabia,Small,Coastal (Breakwater),1.7,200.0,13.5,16.899999999999999,42.483333000000002
+48480,Jazireh-Ye Lavan Oil Terminal,Iran,Very Small,Open Roadstead,2.0,0.0,0.0,26.783332999999999,53.333333000000003
+48533,Bandar Taheri Offshore Terminal,Iran,Very Small,Coastal (Natural),1.2,0.0,0.0,27.649999999999999,52.350000000000001
+50000,Keppel - (East Singapore),Singapore,Large,Coastal (Natural),3.0,0.0,12.5,1.283333000000000,103.849999999999994
+51440,Dili,Timor-Leste,Small,Coastal (Natural),5.0,0.0,23.2,-8.533333000000001,125.583332999999996
+51850,Gunung Batu Besar,Indonesia,Very Small,River (Natural),1.0,0.0,4.9,-2.616667000000000,116.299999999999997
+52065,Bitung,Indonesia,Very Small,Coastal (Natural),4.0,0.0,7.9,1.433333000000000,125.183333000000005
+53010,Manokwari Road,Indonesia,Very Small,Coastal (Natural),1.0,0.0,9.4,-0.866667000000000,134.083333000000010
+53230,Lae,Papua New Guinea,Very Small,Open Roadstead,1.0,0.0,11.0,-6.733333000000000,147.000000000000000
+53318,Cape Flattery Harbor,Australia,Small,Open Roadstead,1.0,0.0,0.0,-14.949999999999999,145.349999999999994
+53610,Newcastle,Australia,Large,Coastal (Breakwater),2.1,185.0,17.7,-32.916666999999997,151.783332999999999
+53810,Eden,Australia,Very Small,Coastal (Breakwater),1.0,0.0,9.4,-37.066667000000002,149.916666999999990
+54255,Port Giles,Australia,Very Small,Open Roadstead,1.0,0.0,12.5,-35.033332999999999,137.766667000000012
+54690,Karumba,Australia,Very Small,River (Natural),4.0,0.0,3.4,-17.483332999999998,140.833333000000010
+54830,Dover,Australia,Very Small,Coastal (Natural),1.0,0.0,12.5,-43.316667000000002,147.033332999999999
+56190,Hana,United States,Very Small,Coastal (Natural),0.6,0.0,9.4,20.750000000000000,-155.983332999999988
+56600,Moen,Federated States of Micronesia,Very Small,Open Roadstead,1.0,0.0,7.9,7.433333000000000,151.833333000000010
+57650,Da Nang,Vietnam,Small,River (Natural),1.2,0.0,12.5,16.100000000000001,108.216667000000001
+57870,Xiamen,China,Medium,River (Natural),6.9,0.0,9.5,24.449999999999999,118.066666999999995
+58370,Manila,Philippines,Large,Coastal (Breakwater),1.0,0.0,9.4,14.583333000000000,120.966667000000001
+60290,Kyomip'o,North Korea,Very Small,River (Natural),3.0,0.0,9.4,38.733333000000002,125.616667000000007
+60400,Ulsan,South Korea,Medium,River (Natural),1.0,0.0,18.6,35.450000000000003,129.400000000000006
+60435,Sokch'o Hang,South Korea,Very Small,Coastal (Breakwater),0.0,0.0,7.9,38.200000000000003,128.599999999999994
+60470,Ch'aho,North Korea,Very Small,Coastal (Breakwater),1.0,0.0,7.9,40.200000000000003,128.650000000000006
+60500,Ch'ongjin,North Korea,Small,Coastal (Natural),1.0,0.0,17.1,41.766666999999998,129.816666999999995
+61500,Toba,Japan,Small,Coastal (Natural),4.0,0.0,7.9,34.483333000000002,136.849999999999994
+61967,Shingu,Japan,Very Small,Coastal (Breakwater),2.0,0.0,9.4,33.666666999999997,135.983332999999988
+62145,Kanda,Japan,Very Small,Coastal (Natural),2.0,0.0,11.0,33.783332999999999,131.016667000000012
+62800,Arkhangels'k,Russia,Medium,River (Natural),1.0,0.0,7.9,64.529722222000004,40.521666666999998
+62950,Murmansk,Russia,Large,River (Natural),3.0,0.0,7.9,68.983333000000002,33.049999999999997
