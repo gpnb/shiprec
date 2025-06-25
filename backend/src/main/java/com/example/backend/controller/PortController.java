@@ -26,4 +26,10 @@ public class PortController {
     public Page<Port> getPorts(Pageable pageable) {
         return portRepo.findAll(pageable);
     }
+
+    @GetMapping("/{id}")
+    public Port getPortById(@PathVariable Integer id) {
+        return portRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Port not found with id: " + id));
+    }
 }

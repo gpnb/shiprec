@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.entity.Port;
 import com.example.backend.entity.Vessel;
 import com.example.backend.repo.VesselRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,11 @@ public class VesselController {
     public Page<Vessel> getVessels(Pageable pageable) {
         System.out.println("Fetching paginated vessels...");
         return vesselRepo.findAll(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public Vessel getVesselById(@PathVariable Integer id) {
+        return vesselRepo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Vessel not found"));
     }
 }

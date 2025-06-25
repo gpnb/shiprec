@@ -10,11 +10,13 @@ import pleasure from '../icons/ships/pleasure.png'
 import speed from '../icons/ships/speed.png'
 import tugs from '../icons/ships/tugs.png'
 import tankers from '../icons/ships/tankers.png'
+import port from '../icons/ships/port.png'
 
 
 function Filters({map,darkMode,activeFilters,setActiveFilters}) {
 
     const [showFilters,setShowFilters] = useState(false);
+
 
     const toggleFilters = (e) => {
         const id = e.target.id;
@@ -24,7 +26,7 @@ function Filters({map,darkMode,activeFilters,setActiveFilters}) {
 
             if (id === 'all') {
                 const isAllActive = prev.includes('all');
-                return isAllActive ? [] : ['cargo', 'fishing', 'navigation', 'passenger', 'other', 'pleasure', 'speed', 'tugs', 'tankers', 'all'];
+                return isAllActive ? [] : ['cargo', 'fishing', 'navigation', 'passenger', 'other', 'pleasure', 'speed', 'tugs', 'tankers','ports', 'all'];
             }
 
             if (updated.includes(id)) {
@@ -33,7 +35,7 @@ function Filters({map,darkMode,activeFilters,setActiveFilters}) {
                 updated.push(id);
             }
 
-            const allOptions = ['cargo', 'fishing', 'navigation', 'passenger', 'other', 'pleasure', 'speed', 'tugs', 'tankers'];
+            const allOptions = ['cargo', 'fishing', 'navigation', 'passenger', 'other', 'pleasure', 'speed', 'tugs', 'tankers','ports'];
             const allSelected = allOptions.every(f => updated.includes(f));
 
             if (allSelected && !updated.includes('all')) {
@@ -115,6 +117,12 @@ function Filters({map,darkMode,activeFilters,setActiveFilters}) {
                         <input type="checkbox" id="other" className="filter-check" onChange={toggleFilters}  checked={activeFilters.includes("other")}/>
                         <img src={other} alt="other" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
                         <span> Unspecified Vessels</span>
+                    </label>
+
+                    <label className="filter">
+                        <input type="checkbox" id="ports" className="filter-check " onChange={toggleFilters}  checked={activeFilters.includes("ports")}/>
+                        <img src={port} alt="port" className={`filter-icon ${darkMode ? 'dark-filter-icon' : ''}`} />
+                        <span> Ports/Harbors </span>
                     </label>
                 </div>
             )}

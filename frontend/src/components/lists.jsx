@@ -1,12 +1,17 @@
 import React from "react";
 import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/myprofile.css'
 import '../styles/lists.css'
 import ListButtons from '../components/listbtn';
 import dropdown from '../icons/Misc/Dropdown.png'
 import arrow from "../icons/Misc/Arrow.png"
+import { useParams } from 'react-router-dom';
+
 
 function ItemLists({ type }) {
+
+    const navigate = useNavigate();
 
     const [data, setData] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
@@ -21,13 +26,15 @@ function ItemLists({ type }) {
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const [selectedItems, setSelectedItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]); // manual selection
+    const [deselectedItems, setDeselectedItems] = useState([]); // deselected while in global-select-all
+    const [selectAll, setSelectAll] = useState(false); // global select-all mode
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/${type}?page=${currentPage - 1}&size=${itemsPerPage}`);
+                const response = await fetch(`http://localhost:8080/api/${type.toLowerCase()}?page=${currentPage - 1}&size=${itemsPerPage}`);
                 const result = await response.json();
     
                 setData(result.content || []);
@@ -93,14 +100,6 @@ function ItemLists({ type }) {
         return 0;
     });
 
-    const handleSelectItem = (id) => {
-        setSelectedItems((prevSelected) =>
-            prevSelected.includes(id)
-                ? prevSelected.filter(itemId => itemId !== id)  // remove if already selected
-                : [...prevSelected, id]                         // add if not selected
-        );
-    };
-
     // useEffect(() => {
     //     const fetchData = async () => {
     //         try {
@@ -116,8 +115,37 @@ function ItemLists({ type }) {
     //     fetchData();
     // }, [type, currentPage, itemsPerPage]);
 
-    
 
+    
+    function findUniqueKey(data) {
+        if (!data || data.length === 0) return null;
+    
+        const keys = Object.keys(data[0]);
+    
+        for (const key of keys) {
+            const seen = new Set();
+            let allUnique = true;
+    
+            for (const row of data) {
+                const value = row[key];
+                if (seen.has(value)) {
+                    allUnique = false;
+                    break;
+                }
+                seen.add(value);
+            }
+    
+            if (allUnique) {
+                return key; // Found a unique column!
+            }
+        }
+    
+        return null; // No unique field found
+    }
+
+    const idKey = findUniqueKey(sortedData);
+
+    
 
     return (
         <>
@@ -209,19 +237,25 @@ function ItemLists({ type }) {
                 <table>
                     <thead>
                         <tr className="hide">
-                        {type !== "ports" && (
+                        {type !== "Ports" && (
                         <div className="selectall-list">
                         <input
-                            type="checkbox"
-                            className="selectall-check"
-                            checked={selectedItems.length === data.length}
-                            onChange={(e) => {
-                                if (e.target.checked) {
-                                    setSelectedItems(data.map(item => item.id));
-                                } else {
-                                    setSelectedItems([]);
-                                }
-                            }}
+                        type="checkbox"
+                        className="selectall-check"
+                        checked={selectAll || selectedItems.length === data.length}
+                        onChange={(e) => {
+                            const checked = e.target.checked;
+
+                            if (checked) {
+                                setSelectAll(true);
+                                setSelectedItems([]);      // reset manual selection
+                                setDeselectedItems([]);    // reset manual unchecking
+                            } else {
+                                setSelectAll(false);
+                                setSelectedItems([]);
+                                setDeselectedItems([]);
+                            }
+                        }}
                         />
                                     </div>
                                     )}
@@ -231,7 +265,17 @@ function ItemLists({ type }) {
                                 onClick={() => handleSort(key)}
                                 className="sortable-header"
                             >
-                                <span className="header-label">{key}</span>
+                                <span className="header-label">
+                                {key
+                                    .split('_') // Split by underscore
+                                    .map(word =>
+                                    (word === "wpi" || word === 'mmsi') && word === word.toLowerCase()
+                                        ? word.toUpperCase() // Acronym: all caps (e.g., wpi → WPI)
+                                        : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Normal: Capitalize
+                                    )
+                                    .join(' ')
+                                }
+                                </span>
                                 {sortConfig.key === key && (
                                     <img
                                     src={dropdown}
@@ -245,22 +289,51 @@ function ItemLists({ type }) {
                     </thead>
                     <tbody>
                         {sortedData.map((row, i) => {
-                            const isSelected = selectedItems.includes(row.id);
-
+                            const isSelected = selectAll
+                            ? !deselectedItems.includes(row[idKey])
+                            : selectedItems.includes(row[idKey]);
                             return (
                                 <tr key={i} className={isSelected ? 'row-selected' : ''}>
-                                    {type !== "ports" && (
+                                    {type !== "Ports" && (
                                     <div className="selectall-list">
                                         <input
                                         type="checkbox"
                                         className="selectall-check"
-                                        checked={isSelected}
-                                        onChange={() => handleSelectItem(row.id)}
+                                        checked={
+                                            selectAll
+                                            ? !deselectedItems.includes(row[idKey])
+                                            : selectedItems.includes(row[idKey])
+                                        }
+                                        onChange={() => {
+                                            const id = row[idKey];
+
+                                            if (selectAll) {
+                                            // In select-all mode: toggle deselections
+                                            setDeselectedItems(prev =>
+                                                prev.includes(id)
+                                                ? prev.filter(item => item !== id)
+                                                : [...prev, id]
+                                            );
+                                            } else {
+                                            // In normal mode: toggle individual selections
+                                            setSelectedItems(prev =>
+                                                prev.includes(id)
+                                                ? prev.filter(item => item !== id)
+                                                : [...prev, id]
+                                            );
+                                            }
+                                        }}
                                         />
                                     </div>
                                     )}
-                                    {Object.values(row).map((value, j) => (
-                                        <td key={j}>{String(value)}</td>
+                                    {Object.entries(row).map(([key, value], j) => (
+                                    <td
+                                        key={j}
+                                        style={{ cursor: 'pointer'}}
+                                        onClick={() => navigate(`/${type}/${row[Object.keys(row)[0]]}`)}
+                                    >
+                                        {String(value)}
+                                    </td>
                                     ))}
                                 </tr>
                             );

@@ -300,6 +300,7 @@ public class InstanceService {
    
             // fill the instance's fields
             VesselInstanceDto instance = new VesselInstanceDto();
+            instance.setMmsi(vessel.getMmsi());
             instance.setEta(eta);
             instance.setDestination(destination);
             instance.setDraught(draught);

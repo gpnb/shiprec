@@ -247,7 +247,9 @@ public class StaticDataService {
     
             int countryId = Integer.parseInt(String.valueOf(vessel.getMmsi()).substring(0, 3));
             vessel.setCountry(countryRepo.findById(countryId).orElse(null));
-            vessel.setShiptype(typeRepo.findType(vessel.getShiptype_code()));
+            String resolvedType = typeRepo.findType(vessel.getShiptype_code());
+            vessel.setShiptype(resolvedType != null ? resolvedType : "Other");
+            
             return vessel;
     
         } catch (NumberFormatException e) {

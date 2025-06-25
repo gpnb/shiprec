@@ -10,6 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VesselInstanceDto {
+
+    private int mmsi;
     
     private Date time_received;
     

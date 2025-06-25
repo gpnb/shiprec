@@ -34,7 +34,7 @@
     height: 100%;
     border: 2px solid rgb(43, 61, 91);
     border-radius: 4px;
-    background-color: f9f9f9;
+    background-color: #f9f9f9;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
@@ -110,7 +110,7 @@
 }
 
 .dropdown-option.selected {
-    background-color: rgb(43, 61, 91,0.8);
+    background-color: rgb(43, 61, 91,0.6);
     color: white;
 }
 
@@ -119,7 +119,7 @@
 
 .dropdown-option:hover {
 
-    background-color: rgb(43, 61, 91,0.4);
+    background-color: rgb(43, 61, 91,0.8);
     color: white;
 }
 
@@ -200,6 +200,7 @@
 .itemlists-table {
     overflow-x: auto;
     max-height: 48vh;
+    min-height: 48vh;
     overflow: scroll;
   }
   
@@ -271,7 +272,7 @@
 }
 
 .row-selected {
-    background-color: rgba(42, 60, 90, 0.4); 
+    background-color: rgba(42, 60, 90, 0.6); 
     transition: background-color 0.2s ease;
     color: white;
 }
@@ -291,7 +292,7 @@
 }
 
 .row-selected:hover {
-    background-color: hsla(218, 36%, 26%, 0.40);
+    background-color: hsla(218, 36%, 26%, 0.6);
 }
 
 body {

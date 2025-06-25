@@ -22,8 +22,6 @@ public class VesselInstance {
     @EmbeddedId
     private VesselInstanceId id;
 
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mmsi")
     @MapsId("mmsi")  
@@ -57,7 +55,6 @@ public class VesselInstance {
 
     @Column
     private String destination;
-
 
     @Column
     private double draught;

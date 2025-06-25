@@ -11,7 +11,7 @@ import '../styles/toggle.css'
 import light from '../icons/Buttons/Light-outlined.png'
 import dark from '../icons/Buttons/Dark-outlined.png'
 import { useEffect } from "react";
-
+import { useNavigate } from 'react-router-dom';
 import cargo from '../icons/ships/cargo.png'
 import fishing from '../icons/ships/fishing.png'
 import navigation from '../icons/ships/navigation.png'
@@ -24,6 +24,8 @@ import tankers from '../icons/ships/tankers.png'
 import ship from '../icons/ships/cargo.png'
 import L from 'leaflet';
 import logo from '../icons/Logo/ShipRec.png'
+import logo_port from '../icons/Logo/PortRec.png'
+import portIcon from '../icons/ships/port.png'
 
 function ToggleDisplayMode({setDarkMode,darkMode}) {
     
@@ -133,7 +135,15 @@ function getShipType(type = '') {
 function Map() {
 
     {/* Change isRegistered to true if we need to see the user's abilities */}
-    const isRegistered = false;
+    let isRegistered = false;
+    // wrapped in try-catch in case retrieval of user fails
+    try {
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      isRegistered = currentUser?.isRegistered === true;
+    } catch (err) {
+      console.error("Couldn't get user from localStorage : ", err);
+    }
+    
     const isAdmin = false;
 
     const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
@@ -142,7 +152,19 @@ function Map() {
 
     const [liveVessels,setLiveVessels] = useState([]);
 
-    const [activeFilters,setActiveFilters] = useState(['all']);
+    const [activeFilters, setActiveFilters] = useState([
+      'cargo',
+      'fishing',
+      'navigation',
+      'passenger',
+      'other',
+      'pleasure',
+      'speed',
+      'tugs',
+      'tankers'
+    ]);
+
+    const navigate = useNavigate();
 
     const fakeVessel = {
       ship_name: "Test Vessel",
@@ -210,6 +232,25 @@ function Map() {
 
         // Cleanup on unmount
         return () => websocket.close();
+    }, []);
+
+      const [ports, setPorts] = useState(null);
+      const [error, setError] = useState(null);
+  
+      useEffect(() => {
+        const fetchPorts = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/api/ports/all`);
+                if (!res.ok) throw new Error("Failed to fetch Ports");
+                const result = await res.json();
+                setPorts(result);
+            } catch (err) {
+                console.error(err);
+                setError(err.message);
+            }
+        };
+    
+        fetchPorts();
     }, []);
     
     function getRotatedShipIcon(heading, imageUrl, size = [40, 40], classList = '') {
@@ -290,9 +331,62 @@ function Map() {
             />
 
 
+          {Array.isArray(ports) &&
+            ports
+              .filter(port => activeFilters.includes('all') || activeFilters.includes('ports'))
+              .map(port => (
+                <Marker
+                  key={port.id}
+                  position={[port.latitude, port.longitude]}
+                  style={{zIndex: 10001}}
+                  icon={getRotatedShipIcon(
+                    0,
+                    portIcon,
+                    [20, 20],
+                    darkMode ? 'dark-filter-portIcon' : ''
+                  )}
+                >
+                  <Popup className="port_popup" autoPan={false} offset={0}>
+                    <div className="popup_header">
+                      <div className="popup_header_2" style={{ backgroundColor: '#ab3b4c' }}>
+                        <img src={logo_port} alt="port" style={{ transform: 'translateY(3px)' }}/>
+                      </div>
+                      <div className="popup_title">
+                        <div className="vessel_name">{port.port || "Unnamed Port"}</div>
+                        <div className="meta_data">
+                          <div className="meta_line"><strong>WPI:</strong> {port.wpi || "N/A"}</div>
+                          <div className="meta_line" style={{ color: '#ab3b4c', filter: 'brightness(0.65)'}}><strong>Country:</strong> {port.country || "N/A"}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="popup_header_info_port">
+                      <div className="vessel_meta">
+                        <div className="meta_line_2"><strong>• Port Type:</strong> {port.latitude}</div>
+                        <div className="meta_line_2"><strong>• Port Size:</strong> {port.size}</div>
+                        <div className="meta_line_2"><strong>• Tidal Range:</strong> {port.tidal_range  >= 0 ? port.tidal_range + " m" : "N/A"}</div>
+                        <div className="meta_line_2"><strong>• Entrance Width:</strong> {port.entrance_width  >= 0 ? port.entrance_width + " m" : "N/A"}</div>
+                        <div className="meta_line_2"><strong>• Channel Depth:</strong> {port.channel_depth  >= 0 ? port.channel_depth + " m" : "N/A"}</div>
+                        <div className="meta_line_2"><strong>• Latitude:</strong> {port.latitude || "N/A"}</div>
+                        <div className="meta_line_2"><strong>• Longitude:</strong> {port.longitude || "N/A"}</div>
+                      </div>
+                    </div>
+
+                    <div className="popup_buttons">
+                        <button className="view_button" style={{ transform: 'translateX(16px)' }}>
+                          <div style={{ transform: 'translateY(1px)' }} onClick={() => navigate(`/Ports/${port.wpi}`)}>Port Details</div>
+                          
+                        </button>
+                    </div>
+                  </Popup>
+                </Marker>
+              ))}
+
+
+
               {Object.values(liveVessels).filter(vessel => activeFilters.includes('all') || activeFilters.includes(renderFilters(vessel.ship_type)))
               .map((vessel) => (
-                    <Marker key={vessel.ship_name} position={[vessel.latitude, vessel.longitude]}   icon={getRotatedShipIcon(
+                    <Marker key={vessel.ship_name} style={{zIndex: 10004}} position={[vessel.latitude, vessel.longitude]}   icon={getRotatedShipIcon(
                       vessel.heading || 0,
                       getShipIconByType(vessel.ship_type),
                       [40, 40],
@@ -306,7 +400,7 @@ function Map() {
                                   <div className="popup_title">
                                     <div className="vessel_name">{vessel.ship_name || "Unknown"}</div>
                                     <div className="meta_data">
-                                      <div className="meta_line"><strong>IMO:</strong> {vessel.imonumber || "N/A"}</div>
+                                      <div className="meta_line"><strong>IMO:</strong> {vessel.imonumber|| "N/A"}</div>
                                       <div className="meta_line" style={{ color: getBackgroundColorByShipType(vessel.ship_type), filter: 'brightness(0.65)'}} ><strong>Type:</strong> {getShipType(vessel.ship_type) || "N/A"}</div>
                                     </div>
                                   </div>
@@ -331,13 +425,13 @@ function Map() {
                                     </div>
                             
                                 <div className="popup_buttons">
-                                  <button className="view_button">
-                                    <div>Vessel Details</div>
+                                  <button className="view_button" onClick={() => navigate(`/Vessels/${vessel.mmsi}`)}>
+                                  <div style={{ transform: 'translateY(1px)' }}>Vessel Details</div>
                                   </button>
 
                                   {isRegistered && (
                                     <button className="add_fleet">
-                                      <div>Add to Fleet</div>
+                                      <div style={{ transform: 'translateY(1px)' }}>Add to Fleet</div>
                                     </button>
                                   )}
                                 </div>

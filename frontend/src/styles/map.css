@@ -41,6 +41,7 @@
     width: 5%;
     height: 10%;
     margin-bottom: 0%;
+    margin-top: -5%;
     margin-left: 12%;
     
 }
@@ -115,7 +116,14 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    
+}
+
+.port_popup {
+    height: 35vh;
+    width: 38vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .leaflet-popup-content {
@@ -132,9 +140,8 @@
     width: 25%;
     padding: 6px;
     border-radius: 12px;
-    
-    
 }
+
 
 .popup_header_2 {
     display: block; /* Use block instead of flex on img */
@@ -142,10 +149,11 @@
     height: auto;
     margin: auto; /* optional: centers image inside box */
     outline: 2px solid rgb(43, 61, 91,0.8);
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 0px 7px rgba(0, 0, 0, 0.2);
     padding: 6px;
     border-radius: 12px;
 }
+
 
 .popup_header_2 img {
 
@@ -170,7 +178,7 @@
     white-space: nowrap;      
     overflow: hidden;          
     text-overflow: ellipsis;   
-    max-width: 100%;   
+    max-width: 80%;   
     color: rgba(43, 61, 91);
 }
 
@@ -192,6 +200,14 @@
 }
 
 .popup_header_info{
+    display: flex;
+    flex-direction: row;
+    max-width: 100px;
+    max-height: 100px;
+    font-size: 11px;
+}
+
+.popup_header_info_port{
     display: flex;
     flex-direction: row;
     max-width: 100px;
