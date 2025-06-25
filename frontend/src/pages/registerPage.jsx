@@ -62,6 +62,11 @@ function RegisterPage() {
 
             const result = await fetchResult.text();
             if (fetchResult.ok) {
+                // save registered user to redirect to the right page after
+                const newUser = {...result, isRegistered: true};
+
+                localStorage.setItem("user", JSON.stringify(newUser));
+
                 alert("User Registered successfully.");
                 window.location.href = "/";  // redirect to the map page
             } else {
