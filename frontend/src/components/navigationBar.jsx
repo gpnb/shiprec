@@ -43,7 +43,6 @@ const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
         ? [{ icon: admin, label: "Admin Page", href: '/Admin'}, ...baseRegisteredTabs]
         : baseRegisteredTabs;
 
-
     return (
 
 
@@ -74,7 +73,17 @@ const NavigationBar = ({ isRegistered, isAdmin,currentTab}) => {
 
         <div className="bottom-tabs">
         {(isRegistered ? registeredTabs : guestTabs).map((tab, index) => (
-                <div  key={index} className={`tab ${tab.style || ""} ${currentTab === tab.label ? "active-tab" : ""}`}  onClick={() => window.location.href = tab.href}>
+                // <div  key={index} className={`tab ${tab.style || ""} ${currentTab === tab.label ? "active-tab" : ""}`}  onClick={() => window.location.href = tab.href}>
+                <div  key={index} className={`tab ${tab.style || ""} ${currentTab === tab.label ? "active-tab" : ""}`}  
+                    onClick={() => {
+                        if (tab.label === "Sign Out")  {
+                            localStorage.removeItem("user");
+                            window.location.href = "/SignIn";
+                        } else {
+                            window.location.href = tab.href;
+                        }
+                    }}
+                >
                 <img src={tab.icon} alt={tab.label} className="tab-icon" />
                 {isHovered && <span className="tab-label">{tab.label}</span>}
             </div>

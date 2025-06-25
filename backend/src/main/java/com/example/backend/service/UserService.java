@@ -2,8 +2,8 @@ package com.example.backend.service;
 import com.example.backend.entity.UserEntity;
 import com.example.backend.repo.UserRepo;
 import com.example.dto.UserDto;
-import com.example.backend.entity.Role;
-import com.example.backend.repo.RoleRepo;
+// import com.example.backend.entity.Role;
+// import com.example.backend.repo.RoleRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,8 +15,8 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired
-    private RoleRepo roleRepo;
+    // @Autowired
+    // private RoleRepo roleRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder; // for secure password storage
@@ -57,13 +57,11 @@ public class UserService {
         user.setBusiness(userDto.getBusiness());
         user.setEducation(userDto.getEducation());
         user.setNotificationsActive(userDto.getNotificationsActive());
+        user.setIsRegistered(true);
 
-        // no need for id and creationtimestamp
-        // also handle possible profile picture here 
-
-        // Set new user's role to user
-        Role role = roleRepo.findByRole("user");
-        user.setRole(role);
+        // // Set new user's role to user
+        // Role role = roleRepo.findByRole("user");
+        // user.setRole(role);
 
         // Save the user to the database
         userRepo.save(user);
@@ -71,7 +69,8 @@ public class UserService {
 
     // Handles login logic
     // password is the "raw" password
-    public UserEntity loginUser(String email, String password) throws Exception {
+    // Return UserDto instead of UserEntity, so as to not expose everything to the frontend
+    public UserDto loginUser(String email, String password) throws Exception {
 
         UserEntity user = userRepo.findByEmail(email);
         if (user == null) {
@@ -82,13 +81,22 @@ public class UserService {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
-        
-        // UserEntity user = userRepo.findByEmail(email);
-        if (user == null || !user.getPassword().equals(password)) {
-            throw new RuntimeException("Invalid credentials");
-        }
 
-        return user;
+        // Get the corresponding fields
+        UserDto dto = new UserDto();
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setCountry(user.getCountry());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setBusiness(user.getBusiness());
+        dto.setEducation(user.getEducation());
+        dto.setNotificationsActive(user.getNotificationsActive());
+        dto.setIsRegistered(user.getIsRegistered());
+        // dto.setRoleId(user.getRole() != null ? user.getRole().getId() : null);
+
+        return dto;
+
     }
 
 }

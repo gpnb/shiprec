@@ -10,7 +10,7 @@ import lombok.Setter;
 
 public class UserDto {
 
-    private Long roleId;
+    // private Long roleId;
 
     private String firstName;
 
@@ -29,5 +29,7 @@ public class UserDto {
     private String education;
 
     private Boolean notificationsActive;
+
+    private Boolean isRegistered;
 
 }

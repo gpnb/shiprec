@@ -2,12 +2,12 @@ package com.example.backend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+// import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+// import jakarta.persistence.JoinColumn;
+// import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -24,9 +24,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "role_id")
+    // private Role role;
     
     @Column(name = "first_name")
     private String firstName;
@@ -58,13 +58,17 @@ public class UserEntity {
     @Column(updatable = false, name = "creation_timestamp")
     private LocalDateTime creationTimestamp;
 
+    // Using this instead of role_id now
+    @Column(name = "is_registered")
+    private Boolean isRegistered = false; 
+
     // Constructor. Must be public for it to be visible in service
     public UserEntity() {
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    // public void setRole(Role role) {
+    //     this.role = role;
+    // }
 
     // Generate creation time stamp. Using this for constructor to stay clean
     @PrePersist

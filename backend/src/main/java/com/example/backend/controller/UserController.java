@@ -1,9 +1,8 @@
 package com.example.backend.controller;
 
-import com.example.backend.entity.UserEntity;
-import com.example.backend.repo.UserRepo;
 import com.example.backend.service.UserService;
 import com.example.dto.UserDto;
+import com.example.dto.LoginDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -26,13 +24,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepo userRepo;
-    
-    // @PostMapping("/login")
-    // public UserEntity login(@RequestBody UserEntity loginData) {
-    //     return userService.loginUser(loginData.getEmail(), loginData.getPassword());
-    // }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
@@ -46,6 +37,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> loginUser(@RequestBody LoginDto loginDto) {
+        try {
+            UserDto loggedInUser = userService.loginUser(loginDto.getEmail(), loginDto.getPassword());
+            return ResponseEntity.ok(loggedInUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }

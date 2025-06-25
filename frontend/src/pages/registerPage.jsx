@@ -57,13 +57,13 @@ function RegisterPage() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                credentials: "include", // required for allowCredentials
                 body: JSON.stringify(registerData),
             });
 
             const result = await fetchResult.text();
             if (fetchResult.ok) {
                 alert("User Registered successfully.");
+                window.location.href = "/";  // redirect to the map page
             } else {
                 alert(`Error registering user :  ${result}`);
             }
@@ -115,20 +115,6 @@ function RegisterPage() {
                         className="country-select"
                         classNamePrefix="rs"
                         />
-
-{/*
-<select id="country" className="country-select">
-                            <option value="">Choose your country...</option>
-                            <option value="US">United States</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="GR">Greece</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
-                            <option value="CN">China</option>
-                            <option value="JP">Japan</option>
-                            <option value="BR">Brazil</option>
-                            <option value="IN">India</option>
-                        </select> */}
 
                     <button type="submit" className="sign-button">Register</button>
     
