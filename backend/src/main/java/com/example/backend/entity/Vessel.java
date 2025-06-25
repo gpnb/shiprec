@@ -2,6 +2,8 @@ package com.example.backend.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,15 +19,17 @@ public class Vessel {
     private int mmsi;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "country_id")
     private CountryCode country;
 
 
-
     @OneToMany(fetch=FetchType.LAZY)
+    @JsonIgnore
     List<VesselInstance> vessel_instances;
 
     @OneToMany(fetch=FetchType.LAZY)
+    @JsonIgnore
     List<VesselInstance> child_vessels;
 
 

@@ -20,7 +20,9 @@ import com.example.backend.entity.CountryCode;
 import com.example.backend.entity.NavigationalStatus;
 import com.example.backend.entity.ShipType;
 import com.example.backend.entity.Vessel;
+import com.example.backend.entity.Port;
 import com.example.backend.repo.CountryRepo;
+import com.example.backend.repo.PortRepo;
 import com.example.backend.repo.ShipTypeRepo;
 import com.example.backend.repo.StatusRepo;
 import com.example.backend.repo.VesselRepo;
@@ -42,6 +44,9 @@ public class StaticDataService {
 
     @Autowired
     private VesselRepo vesselRepo;
+
+    @Autowired
+    private PortRepo portRepo;
     
     // reads the contents of any csv file
     @SuppressWarnings({"CallToPrintStackTrace", "ConvertToStringSwitch"})
@@ -59,7 +64,11 @@ public class StaticDataService {
             if("../data-source/data/Navigational Status.csv".equals(filePath)) {
                 parser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setDelimiter(';').setSkipHeaderRecord(false).build());
             }
-            else if("../data-source/data/Ship Types List.csv".equals(filePath) ||"../data-source/data/vessels.csv".equals(filePath) ) {
+            else if(
+                "../data-source/data/Ship Types List.csv".equals(filePath) ||
+                "../data-source/data/vessels.csv".equals(filePath) ||
+                "../data-source/data/ports.csv".equals(filePath)
+            ) {
                 parser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build());
             }
 
@@ -195,6 +204,30 @@ public class StaticDataService {
                 e.printStackTrace();
             }
         }
+
+        // Initialize Ports
+        if (portRepo.count() <= 0) {
+            final String FILE_PATH = "../data-source/data/ports.csv";
+
+            try (
+                Reader reader = new BufferedReader(new FileReader(FILE_PATH));
+                CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build())
+            ) {
+                List<CSVRecord> records = parser.getRecords();
+
+                List<Port> ports = records.stream()
+                    .map(this::recordToPort)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+
+                portRepo.saveAll(ports);
+                System.out.println("Imported ports: " + ports.size());
+
+            } catch (IOException e) {
+                System.err.println("Failed to load ports CSV:");
+                e.printStackTrace();
+            }
+        }
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
@@ -219,6 +252,28 @@ public class StaticDataService {
     
         } catch (NumberFormatException e) {
             System.err.println("Skipping row due to error: " + row);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @SuppressWarnings("CallToPrintStackTrace")
+    private Port recordToPort(CSVRecord row) {
+        try {
+            return new Port(
+                Integer.parseInt(row.get("wpi")),
+                row.get("port"),
+                row.get("country"),
+                row.get("size"),
+                row.get("type"),
+                Double.parseDouble(row.get("tidal_range")),
+                Double.parseDouble(row.get("entrance_width")),
+                Double.parseDouble(row.get("channel_depth")),
+                Double.parseDouble(row.get("latitude")),
+                Double.parseDouble(row.get("longitude"))
+            );
+        } catch (Exception e) {
+            System.err.println("Skipping port row due to error: " + row);
             e.printStackTrace();
             return null;
         }
