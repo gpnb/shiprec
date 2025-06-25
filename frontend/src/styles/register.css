@@ -160,3 +160,12 @@
   .rs__option {
     height: 2rem;
   }
+
+
+/* for login : error message */
+.login-error {
+  color: #e74c3c;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+}
