@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../styles/myprofile.css'
 import editIcon from '../icons/Misc/Edit_dark.png';
-import arrowIcon from '../icons/Misc/Arrow.png'
-import Return from "../components/return";
 import Select from "react-select";
 import { getData } from "country-list";
 

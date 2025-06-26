@@ -303,3 +303,15 @@ main, .itemlists-container, .itemlists-card {
     min-height: auto;
     height: auto;
 }
+
+.itemDetails {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10rem;
+    padding: 0.5rem;
+}
+
+.details {
+    margin-left: 50rem;
+    align-self: center;
+}

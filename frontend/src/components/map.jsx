@@ -143,7 +143,7 @@ function Map() {
     } catch (err) {
       console.error("Couldn't get user from localStorage : ", err);
     }
-    
+
     const isAdmin = false;
 
     const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
@@ -167,6 +167,7 @@ function Map() {
     const navigate = useNavigate();
 
     const fakeVessel = {
+      mmsi: 12930812,
       ship_name: "Test Vessel",
       latitude: 37.86375081807442,             
       longitude: 23.749947150715165,
@@ -362,7 +363,7 @@ function Map() {
 
                     <div className="popup_header_info_port">
                       <div className="vessel_meta">
-                        <div className="meta_line_2"><strong>• Port Type:</strong> {port.latitude}</div>
+                        <div className="meta_line_2"><strong>• Port Type:</strong> {port.type}</div>
                         <div className="meta_line_2"><strong>• Port Size:</strong> {port.size}</div>
                         <div className="meta_line_2"><strong>• Tidal Range:</strong> {port.tidal_range  >= 0 ? port.tidal_range + " m" : "N/A"}</div>
                         <div className="meta_line_2"><strong>• Entrance Width:</strong> {port.entrance_width  >= 0 ? port.entrance_width + " m" : "N/A"}</div>
@@ -400,7 +401,7 @@ function Map() {
                                   <div className="popup_title">
                                     <div className="vessel_name">{vessel.ship_name || "Unknown"}</div>
                                     <div className="meta_data">
-                                      <div className="meta_line"><strong>IMO:</strong> {vessel.imonumber|| "N/A"}</div>
+                                      <div className="meta_line"><strong>MSSI:</strong> {vessel.mmsi|| "N/A"}</div>
                                       <div className="meta_line" style={{ color: getBackgroundColorByShipType(vessel.ship_type), filter: 'brightness(0.65)'}} ><strong>Type:</strong> {getShipType(vessel.ship_type) || "N/A"}</div>
                                     </div>
                                   </div>
@@ -408,7 +409,8 @@ function Map() {
                                   <div className="popup_header_info">
                                     
                                       <div className="vessel_meta">
-                                          
+                                        
+                                        <div className="meta_line_2"><strong>• IMO:</strong> {vessel.imonumber|| "N/A"}</div>
                                         <div className="meta_line_2"><strong>• Status:</strong> {vessel.navigational_status || "N/A"}</div>
                                         <div className="meta_line_2"><strong>• Speed:</strong> {vessel.speed_over_ground} knots</div>
                                             

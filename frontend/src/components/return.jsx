@@ -9,7 +9,7 @@ function Return () {
 
     return (
         <div className="btn-container">
-            <button type="button" className="return-btn" onClick={() => navigate('/')}>
+            <button type="button" className="return-btn" onClick={() => navigate(-1)}>
                 <img src={arrow} alt="Arrow icon"/>
                 Return
             </button>

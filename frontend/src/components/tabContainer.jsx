@@ -1,25 +1,31 @@
 import React, { useState } from "react";
 import '../styles/tab.css'
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const TabContainer = ({ currentTab, username, tabs = [], children }) => {
-    const navigate = useNavigate();
+    
+  const navigate = useNavigate();
     const location = useLocation();
 
     // Always ensure tabs is an array
     const tabList = Array.isArray(tabs) ? tabs : [];
 
-    // Extract the last part of the current URL
-    const currentPath = location.pathname.split("/").pop();
+    const [activeTab, setActiveTab] = useState(0);
 
-    // Get initial active tab index
-    const activeIndex = tabList.findIndex(
-      (tab) =>
-        tab.href === currentPath ||
-        (tab.href === "" && (currentPath === currentTab || currentPath === ""))
-    );
-
-    const [activeTab, setActiveTab] = useState(activeIndex === -1 ? 0 : activeIndex);
+    useEffect(() => {
+      const currentPath = location.pathname.split("/").pop();
+    
+      const newIndex = tabList.findIndex(
+        (tab) =>
+          tab.href.split("/").pop() === currentPath ||
+          (tab.href === "" && (currentPath === currentTab || currentPath === ""))
+      );
+    
+      if (newIndex !== -1 && newIndex !== activeTab) {
+        setActiveTab(newIndex);
+      }
+    }, [location.pathname, tabList]);
 
     const handleTabClick = (i, href) => {
       setActiveTab(i);

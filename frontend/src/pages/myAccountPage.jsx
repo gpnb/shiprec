@@ -34,11 +34,11 @@ function MyAccountPage() {
 
     return (
         <div className="body">
-            <NavigationBar isRegistered = {true} currentTab="My Account"/>
+            <NavigationBar isRegistered = {user?.isRegistered} currentTab="My Account"/>
             {/* Fix this later so that when the user is a guest, they don't get access to this page */}
-            <TabContainer currentTab="My Account" username={user?.firstName || "Guest"} tabs={accountTabs}>
+            <TabContainer currentTab="My Account" username={user?.firstName + ' ' + user?.lastName || "Guest"} tabs={accountTabs}>
                 <Routes>
-                <Route path="/" element={<MyProfilePage/>}/>
+                <Route index element={<MyProfilePage/>}/>
                 <Route path="/editprofile" element={<EditProfilePage/>}/>
                 <Route path="fleets"/>
                 <Route path="areas"/>
