@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
 
 
 // @CrossOrigin(origins = "*")
@@ -25,18 +27,32 @@ public class UserController {
     private UserService userService;
 
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
+    // @PostMapping("/register")
+    // public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
 
-        System.out.println("Received request in controller with email: " + userDto.getEmail());
+    //     System.out.println("Received request in controller with email: " + userDto.getEmail());
+
+    //     try {
+    //         userService.createUser(userDto);
+    //         return ResponseEntity.ok("User registered successfully");
+    //     } catch (RuntimeException e) {
+    //         return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: " + e.getMessage());
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+    //     }
+    // }
+    
+    // New version that saves user data too
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
 
         try {
-            userService.createUser(userDto);
-            return ResponseEntity.ok("User registered successfully");
+            UserDto createdUser = userService.createUser(userDto);
+            return ResponseEntity.ok(createdUser);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -49,4 +65,19 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    // To update the user's info on their profile, etc
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+
+        System.out.println("Received PUT request to update user with id: " + id); // debug
+
+        try {
+            UserDto updatedUser = userService.updateUser(id, userDto);
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // if updating sth that doesn't exist
+        }
+    }
+
 }

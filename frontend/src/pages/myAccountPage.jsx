@@ -1,10 +1,12 @@
 import React from "react";
+import { useState, useEffect } from "react";
 // import { useState,useEffect } from 'react';
 import TabContainer from "../components/tabContainer";
 import NavigationBar from "../components/navigationBar";
 import { Routes, Route } from "react-router-dom";
 
 import MyProfilePage from "../pages/myProfilePage";
+import EditProfilePage from "../pages/editProfilePage";
 import Return from "../components/return";
 // import MyFleetsPage from "../pages/myFleetsPage";
 // import MyAreasPage from "../pages/myAreasPage";
@@ -12,19 +14,32 @@ import Return from "../components/return";
 
 function MyAccountPage() {
 
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const currentUser = localStorage.getItem('user');
+
+        if (currentUser) {
+            setUser(JSON.parse(currentUser));
+        }
+    }, []);
+    
+
     const accountTabs = [
         { label: "My Profile", href: "/MyAccount" },
         { label: "My Fleets", href: "/MyAccount/fleets" },
         { label: "My Areas", href: "/MyAccount/areas" },
         { label: "My Notifications", href: "/MyAccount/notifications" },
-      ];
+    ];
 
     return (
         <div className="body">
             <NavigationBar isRegistered = {true} currentTab="My Account"/>
-            <TabContainer currentTab="My Account" username="Athanasios" tabs={accountTabs}>
-            <Routes>
+            {/* Fix this later so that when the user is a guest, they don't get access to this page */}
+            <TabContainer currentTab="My Account" username={user?.firstName || "Guest"} tabs={accountTabs}>
+                <Routes>
                 <Route path="/" element={<MyProfilePage/>}/>
+                <Route path="/editprofile" element={<EditProfilePage/>}/>
                 <Route path="fleets"/>
                 <Route path="areas"/>
                 <Route path="notifications"/>

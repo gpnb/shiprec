@@ -49,8 +49,6 @@ function RegisterPage() {
     const handleSubmit = async(e) => {
         e.preventDefault(); // this is to prevent register form reload
 
-        console.log("Submitting registration form...", registerData); // to debug
-
         try {
             const fetchResult = await fetch("http://localhost:8080/api/users/register", {
                 method: "POST",
@@ -60,7 +58,9 @@ function RegisterPage() {
                 body: JSON.stringify(registerData),
             });
 
-            const result = await fetchResult.text();
+            const result = await fetchResult.json();
+            localStorage.setItem("user", JSON.stringify(result)); // store user info here as well
+
             if (fetchResult.ok) {
                 // save registered user to redirect to the right page after
                 const newUser = {...result, isRegistered: true};
@@ -70,7 +70,7 @@ function RegisterPage() {
                 alert("User Registered successfully.");
                 window.location.href = "/";  // redirect to the map page
             } else {
-                alert(`Error registering user :  ${result}`);
+                alert(`Error registering user: ${JSON.stringify(result)}`);
             }
         } catch (err) {
             alert("Failed to reach backend : " + err.message);
@@ -109,7 +109,6 @@ function RegisterPage() {
                         </div>
                     </div>
 
-                    {/* Drop-down style to select country -> add more later or use database */}
                     <label htmlFor="country">Country*</label>
                         <Select
                         id="country"

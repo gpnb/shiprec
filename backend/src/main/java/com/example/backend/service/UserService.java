@@ -21,29 +21,8 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder; // for secure password storage
     
-    // Creates a new user 
-    public void createUser(UserDto userDto) throws Exception {
-
-        // DEBUGGING 
-        // System.out.println("Checking for email: " + userDto.getEmail());
-        // System.out.println("FirstName: " + userDto.getFirstName());
-        // System.out.println("LastName: " + userDto.getLastName());
-        // System.out.println("Country: " + userDto.getCountry());
-        // System.out.println("Password: " + userDto.getPassword());
-        // System.out.println("Phone: " + userDto.getPhoneNumber());
-        // System.out.println("Business: " + userDto.getBusiness());
-        // System.out.println("Education: " + userDto.getEducation());
-        // System.out.println("NotificationsActive: " + userDto.getNotificationsActive());
-        // System.out.println("Received user DTO: " + userDto);
-
-
-        // UserEntity existing = userRepo.findByEmail(userDto.getEmail().toLowerCase());
-        // System.out.println("Existing user: " + (existing != null ? existing.getEmail() : "null"));
-        // Throw exception if user exists already - keep this after removing debugs.
-        // if (existing != null) {
-        //     throw new RuntimeException("This email is already in use.");
-        // }
-        // END OF DEBUGGING
+    // Creates a new user
+    public UserDto createUser(UserDto userDto) throws Exception {
 
         // Create a new user instance
         UserEntity user = new UserEntity();
@@ -65,6 +44,21 @@ public class UserService {
 
         // Save the user to the database
         userRepo.save(user);
+
+        // Make the dto that the function will return, with user's data
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setCountry(user.getCountry());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setBusiness(user.getBusiness());
+        dto.setEducation(user.getEducation());
+        dto.setNotificationsActive(user.getNotificationsActive());
+        dto.setIsRegistered(true);
+
+        return dto;
     }
 
     // Handles login logic
@@ -84,6 +78,7 @@ public class UserService {
 
         // Get the corresponding fields
         UserDto dto = new UserDto();
+        dto.setId(user.getId());
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
@@ -96,7 +91,39 @@ public class UserService {
         // dto.setRoleId(user.getRole() != null ? user.getRole().getId() : null);
 
         return dto;
-
     }
+
+    // Handles update logic, for example in the user's "Edit Profile" function
+    public UserDto updateUser(Long id, UserDto userDto) throws Exception {
+        UserEntity user = userRepo.findById(id).orElse(null);   
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setCountry(userDto.getCountry());
+        user.setEducation(userDto.getEducation());
+        user.setBusiness(userDto.getBusiness());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+
+        userRepo.save(user);
+
+        UserDto dto = new UserDto();    // the updated user info we will return
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setCountry(user.getCountry());
+        dto.setEducation(user.getEducation());
+        dto.setBusiness(user.getBusiness());
+        dto.setPhoneNumber(user.getPhoneNumber());
+
+        dto.setEmail(user.getEmail());
+        dto.setIsRegistered(user.getIsRegistered());
+        dto.setNotificationsActive(user.getNotificationsActive());
+        dto.setId(user.getId());
+
+        return dto;
+    }
+
 
 }

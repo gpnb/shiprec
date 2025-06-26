@@ -6,11 +6,11 @@ import lombok.Setter;
 
 @NoArgsConstructor // lombok generates α default constructor with this
 @Getter            // with getter and setter, there is no need to write anything manually
-@Setter 
+@Setter
 
 public class UserDto {
 
-    // private Long roleId;
+    private Long id;
 
     private String firstName;
 
