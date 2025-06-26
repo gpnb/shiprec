@@ -34,23 +34,7 @@ function FAQ() {
     {
       question: '• How can I monitor a vessel’s cargo throughout a voyage?',
       answer: 'Our Cargo Monitoring feature provides real-time cargo updates if supported by the vessel’s systems and your subscription plan.'
-    },
-    {
-      question: '• Overflow Test Question I',
-      answer: 'Testing if the scrollable tabs works!!!'
-    },
-    {
-      question: '• Overflow Test Question II',
-      answer: 'Testing if the scrollable tabs works!!!'
-    },
-    {
-      question: '• Overflow Test Question III',
-      answer: 'Testing if the scrollable tabs works!!!'
-    },
-    {
-      question: '• Overflow Test Question IV',
-      answer: 'Testing if the scrollable tabs works!!!'
-    },
+    }
   ];
 
     const [activeIndex, setActiveIndex] = useState(null);

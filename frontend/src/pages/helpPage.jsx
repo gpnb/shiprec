@@ -6,9 +6,20 @@ import { Routes, Route } from "react-router-dom";
 import Contact from "../pages/contact";
 import FAQ from "../pages/faq";
 import Return from "../components/return";
+import { useState, useEffect } from "react";
 
 
 function HelpPage() {
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const currentUser = localStorage.getItem('user');
+
+        if (currentUser) {
+            setUser(JSON.parse(currentUser));
+        }
+    }, []);
 
     const accountTabs = [
         { label: "Frequently Asked Questions (FAQ)  ", href: "/Help" },
@@ -17,7 +28,7 @@ function HelpPage() {
 
     return (
         <div className="body">
-            <NavigationBar isRegistered = {true} currentTab="Help"/>
+            <NavigationBar isRegistered = {user?.isRegistered} currentTab="Help"/>
             <TabContainer currentTab="Help" username="" tabs={accountTabs}>
             <Routes>
                 <Route path="/"  element={<FAQ/>}/>
