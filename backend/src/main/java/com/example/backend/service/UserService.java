@@ -2,8 +2,6 @@ package com.example.backend.service;
 import com.example.backend.entity.UserEntity;
 import com.example.backend.repo.UserRepo;
 import com.example.dto.UserDto;
-// import com.example.backend.entity.Role;
-// import com.example.backend.repo.RoleRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,9 +12,6 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
-
-    // @Autowired
-    // private RoleRepo roleRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder; // for secure password storage
@@ -30,17 +25,13 @@ public class UserService {
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword())); // update here
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setCountry(userDto.getCountry());
         user.setBusiness(userDto.getBusiness());
         user.setEducation(userDto.getEducation());
         user.setNotificationsActive(userDto.getNotificationsActive());
         user.setIsRegistered(true);
-
-        // // Set new user's role to user
-        // Role role = roleRepo.findByRole("user");
-        // user.setRole(role);
 
         // Save the user to the database
         userRepo.save(user);
@@ -62,7 +53,6 @@ public class UserService {
     }
 
     // Handles login logic
-    // password is the "raw" password
     // Return UserDto instead of UserEntity, so as to not expose everything to the frontend
     public UserDto loginUser(String email, String password) throws Exception {
 
@@ -88,7 +78,6 @@ public class UserService {
         dto.setEducation(user.getEducation());
         dto.setNotificationsActive(user.getNotificationsActive());
         dto.setIsRegistered(user.getIsRegistered());
-        // dto.setRoleId(user.getRole() != null ? user.getRole().getId() : null);
 
         return dto;
     }

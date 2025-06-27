@@ -17,6 +17,8 @@ function EditProfilePage() {
     }));
 
     const [selectedCountry, setSelectedCountry] = useState(null);
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const currentUser = localStorage.getItem('user');
@@ -30,20 +32,8 @@ function EditProfilePage() {
         }
     }, []);
 
-    const [user, setUser] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const currentUser = localStorage.getItem('user');
-        if (currentUser) {
-            setUser(JSON.parse(currentUser));
-        }
-    }, []);
-
-
-    // Do sth better here?
     if (!user) {
-        console.log("Error :Could not fetch any user");
+        console.log("Error : Could not fetch any user");
         return <div>Loading user (editing profile)...</div>;
     }
 
@@ -80,7 +70,8 @@ function EditProfilePage() {
 
         } catch (error) {
             console.error("Failed to update user:", error);
-            alert("Error updating profile. Please try again.");        }
+            alert("Error updating profile. Please try again."); 
+        }
     }
 
 
@@ -130,16 +121,15 @@ function EditProfilePage() {
                 <label>Phone Number</label>
                 <input type="text" name="phoneNumber" value={user.phoneNumber || ""} onChange={handleFieldChange}/>
             </div>
+        </form>
 
-
-            <div className="button-container">
-            <div></div>
-            <button type="submit" className="edit-button">
+        <div className="button-container">
+        <div></div>
+            <button type="button" className="edit-button" onClick={handleSubmit}>
                 Save Changes
                 <img src={editIcon} alt="Edit icon" className="edit-icon" />
             </button>
         </div>
-        </form>
         </div>
     </div>
     );

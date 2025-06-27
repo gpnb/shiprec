@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import '../styles/register.css'
 import logo from '../icons/Logo/ShipRec.png'
 
@@ -18,7 +18,7 @@ function SignInPage() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-            },
+                },
             body: JSON.stringify({email, password}),
         });
         
@@ -29,7 +29,7 @@ function SignInPage() {
         const resp_data = await response.json();
         console.log("Login success:", resp_data);
 
-        localStorage.setItem("user", JSON.stringify(resp_data));    // save user info - in localstorage for now
+        localStorage.setItem("user", JSON.stringify(resp_data));    // save user info
         
         // Redirect to map page:
         window.location.href = "/";
@@ -81,7 +81,7 @@ function SignInPage() {
 
                     <button type="submit" className="sign-button">Sign In</button>
 
-                    {/* for the wrong credentials error */}
+                    {/* For the wrong credentials error */}
                     {error && <p className="login-error">{error}</p>} 
 
                     <div className="register-link">

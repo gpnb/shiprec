@@ -27,7 +27,7 @@ function RegisterPage() {
         country: "",
     });
 
-    // to correctly get country chosen
+    // To correctly get country chosen
     useEffect(() => {
         if (selectedCountry) {
             setRegisterData((prev) => ({
@@ -59,10 +59,10 @@ function RegisterPage() {
             });
 
             const result = await fetchResult.json();
-            localStorage.setItem("user", JSON.stringify(result)); // store user info here as well
+            localStorage.setItem("user", JSON.stringify(result));
 
             if (fetchResult.ok) {
-                // save registered user to redirect to the right page after
+                // Save registered user to redirect to the right page after
                 const newUser = {...result, isRegistered: true};
 
                 localStorage.setItem("user", JSON.stringify(newUser));

@@ -19,9 +19,8 @@ function MyProfilePage() {
         }
     }, []);
 
-    // Do sth better here
     if (!user) {
-        console.log("Error :Could not fetch any user");
+        console.log("Error : Could not fetch any user");
         return <div>Loading user...</div>;
     }
 
