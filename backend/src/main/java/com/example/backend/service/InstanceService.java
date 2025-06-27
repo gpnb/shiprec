@@ -362,7 +362,6 @@ public class InstanceService {
             }
         }
 
-        sendToClient(message);
 
         try {
             saveNewInstance(message);
