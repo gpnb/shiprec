@@ -1,5 +1,7 @@
 package com.example.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,5 +33,7 @@ public class UserDto {
     private Boolean notificationsActive;
 
     private Boolean isRegistered;
+
+    private LocalDateTime creationTimestamp;
 
 }

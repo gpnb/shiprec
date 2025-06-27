@@ -1,0 +1,156 @@
+/* Styles for the toggle switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; 
+    left: 0;
+    right: 0; 
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 26px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2c3e50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(25px);
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* Styles for the form */
+.settings-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 600px;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    height: 500px;
+    padding-right:10px;
+}
+
+.settings-form-value {
+    font-size: 20px;
+    color: #34495e;
+    margin-left: 10px;
+}
+
+
+.settings-form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    justify-content: flex-start;
+    gap:12px;
+}
+
+.settings-form-group label {
+    width: 200px;
+    font-weight: 600;
+    font-size: 20px;
+    color: #2c3e50;
+    text-align: left;
+}
+
+.settings-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    padding: 20px 30px;
+    border-radius: 20px;
+    width: 100%;
+    height: 500px;
+    max-width: 1400px;
+}
+
+.settings-card h2 {
+    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+
+/* Styles for the buttons / actions */
+.settings-action {
+    background: none;
+    border: none;
+    color: #d07c47;
+    font-weight: 500;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    flex: 1;
+}
+
+.settings-action:hover {
+    text-decoration: underline;
+}
+
+.delete-section {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.delete-account {
+    background: none;
+    color: #f44336;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.delete-account:hover {
+    text-decoration: underline;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+

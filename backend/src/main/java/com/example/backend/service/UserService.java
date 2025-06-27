@@ -48,6 +48,7 @@ public class UserService {
         dto.setEducation(user.getEducation());
         dto.setNotificationsActive(user.getNotificationsActive());
         dto.setIsRegistered(true);
+        dto.setCreationTimestamp(user.getCreationTimestamp());
 
         return dto;
     }
