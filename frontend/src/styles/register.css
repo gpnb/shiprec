@@ -149,23 +149,22 @@
 
 }
 
-  
+
 .rs__menu {
-    z-index: 9999;          
+    z-index: 9999;
     min-height: 13.5rem;
     overflow-y: auto;
-  
-  }
+}
 
-  .rs__option {
+.rs__option {
     height: 2rem;
-  }
+}
 
 
 /* for login : error message */
 .login-error {
-  color: #e74c3c;
-  margin-top: 10px;
-  font-weight: bold;
-  text-align: center;
+    color: #e74c3c;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
 }
