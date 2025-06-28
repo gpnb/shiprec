@@ -50,7 +50,7 @@ function RegisterPage() {
         e.preventDefault(); // this is to prevent register form reload
 
         try {
-            const fetchResult = await fetch("http://localhost:8080/api/users/register", {
+            const fetchResult = await fetch("https://localhost:8080/api/users/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -49,7 +49,7 @@ function EditProfilePage() {
         
         try {
             // Get the value of the user's id ($) and inject it into api/users/
-            const response = await fetch(`http://localhost:8080/api/users/${user.id}`, {
+            const response = await fetch(`https://localhost:8080/api/users/${user.id}`, {
                 method: "PUT", // since we're updating something already existing
                 headers: {
                     "Content-Type": "application/json",

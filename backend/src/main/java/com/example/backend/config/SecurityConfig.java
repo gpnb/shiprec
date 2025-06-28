@@ -37,7 +37,7 @@ public class SecurityConfig {
         // configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 
         // Added by Maria
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("https://localhost:3000"));
         configuration.setAllowedHeaders(Arrays.asList("*")); // allow all headers
         configuration.setAllowCredentials(true);
         // End of added by Maria

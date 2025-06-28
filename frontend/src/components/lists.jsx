@@ -34,7 +34,7 @@ function ItemLists({ type }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/${type.toLowerCase()}?page=${currentPage - 1}&size=${itemsPerPage}`);
+                const response = await fetch(`https://localhost:8080/api/${type.toLowerCase()}?page=${currentPage - 1}&size=${itemsPerPage}`);
                 const result = await response.json();
     
                 setData(result.content || []);

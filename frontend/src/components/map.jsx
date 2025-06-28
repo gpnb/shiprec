@@ -193,7 +193,8 @@ function Map() {
     }, [ws]);
 
     useEffect(() => {
-        const websocket = new WebSocket('ws://localhost:8080/ws');
+        const websocket = new WebSocket('wss://localhost:8080/ws');
+
         setWs(websocket);
 
         websocket.onopen = () => console.log('Connected to WebSocket server');
@@ -241,7 +242,7 @@ function Map() {
       useEffect(() => {
         const fetchPorts = async () => {
             try {
-                const res = await fetch(`http://localhost:8080/api/ports/all`);
+                const res = await fetch(`https://localhost:8080/api/ports/all`);
                 if (!res.ok) throw new Error("Failed to fetch Ports");
                 const result = await res.json();
                 setPorts(result);

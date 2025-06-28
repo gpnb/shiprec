@@ -1,5 +1,6 @@
+logs/*
 kafka/logs/*
 kafka.log
 /data-source/data/*
-
+/logs
 !ports.csv
