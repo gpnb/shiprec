@@ -1,3 +1,23 @@
+.contactUs-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.contactUs-card {
+  background-color: #f9f9f9;
+  padding: 20px 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 1400px;
+
+  text-align: center;
+}
+
+
+
 .column-container {
     display: flex;
     flex-direction: column;
@@ -122,12 +142,128 @@
     margin-right: 0.5rem;
 }
 
+
+.contact-container {
+  display: flex;
+  flex-direction: row;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+
+.contact-left {
+  width: 28%;
+  padding-right: 2rem;
+  text-align: left;
+}
+
+.contact-left h2 {
+  padding-top: 0.5rem;
+  color: #cc7d51;
+  font-weight: 400;
+  text-align: left;
+  font-size: 32px;
+  padding-bottom: 1rem;
+}
+
+.contact-left h3 {
+  color: #2b3d5b;
+  font-weight: 500;
+  font-style: italic;
+  margin-top: 0.5rem;
+  font-size: 36px;
+  padding-bottom: 1rem;
+}
+
+.contact-left p {
+  color: rgb(43, 61, 91);
+  font-size: 1rem;
+  margin-top: 1rem;
+  font-size: 28px;
+}
+
+.contact-form {
+
+  width: 60%;
+  display: flex;
+
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 20px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-row label {
+  width: 250px;
+  font-weight: 500;
+  font-size: 28px;
+  color: #2b3d5b;
+  text-align: left;
+}
+
+.form-row input,
+.form-row textarea {
+  flex: 1;
+  border: 3px solid rgb(43, 61, 91,0.3);
+  border-radius: 15px;
+  padding: 0.7rem;
+  font-size: 20px;
+}
+
+.form-row textarea::placeholder{
+  resize: vertical;
+  height: 120px;
+  font-style: italic;
+  font-weight: 100;
+  font-size: 28px;
+}
+
+.form-row textarea{
+  resize: vertical;
+  height: 120px;
+}
+
+.full-width {
+  align-items: flex-start;
+
+}
+
+.full-width label {
+  margin-top: 0.7rem;
+
+}
+
+
+.submit-button {
+  align-self: flex-end;
+  padding: 0.6rem 2rem;
+  margin-top: 8vh;
+  background-color: #cd8152;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  font-size: 18px;
+}
+
+.submit-button:hover {
+  filter:brightness(0.9);
+}
+
+
+
 /* to fix error of form taking up more space downwards */
 body {
     margin: 0;
 }
 
-main, .help-container, .help-card {
+main, .help-container, .help-card, .contactUs-container, .contactUs-card {
     min-height: auto;
     height: auto;
 }
