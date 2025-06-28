@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import '../styles/help.css'
 
 
 function Contact() {
+
+  const [message, setMessage] = useState({ type: '', text: '' });
+
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -16,15 +18,42 @@ function Contact() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can replace this with API call or email logic
-    console.log('Form submitted:', form);
+  
+    try {
+      const response = await fetch("https://localhost:8080/api/queries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+  
+      if (response.ok) {
+        setMessage({ type: 'success', text: 'Query submitted successfully!' });
+        setForm({ firstName: '', lastName: '', email: '', phone: '', question: '' });
+      } else {
+        setMessage({ type: 'error', text: 'Submission failed.' });
+      }
+    } catch (err) {
+      setMessage({ type: 'error', text: 'Something went wrong.' });
+    }
+
+    setTimeout(() => {
+      setMessage({ type: '', text: '' });
+    }, 4000);    
   };
 
   return (
     <div className="contactUs-container">
-        <div className="contactUs-card">
+        {message.text && (
+          <div className={`popup-message ${message.type}`}>
+            {message.text}
+          </div>
+        )}
+        <div className="contactUs-card">              
+
           <div className="contact-container">
             <div className="contact-left">
               <h2>Contact Us</h2>
