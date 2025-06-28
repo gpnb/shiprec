@@ -96,6 +96,7 @@ public class UserService {
         user.setEducation(userDto.getEducation());
         user.setBusiness(userDto.getBusiness());
         user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setNotificationsActive(userDto.getNotificationsActive());
 
         userRepo.save(user);
 
