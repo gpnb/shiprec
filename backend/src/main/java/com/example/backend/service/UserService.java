@@ -1,6 +1,8 @@
 package com.example.backend.service;
 import com.example.backend.entity.UserEntity;
 import com.example.backend.repo.UserRepo;
+import com.example.dto.EmailChangeDto;
+import com.example.dto.PasswordChangeDto;
 import com.example.dto.UserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class UserService {
         user.setCountry(userDto.getCountry());
         user.setBusiness(userDto.getBusiness());
         user.setEducation(userDto.getEducation());
-        user.setNotificationsActive(userDto.getNotificationsActive());
+        user.setNotificationsActive(userDto.getNotificationsActive() != null ? userDto.getNotificationsActive() : true);   // set to true by default
         user.setIsRegistered(true);
 
         // Save the user to the database
@@ -90,6 +92,11 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
 
+        // Extra password checking 
+        if (userDto.getPassword() != null && !passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Password is incorrect");
+        }
+
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setCountry(userDto.getCountry());
@@ -116,5 +123,93 @@ public class UserService {
         return dto;
     }
 
+    // Handles just updating the email 
+    // Like above, uses id and dto 
+    public UserDto updateEmail(Long id, EmailChangeDto changeDto) throws Exception {
+        UserEntity user = userRepo.findById(id).orElse(null);   
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        if (!passwordEncoder.matches(changeDto.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Password is incorrect");
+        }
+
+        // Check if user has already used this email
+        if (userRepo.findByEmail(changeDto.getEmail()) != null) {
+            throw new RuntimeException("Email already in use");
+        }
+
+        // Set the new email
+        user.setEmail(changeDto.getEmail());
+        userRepo.save(user);
+
+        // Return updated information
+        UserDto dto = new UserDto();
+
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setCountry(user.getCountry());
+        dto.setEducation(user.getEducation());
+        dto.setBusiness(user.getBusiness());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setIsRegistered(user.getIsRegistered());
+        dto.setNotificationsActive(user.getNotificationsActive());
+        dto.setId(user.getId());
+        dto.setCreationTimestamp(user.getCreationTimestamp());
+
+        return dto;
+    }
+
+
+    // Handles just updating the password
+    public UserDto updatePassword(Long id, PasswordChangeDto changeDto) throws Exception {
+        UserEntity user = userRepo.findById(id).orElse(null);   
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        // Check if user inputs their current password correctly
+        if (!passwordEncoder.matches(changeDto.getCurrentPassword(), user.getPassword())) {
+            throw new RuntimeException("Current password is incorrect");
+        }
+
+        // Check if user inputs their "new password confirmation" correctly
+        if (!changeDto.getNewPassword().equals(changeDto.getConfirmPassword())) {
+            throw new RuntimeException("Confirmation does not match new password");
+        }
+
+        // Set the new password
+        user.setPassword(passwordEncoder.encode(changeDto.getNewPassword()));
+        userRepo.save(user);
+
+        // Return updated information
+        UserDto dto = new UserDto();
+
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setCountry(user.getCountry());
+        dto.setEducation(user.getEducation());
+        dto.setBusiness(user.getBusiness());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setIsRegistered(user.getIsRegistered());
+        dto.setNotificationsActive(user.getNotificationsActive());
+        dto.setId(user.getId());
+        dto.setCreationTimestamp(user.getCreationTimestamp());
+
+        return dto;
+    }
+
+    // Handles user deletion
+    public void deleteUser(Long id) throws Exception {
+        UserEntity user = userRepo.findById(id).orElse(null);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        userRepo.delete(user);
+    }
 
 }

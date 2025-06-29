@@ -1,15 +1,22 @@
 import React from "react";
-import { useState, useEffect, useNavigate } from "react";
+import { useState, useEffect } from "react";
 import NavigationBar from "../components/navigationBar";
 import TabContainer from "../components/tabContainer";
 import Return from "../components/return";
+import ChangeEmailPopup from "../components/ChangeEmailPopup";
+import ChangePasswordPopup from "../components/ChangePasswordPopup"
+import DeleteAccountPopup from "../components/DeleteAccountPopup";
 import "../styles/settings.css";
 
 function SettingsPage() {
 
     const [user, setUser] = useState(null);
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-    // const navigate = useNavigate();
+
+    // For the popups / modals
+    const [emailPopup, setEmailPopup] = useState(false);    // whether it's shown or not
+    const [passwordPopup, setPasswordPopup] = useState(false);
+    const [deletePopup, setDeletePopup] = useState(false);
 
     // Get the current user's information
     useEffect(() => {
@@ -58,11 +65,6 @@ function SettingsPage() {
         }
     };
 
-    // This will be updated later, dummy for now
-    const handleDelete = () => {
-        alert("This action is permanent - are you sure you want to delete your account?");
-    };
-
 
     return (
         <div className="body">
@@ -84,7 +86,9 @@ function SettingsPage() {
                             <label>Email</label>
                             {/* non-breaking space to avoid errors  */}
                             <div className="settings-form-value"> {user?.email} &nbsp;
-                                <button className="settings-action">Change your email</button>
+                                <button className="settings-action" onClick={() => setEmailPopup(true)}> 
+                                    Change your email
+                                </button>
                             </div>
                         </div>
 
@@ -92,7 +96,9 @@ function SettingsPage() {
                             <label>Password</label>
                             {/* Password shown like this at all times? */}
                             <div className="settings-form-value"> ••••••••• &nbsp;
-                                <button className="settings-action">Change your password</button>
+                                <button className="settings-action" onClick={() => setPasswordPopup(true)}>
+                                    Change your password
+                                </button>
                             </div>
                         </div>
 
@@ -113,7 +119,7 @@ function SettingsPage() {
                         </div>
 
                         <div className="delete-section">
-                            <button className="delete-account" onClick={handleDelete}>
+                            <button className="delete-account" onClick={() => setDeletePopup(true)}>
                                 Delete Account
                             </button>
                         </div>
@@ -123,6 +129,39 @@ function SettingsPage() {
             
             <Return/>
             </TabContainer>
+
+            {/* Manage the email popup if active. Pass the data necessary and store the updated information, confirm. */}
+            {emailPopup && (
+                <ChangeEmailPopup
+                    userId={user.id}
+                    onClose={() => setEmailPopup(false)}    // closes the popup
+                    onSubmit={(updatedUser) => {            // handles successful update
+                        setUser(updatedUser);
+                        localStorage.setItem("user", JSON.stringify(updatedUser));
+                        alert("Successfully changed email.");
+                    }}
+                />
+            )}
+
+            {/* Manage the password popup if active. */}
+            {passwordPopup && (
+                <ChangePasswordPopup
+                    userId={user.id}
+                    onClose={() => setPasswordPopup(false)}
+                    onSubmit={() => {
+                        // No need to store something in localStorage - password is updated only on the backend
+                        alert("Successfully changed password.");
+                    }}
+                />
+            )}
+
+            {deletePopup && (
+                <DeleteAccountPopup
+                    userId={user.id}
+                    onClose={() => setDeletePopup(false)}
+                />
+            )}
+
             <div className="footer" />
         </div>
     );

@@ -1,0 +1,115 @@
+
+.popup {
+    background: #fff;
+    padding: 20px 24px;
+    border-radius: 45px;
+    width: 100%;
+    height: 50%;
+    max-width: 30%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 40%;
+}
+
+
+.popup-heading {
+    font-weight: 500;
+    color: #CC7D51;
+    font-size: 20px;
+    padding: 10px 10px;
+    margin-bottom: 6px;
+}
+
+.popup-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.popup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+
+.popup-label {
+    font-size: 14px;
+    color: black;
+    display: block;
+    margin-bottom: 2px;
+}
+
+
+.popup input {
+    padding: 8px 19px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    outline: none;
+    transition: border 0.2s ease;
+    margin-bottom: 6px;
+}
+
+.popup input:focus {
+    color: #CC7D51;
+}
+
+.popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.popup-buttons button {
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    flex: 1;
+    max-width: 100px;
+    max-height: 40px;
+    text-align: center;
+    padding: 8px ; 
+}
+
+/* cancel button */
+.popup-buttons button:first-child {
+    background-color: transparent;
+    border: 1px solid #CC7D51;
+    color: #CC7D51;
+}
+
+/* submit button */
+.popup-buttons button:last-child {
+    background-color: #CC7D51;
+    color: white;
+}
+
+.error-message {
+    color: #FF4928;
+    font-size: 13px;
+    margin-top: -8px;
+}
+
+/* for the delete account popup */
+.delete-message {
+    color: #FF4928;
+    font-size: 23px;
+    text-align: center;
+}
