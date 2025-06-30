@@ -7,6 +7,7 @@ function ChangeEmailPopup({ userId, onClose, onSubmit }) {
     const [newEmail, setNewEmail] = useState("");
     const [currentPassword, setCurrentPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     // Function to pass the information the user inputs to the backend
     const handleEmailChange= async () => {
@@ -54,14 +55,30 @@ function ChangeEmailPopup({ userId, onClose, onSubmit }) {
 
                 <div className="popup-field">
                     <label className="popup-label">New Email</label>
-                        <input type="email" placeholder="Enter your new email..." value={newEmail} onChange={(e) => setNewEmail(e.target.value)}
+                        <input 
+                        type="email" 
+                        placeholder="Enter your new email..." 
+                        value={newEmail} 
+                        onChange={(e) => setNewEmail(e.target.value)}
                     />
                 </div>
 
                 <div className="popup-field">
                     <label className="popup-label">Password</label>
-                        <input type="password" placeholder="Enter your password..." value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}
+                    <div className="password-input-container">
+                        <input  
+                        type={showPassword ? "text" : "password"} 
+                        placeholder="Enter your password..." 
+                        value={currentPassword} 
+                        onChange={(e) => setCurrentPassword(e.target.value)}
                     />
+                    <button
+                        type="button"
+                        className="hide-option"
+                        onClick={() => setShowPassword((prev) => !prev)}>
+                        {showPassword ? "Hide" : "Show"}                    
+                    </button>
+                    </div>
                 </div>
 
                 {error && <div className="error-message">{error}</div>}

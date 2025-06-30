@@ -11,7 +11,12 @@ function SignInPage() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError(""); // for "login failed" messages
+        setError("");
+
+        if (!email || !password) {
+            setError("Please fill in both fields.");
+            return;
+        }
 
         try {
             const response = await fetch("https://localhost:8080/api/users/login", {
@@ -61,7 +66,6 @@ function SignInPage() {
                         placeholder="Enter your email..." 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
                     />
 
                     <label>Password</label>
@@ -71,7 +75,6 @@ function SignInPage() {
                         placeholder="Enter your password..." 
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
                     />
 
                     <div className="forgot-password">
@@ -81,7 +84,7 @@ function SignInPage() {
 
                     <button type="submit" className="sign-button">Sign In</button>
 
-                    {/* For the wrong credentials error */}
+                    {/* For the wrong credentials error or the filled fields error */}
                     {error && <p className="login-error">{error}</p>} 
 
                     <div className="register-link">

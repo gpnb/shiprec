@@ -8,6 +8,9 @@ function ChangePasswordPopup({ userId, onClose, onSubmit }) {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handlePasswordChange= async () => {
         // In case user doesn't input something
@@ -56,20 +59,56 @@ function ChangePasswordPopup({ userId, onClose, onSubmit }) {
 
                 <div className="popup-field">
                     <label className="popup-label">Current Password</label>
-                        <input type="password" placeholder="Enter your current password..." value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}
+                    <div className="password-input-container">
+                        <input 
+                        type={showCurrentPassword ? "text" : "password"} 
+                        placeholder="Enter your current password..." 
+                        value={currentPassword} 
+                        onChange={(e) => setCurrentPassword(e.target.value)}
                     />
+                    <button
+                        type="button"
+                        className="hide-option"
+                        onClick={() => setShowCurrentPassword((prev) => !prev)}>
+                        {showCurrentPassword ? "Hide" : "Show"}                    
+                    </button>
+                    </div>
                 </div>
 
                 <div className="popup-field">
                     <label className="popup-label">New Password</label>
-                        <input type="password" placeholder="Enter your new password..." value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
+                    <div className="password-input-container">
+                        <input 
+                        type={showNewPassword ? "text" : "password"} 
+                        placeholder="Enter your new password..." 
+                        value={newPassword} 
+                        onChange={(e) => setNewPassword(e.target.value)}
                     />
+                    <button
+                        type="button"
+                        className="hide-option"
+                        onClick={() => setShowNewPassword((prev) => !prev)}>
+                        {showNewPassword ? "Hide" : "Show"}                    
+                    </button>
+                    </div>
                 </div>
 
                 <div className="popup-field">
                     <label className="popup-label">Verify Password</label>
-                        <input type="password" placeholder="Confirm your new password..." value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+                    <div className="password-input-container">
+                        <input 
+                        type={showConfirmPassword ? "text" : "password"} 
+                        placeholder="Confirm your new password..." 
+                        value={confirmPassword} 
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                     />
+                    <button
+                        type="button"
+                        className="hide-option"
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}>
+                        {showConfirmPassword ? "Hide" : "Show"}                    
+                    </button>
+                    </div>
                 </div>
 
                 {error && <div className="error-message">{error}</div>}

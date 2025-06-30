@@ -18,6 +18,7 @@ function EditProfilePage() {
 
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [user, setUser] = useState(null);
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -46,6 +47,13 @@ function EditProfilePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Regex to check valid phone format input - optional + and 7-15 digits, of which the first must be nonzero
+        const phoneRegex = /^\+?\d{7,15}$/;
+
+        if (user.phoneNumber && !phoneRegex.test(user.phoneNumber)) {
+            setError("Please enter a valid phone number.");
+            return;
+        }
         
         try {
             // Get the value of the user's id ($) and inject it into api/users/
@@ -121,6 +129,8 @@ function EditProfilePage() {
             </div>
         </form>
 
+        {error && <div className="error-message">{error}</div>}
+        
         <div className="button-container">
         <div></div>
             <button type="button" className="edit-button" onClick={handleSubmit}>

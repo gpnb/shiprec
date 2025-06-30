@@ -8,6 +8,7 @@ import { getData } from "country-list"; // Use npm install country-list
 const countries = getData();
 
 function RegisterPage() {
+    const [error, setError] = useState("");
 
     // Transform country list to react-select format
     const countryOptions = countries.map((country) => ({
@@ -27,6 +28,7 @@ function RegisterPage() {
         country: "",
     });
 
+
     // To correctly get country chosen
     useEffect(() => {
         if (selectedCountry) {
@@ -39,6 +41,7 @@ function RegisterPage() {
 
     // Function that changes the value of a field when altered
     const handleFieldChange = (e) => {
+        setError(""); // clean up the errors
         setRegisterData((prev) => ({
             ...prev,
             [e.target.id]: e.target.value,
@@ -48,6 +51,26 @@ function RegisterPage() {
     // Function to handle field submission, on clicking "Register"
     const handleSubmit = async(e) => {
         e.preventDefault(); // this is to prevent register form reload
+
+        // If user doesn't fill in all fields
+        if (!registerData.email || !registerData.password || !registerData.firstName || !registerData.lastName || !selectedCountry) {
+            setError("Please fill in all required fields.");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;    // to check for valid email format
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // to check for valid password format - at least 8 characters, including letters and digits
+
+        if (!emailRegex.test(registerData.email)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
+        if (!passwordRegex.test(registerData.password)) {
+            setError("Password must be at least 8 characters and contain both letters and numbers.");
+            return;
+        }       
+
 
         try {
             const fetchResult = await fetch("https://localhost:8080/api/users/register", {
@@ -70,10 +93,12 @@ function RegisterPage() {
                 alert("User Registered successfully.");
                 window.location.href = "/";  // redirect to the map page
             } else {
-                alert(`Error registering user: ${JSON.stringify(result)}`);
+                setError(`Error registering user: ${JSON.stringify(result)}`);
             }
         } catch (err) {
-            alert("Failed to reach backend : " + err.message);
+            // Failed to reach backend 
+            console.log("Failed to reach backend : " + err.message)
+            setError("An error occured. Failed to register.");
         }
     };
 
@@ -119,6 +144,8 @@ function RegisterPage() {
                         className="country-select"
                         classNamePrefix="rs"
                         />
+
+                    {error && <div className="register-error">{error}</div>}
 
                     <button type="submit" className="sign-button">Register</button>
     
