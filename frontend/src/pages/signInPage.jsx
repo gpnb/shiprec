@@ -82,7 +82,6 @@ function SignInPage() {
                     />
 
                     <div className="forgot-password">
-                        {/* update this to handle password */}
                         <a href="?">Forgot password?</a>
                     </div>
 
