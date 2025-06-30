@@ -9,6 +9,7 @@ const countries = getData();
 
 function RegisterPage() {
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // Transform country list to react-select format
     const countryOptions = countries.map((country) => ({
@@ -51,6 +52,7 @@ function RegisterPage() {
     // Function to handle field submission, on clicking "Register"
     const handleSubmit = async(e) => {
         e.preventDefault(); // this is to prevent register form reload
+        setLoading(true);
 
         // If user doesn't fill in all fields
         if (!registerData.email || !registerData.password || !registerData.firstName || !registerData.lastName || !selectedCountry) {
@@ -99,6 +101,8 @@ function RegisterPage() {
             // Failed to reach backend 
             console.log("Failed to reach backend : " + err.message)
             setError("An error occured. Failed to register.");
+        } finally {
+            setLoading(false); // stop loading
         }
     };
 
@@ -147,7 +151,9 @@ function RegisterPage() {
 
                     {error && <div className="register-error">{error}</div>}
 
-                    <button type="submit" className="sign-button">Register</button>
+                    <button type="submit" className="sign-button" disabled={loading}>
+                        {loading ? "Loading..." : "Register"}
+                    </button>
     
                     <div className="register-link">
                         Already have an account? <a href="/SignIn">Sign in</a>

@@ -19,13 +19,14 @@ function EditProfilePage() {
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [user, setUser] = useState(null);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const currentUser = localStorage.getItem('user');
         if (currentUser) {
             const parsed_data = JSON.parse(currentUser);
-            
+
             // Session expiration check
             if (parsed_data.expiresAt && Date.now() > parsed_data.expiresAt) {
                 localStorage.removeItem('user');
@@ -53,6 +54,7 @@ function EditProfilePage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         // Regex to check valid phone format input - optional + and 7-15 digits, of which the first must be nonzero
         const phoneRegex = /^\+?\d{7,15}$/;
@@ -86,6 +88,8 @@ function EditProfilePage() {
         } catch (error) {
             console.error("Failed to update user:", error);
             alert("Error updating profile. Please try again."); 
+        } finally {
+            setLoading(false); // stop loading
         }
     }
 
@@ -140,8 +144,8 @@ function EditProfilePage() {
 
         <div className="button-container">
         <div></div>
-            <button type="button" className="edit-button" onClick={handleSubmit}>
-                Save Changes
+            <button type="button" className="edit-button" disabled={loading} onClick={handleSubmit}>
+                {loading ? "Loading..." : "Save Changes"}    
                 <img src={editIcon} alt="Edit icon" className="edit-icon" />
             </button>
         </div>

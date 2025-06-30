@@ -8,11 +8,14 @@ function ChangePasswordPopup({ userId, onClose, onSubmit }) {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const handlePasswordChange= async () => {
+        setLoading(true);
+
         // In case user doesn't input something
         if (!newPassword || !currentPassword) {
             setError("Please fill in the fields.");
@@ -47,6 +50,8 @@ function ChangePasswordPopup({ userId, onClose, onSubmit }) {
 
         } catch (err) {
             setError("Error: " + err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -115,7 +120,9 @@ function ChangePasswordPopup({ userId, onClose, onSubmit }) {
 
                 <div className="popup-buttons">
                     <button onClick={onClose}>Cancel</button>
-                    <button onClick={handlePasswordChange}>Submit</button>
+                    <button disabled={loading} onClick={handlePasswordChange}>
+                        {loading ? "Loading..." : "Submit"}
+                    </button>
                 </div>
             </div>
 

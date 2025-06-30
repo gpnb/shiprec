@@ -8,9 +8,13 @@ function ChangeEmailPopup({ userId, onClose, onSubmit }) {
     const [currentPassword, setCurrentPassword] = useState("");
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    
 
     // Function to pass the information the user inputs to the backend
     const handleEmailChange= async () => {
+        setLoading(true);
+
         // In case user doesn't input something
         if (!newEmail || !currentPassword) {
             setError("Please fill in the fields.");
@@ -43,6 +47,8 @@ function ChangeEmailPopup({ userId, onClose, onSubmit }) {
 
         } catch (err) {
             setError("Error: " + err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -85,7 +91,9 @@ function ChangeEmailPopup({ userId, onClose, onSubmit }) {
 
                 <div className="popup-buttons">
                     <button onClick={onClose}>Cancel</button>
-                    <button onClick={handleEmailChange}>Submit</button>
+                    <button disabled={loading} onClick={handleEmailChange}>
+                        {loading ? "Loading..." : "Submit"}
+                    </button>
                 </div>
             </div>
 

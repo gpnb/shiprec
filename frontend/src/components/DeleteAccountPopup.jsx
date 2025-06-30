@@ -3,8 +3,11 @@ import "../styles/popups.css";
 
 function DeleteAccountPopup({ userId, onClose }) {
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleDelete = async () => {
+        setLoading(true);
+
         try {
             const response = await fetch(`https://localhost:8080/api/users/${userId}`, {
                 method: "DELETE"
@@ -20,6 +23,8 @@ function DeleteAccountPopup({ userId, onClose }) {
 
         } catch (err) {
             setError("Error: " + err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -36,7 +41,9 @@ function DeleteAccountPopup({ userId, onClose }) {
                 
                 <div className="popup-buttons">
                     <button onClick={onClose}>Cancel</button>
-                    <button onClick={handleDelete}>Delete</button>
+                    <button disabled={loading} onClick={handleDelete}>
+                        {loading ? "Loading..." : "Delete"}
+                    </button>
                 </div>
             </div>
         </div>

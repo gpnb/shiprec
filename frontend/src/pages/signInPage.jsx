@@ -8,10 +8,12 @@ function SignInPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
+        setLoading(true);
 
         if (!email || !password) {
             setError("Please fill in both fields.");
@@ -42,6 +44,8 @@ function SignInPage() {
         } catch (err) {
             setError("Wrong email or password!");
             console.error("Login failed:", err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -82,7 +86,9 @@ function SignInPage() {
                         <a href="?">Forgot password?</a>
                     </div>
 
-                    <button type="submit" className="sign-button">Sign In</button>
+                    <button type="submit" className="sign-button" disabled={loading}>
+                        {loading ? "Loading..." : "Sign In"}
+                    </button>
 
                     {/* For the wrong credentials error or the filled fields error */}
                     {error && <p className="login-error">{error}</p>} 
