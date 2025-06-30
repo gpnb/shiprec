@@ -25,7 +25,14 @@ function EditProfilePage() {
         const currentUser = localStorage.getItem('user');
         if (currentUser) {
             const parsed_data = JSON.parse(currentUser);
-            setUser(parsed_data);
+            
+            // Session expiration check
+            if (parsed_data.expiresAt && Date.now() > parsed_data.expiresAt) {
+                localStorage.removeItem('user');
+                window.location.href = "/SignIn";
+            } else {
+                setUser(parsed_data);
+            }
 
             // the default country that will be chosen
             const match = countryOptions.find(c => c.value === parsed_data.country);
@@ -130,7 +137,7 @@ function EditProfilePage() {
         </form>
 
         {error && <div className="error-message">{error}</div>}
-        
+
         <div className="button-container">
         <div></div>
             <button type="button" className="edit-button" onClick={handleSubmit}>

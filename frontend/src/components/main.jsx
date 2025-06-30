@@ -10,7 +10,7 @@ import HelpPage from '../pages/helpPage';
 import SignInPage from '../pages/signInPage';
 import RegisterPage from '../pages/registerPage';
 import AdminPage from '../pages/adminPage';
-import ProtectedRoute from './protectedRoute';
+import ProtectedRoute from './ProtectedRoute';
 import axios from 'axios';
 import userService from '../service/userService';
 
@@ -88,12 +88,13 @@ const Main=()=>{
             <Route exact path='/' element={<MapPage/>} ></Route>
             <Route exact path='/Vessels/*' element={<VesselsPage/>}></Route>
             <Route exact path='/Ports/*' element={<PortsPage/>}></Route>
-            <Route exact path='/MyAccount/*' element={<MyAccountPage/>}></Route>
-            <Route exact path='/Settings' element={<SettingsPage/>}></Route>
             <Route exact path='/Help/*' element={<HelpPage/>}></Route>
             <Route exact path='/SignIn' element={<SignInPage/>}></Route>
             <Route exact path='/Register' element={<RegisterPage/>}></Route>
             <Route exact path='/Admin/*' element={<AdminPage/>}></Route>
+
+            <Route exact path='/MyAccount/*' element={<ProtectedRoute><MyAccountPage/></ProtectedRoute>}></Route>
+            <Route exact path='/Settings' element={<ProtectedRoute><SettingsPage/></ProtectedRoute>}></Route>
             {/* <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}> */}
                 {/* add paths when jwt is set up */}
             {/* </Route> */}

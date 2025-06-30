@@ -34,8 +34,8 @@ function SignInPage() {
         const resp_data = await response.json();
         console.log("Login success:", resp_data);
 
-        localStorage.setItem("user", JSON.stringify(resp_data));    // save user info
-        
+        // Save user info along with when the login will expire - one day from now
+        localStorage.setItem("user", JSON.stringify({...resp_data, expiration: Date.now() + 1000 * 60 * 60 * 24}));
         // Redirect to map page:
         window.location.href = "/";
 

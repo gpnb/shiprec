@@ -17,8 +17,17 @@ function HelpPage() {
         const currentUser = localStorage.getItem('user');
 
         if (currentUser) {
-            setUser(JSON.parse(currentUser));
+            const parsed_data = JSON.parse(currentUser);
+            
+            // Session expiration check
+            if (parsed_data.expiresAt && Date.now() > parsed_data.expiresAt) {
+                localStorage.removeItem('user');
+                window.location.href = "/SignIn";
+            } else {
+                setUser(parsed_data);
+            }
         }
+        
     }, []);
 
     const accountTabs = [

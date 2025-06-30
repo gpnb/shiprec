@@ -21,10 +21,21 @@ function SettingsPage() {
     // Get the current user's information
     useEffect(() => {
         const currentUser = localStorage.getItem('user');
+
         if (currentUser) {
-            setUser(JSON.parse(currentUser));
-            setNotificationsEnabled(JSON.parse(currentUser).notificationsActive || false); // for toggle switch
+            const parsed_data = JSON.parse(currentUser);
+            
+            // Session expiration check
+            if (parsed_data.expiresAt && Date.now() > parsed_data.expiresAt) {
+                localStorage.removeItem('user');
+                window.location.href = "/SignIn";
+            } else {
+                setUser(parsed_data);
+                setNotificationsEnabled(parsed_data.notificationsActive || false); // for toggle switch
+
+            }
         }
+    
     }, []);
 
     if (!user) {
