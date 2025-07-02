@@ -12,6 +12,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
+import java.util.Set;
+import java.util.HashSet;
+
 @Entity
 public class Vessel {
 
@@ -32,6 +37,9 @@ public class Vessel {
     @JsonIgnore
     List<VesselInstance> child_vessels;
 
+    @OneToMany(mappedBy = "vessel", orphanRemoval = true)
+    @JsonIgnore
+    private Set<FleetHasShips> fleets = new HashSet<>();
 
     @Column
     private int imonumber;
@@ -59,6 +67,7 @@ public class Vessel {
 
     @Column
     private int to_stern;
+
 
     public Vessel() {
         // no-args constructor
@@ -162,6 +171,10 @@ public class Vessel {
 
     public void setTo_stern(int to_stern) {
         this.to_stern = to_stern;
+    }
+
+    public Set<FleetHasShips> getFleets() {
+        return fleets;
     }
 }
 

@@ -7,7 +7,8 @@ import { Routes, Route } from "react-router-dom";
 import MyProfilePage from "../pages/myProfilePage";
 import EditProfilePage from "../pages/editProfilePage";
 import Return from "../components/return";
-// import MyFleetsPage from "../pages/myFleetsPage";
+import MyFleetsPage from "../pages/myFleetsPage";
+import FleetPage from "./fleetPage";
 // import MyAreasPage from "../pages/myAreasPage";
 // import MyNotificationsPage from "../pages/myNotificationsPage";
 
@@ -49,7 +50,8 @@ function MyAccountPage() {
                 <Routes>
                 <Route index element={<MyProfilePage/>}/>
                 <Route path="/editprofile" element={<EditProfilePage/>}/>
-                <Route path="fleets"/>
+                <Route path="fleets" element={<MyFleetsPage/>}/>
+                <Route path="fleets/:id" element={<FleetPage/>}/>
                 <Route path="areas"/>
                 <Route path="notifications"/>
             </Routes>
