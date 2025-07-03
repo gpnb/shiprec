@@ -121,9 +121,9 @@ public class UserController {
     }
 
     @GetMapping
-    public Page<UserEntity> getUsers(Pageable pageable) {
-        System.out.println("Fetching paginated Users...");
-        return userService.getPaginatedUsers(pageable);
+    public Page<UserEntity> getNonAdminUsers(Pageable pageable) {
+        System.out.println("Fetching paginated non-admin Users...");
+        return userService.getPaginatedNonAdminUsers(pageable);
     }
 
     @PostMapping("/delbulk")

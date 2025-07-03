@@ -362,7 +362,7 @@ function AdminLists({ type }) {
                         </tr>
                     </thead>
                     <tbody>
-                    {sortedData.filter((row, i) => (!searchActive || searchResults.includes(row[idKey]))).map((row, i) => {
+                    {sortedData.filter((row, i) => ((!searchActive || searchResults.includes(row[idKey])))).map((row, i) => {
                             const isSelected = selectAll
                             ? !deselectedItems.includes(row[idKey])
                             : selectedItems.includes(row[idKey]);
@@ -403,7 +403,8 @@ function AdminLists({ type }) {
                                         />
                                     </div>
                                     )}
-                                    {Object.entries(row)
+                                    {
+                                    Object.entries(row)
                                     .filter(([key]) => !(type === "queries" && key.toLowerCase() === "question") && !['password', 'id', 'isadmin', 'isregistered','notificationsactive'].includes(key.toLowerCase()))
                                     .map(([key, value], j) => (
                                         <td key={j}>
@@ -419,7 +420,7 @@ function AdminLists({ type }) {
                                                 </option>
                                             ))}
                                             </select>
-                                        ) : (
+                                        ) : (                                             
                                             String(value)
                                         )}
                                         </td>

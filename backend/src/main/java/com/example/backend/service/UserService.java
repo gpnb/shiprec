@@ -249,7 +249,7 @@ public class UserService {
     }
     
 
-    public Page<UserEntity> getPaginatedUsers(Pageable pageable) {
-        return userRepo.findAll(pageable);
+    public Page<UserEntity> getPaginatedNonAdminUsers(Pageable pageable) {
+        return userRepo.findAllNonAdmins(pageable);
     }
 }

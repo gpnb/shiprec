@@ -12,6 +12,9 @@ public interface UserRepo extends JpaRepository<UserEntity, Long>{
     
     UserEntity findByEmail(String email);  // used for login and registration
 
+    @Query("SELECT u FROM UserEntity u WHERE u.isAdmin IS NULL OR u.isAdmin = false")
+    Page<UserEntity> findAllNonAdmins(Pageable pageable);
+
     @Query(value = "SELECT u.id FROM user u WHERE u.email LIKE CONCAT(:name, '%')", nativeQuery = true)
     Page<Object[]> getIdByName(@Param("name") String name, Pageable pageable);
 }
