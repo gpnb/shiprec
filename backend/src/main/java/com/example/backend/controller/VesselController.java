@@ -34,4 +34,9 @@ public class VesselController {
         return vesselRepo.findById(id)
             .orElseThrow(() -> new RuntimeException("Vessel not found"));
     }
+
+    @GetMapping("/byname/{name}")
+    public Page<Object[]> getIdsByName(@PathVariable String name, Pageable pageable) {
+        return vesselRepo.getIdByName(name, pageable);
+    }
 }

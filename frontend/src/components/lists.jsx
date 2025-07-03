@@ -6,7 +6,7 @@ import '../styles/lists.css'
 import ListButtons from '../components/listbtn';
 import dropdown from '../icons/Misc/Dropdown.png'
 import arrow from "../icons/Misc/Arrow.png"
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 
 function ItemLists({ type }) {
@@ -30,6 +30,8 @@ function ItemLists({ type }) {
     const [deselectedItems, setDeselectedItems] = useState([]); // deselected while in global-select-all
     const [selectAll, setSelectAll] = useState(false); // global select-all mode
 
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchActive, setSearchActive] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -149,7 +151,7 @@ function ItemLists({ type }) {
 
     return (
         <>
-        <ListButtons/>
+        <ListButtons type={type} setResults={setSearchResults} setActive={setSearchActive}/>
         <div className="itemlists-container">
             <div className="itemlists-card">
                 <div className="itemlists-actions">
@@ -288,7 +290,7 @@ function ItemLists({ type }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedData.map((row, i) => {
+                        {sortedData.filter((row, i) => (!searchActive || searchResults.includes(row[idKey]))).map((row, i) => {
                             const isSelected = selectAll
                             ? !deselectedItems.includes(row[idKey])
                             : selectedItems.includes(row[idKey]);

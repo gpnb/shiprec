@@ -127,6 +127,10 @@ public class FleetService {
         return ret;
     }
 
+    public Page<Object[]> getFleetDetByName(String name, Integer uid, Pageable pageable) {
+        return fleetRepo.getFltName(name, uid, pageable);
+    }
+
     // get fleet details
     // new problem unlocked the conversion does not play well with boolean here:
     // the frontend reads the boolean value as prototype 

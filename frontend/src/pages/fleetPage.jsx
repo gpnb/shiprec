@@ -4,12 +4,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import '../styles/myprofile.css'
-import editIcon from '../icons/Misc/Edit_dark.png';
-import TabContainer from "../components/tabContainer";
-import ItemLists from "../components/lists";
-import FleetList from "../components/fleetlist";
-import { Routes, Route } from "react-router-dom";
-import Details from "../components/details";
 import FleetDetails from "../components/fleetdetails";
 
 function FleetPage() {

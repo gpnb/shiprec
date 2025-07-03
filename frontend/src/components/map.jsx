@@ -96,18 +96,18 @@ function MapButtons({ map, setDarkMode, darkMode, isRegistered,activeFilters,set
 
 
 
-function MapFunctions({map,setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters,liveVessels,drawMode, setDrawMode, confirmMode, setConfirmMode, selectionPixels, setSelectionPixels, selectionBounds, setSelectionBounds}) {
+function MapFunctions({map,setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters,liveVessels,drawMode, setDrawMode, confirmMode, setConfirmMode, selectionPixels, setSelectionPixels, selectionBounds, setSelectionBounds, searchVesselFilters, setSearchVesselFilters, searchPortFilters, setSearchPortFilters, setSearchVesselActive, setSearchPortActive}) {
 
     return(  
         <div className="map_functions">
             <NavigationBar isRegistered={isRegistered} isAdmin={isAdmin} currentTab="Live Map"/>  
-            <SearchBar map = {map} isRegistered={isRegistered} darkMode={darkMode} liveVessels={liveVessels}/>
+            <SearchBar map = {map} isRegistered={isRegistered} darkMode={darkMode} liveVessels={liveVessels} searchVesselFilters={searchVesselFilters} setSearchVesselFilters={setSearchVesselFilters} searchPortFilters={searchPortFilters} setSearchPortFilters={setSearchPortFilters} setSearchVesselActive={setSearchVesselActive} setSearchPortActive={setSearchPortActive}/>
             <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} activeFilters={activeFilters} setActiveFilters={setActiveFilters} drawMode={drawMode} setDrawMode={setDrawMode} confirmMode={confirmMode} setConfirmMode={setConfirmMode} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels} setSelectionBounds={setSelectionBounds}/>
         </div> 
     );
 }
 
-function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters, drawMode, setDrawMode, confirmMode, setConfirmMode, selectionPixels, setSelectionPixels, selectionBounds, setSelectionBounds}) {
+function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters, drawMode, setDrawMode, confirmMode, setConfirmMode, selectionPixels, setSelectionPixels, selectionBounds, setSelectionBounds, searchVesselFilters, setSearchVesselFilters, searchPortFilters, setSearchPortFilters, setSearchVesselActive, setSearchPortActive}) {
     const map = useMap();
 
     // Disable map panning while drawing or confirming; re-enable otherwise
@@ -121,7 +121,7 @@ function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,set
       }
     }, [map, drawMode, confirmMode]);
 
-    return <MapFunctions map={map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin} activeFilters={activeFilters}  setActiveFilters={setActiveFilters} drawMode={drawMode} setDrawMode={setDrawMode} confirmMode={confirmMode} setConfirmMode={setConfirmMode} selectionBounds={selectionBounds} setSelectionBounds={setSelectionBounds} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels}/>;
+    return <MapFunctions map={map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin} activeFilters={activeFilters}  setActiveFilters={setActiveFilters} drawMode={drawMode} setDrawMode={setDrawMode} confirmMode={confirmMode} setConfirmMode={setConfirmMode} selectionBounds={selectionBounds} setSelectionBounds={setSelectionBounds} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels} searchVesselFilters={searchVesselFilters} setSearchVesselFilters={setSearchVesselFilters} searchPortFilters={searchPortFilters} setSearchPortFilters={setSearchPortFilters} setSearchVesselActive={setSearchVesselActive} setSearchPortActive={setSearchPortActive}/>;
 }
 
 function getShipIconByType(type = '') {
@@ -180,6 +180,14 @@ function Map() {
     const [darkMode, setDarkMode] = useState(false);
 
     const [liveVessels,setLiveVessels] = useState([]);
+
+    const [searchVesselFilters, setSearchVesselFilters] = useState([]);
+
+    const [searchPortFilters, setSearchPortFilters] = useState([]);
+
+    const [searchVesselActive, setSearchVesselActive] = useState(false);
+
+    const [searchPortActive, setSearchPortActive] = useState(false);
 
     const [activeFilters, setActiveFilters] = useState([
       'cargo',
@@ -364,7 +372,7 @@ function Map() {
 
           {Array.isArray(ports) &&
             ports
-              .filter(port => activeFilters.includes('all') || activeFilters.includes('ports'))
+              .filter(port => (activeFilters.includes('all') || activeFilters.includes('ports')) && (searchPortFilters.includes(port.wpi) || !searchPortActive))
               .map(port => (
                 <Marker
                   key={port.id}
@@ -415,7 +423,7 @@ function Map() {
 
 
 
-              {Object.values(liveVessels).filter(vessel => activeFilters.includes('all') || activeFilters.includes(renderFilters(vessel.ship_type)))
+              {Object.values(liveVessels).filter(vessel => (activeFilters.includes('all') || activeFilters.includes(renderFilters(vessel.ship_type))) && (searchVesselFilters.includes(vessel.mmsi) || !searchVesselActive))
               .map((vessel) => (
                     <Marker key={vessel.ship_name} style={{zIndex: 10004}} position={[vessel.latitude, vessel.longitude]}   icon={getRotatedShipIcon(
                       vessel.heading || 0,
@@ -473,7 +481,7 @@ function Map() {
             ))}
 
 
-            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin} activeFilters={activeFilters} setActiveFilters={setActiveFilters} drawMode={drawMode} setDrawMode={setDrawMode} confirmMode={confirmMode} setConfirmMode={setConfirmMode} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels} selectionBounds={selectionBounds} setSelectionBounds={setSelectionBounds}/>
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin} activeFilters={activeFilters} setActiveFilters={setActiveFilters} drawMode={drawMode} setDrawMode={setDrawMode} confirmMode={confirmMode} setConfirmMode={setConfirmMode} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels} selectionBounds={selectionBounds} setSelectionBounds={setSelectionBounds} searchVesselFilters={searchVesselFilters} setSearchVesselFilters={setSearchVesselFilters} searchPortFilters={searchPortFilters} setSearchPortFilters={setSearchPortFilters} setSearchVesselActive={setSearchVesselActive} setSearchPortActive={setSearchPortActive}/>
 
             {(drawMode || confirmMode) && (
               <div className="selection-ui" onMouseDown={e => e.stopPropagation()} onMouseUp={e => e.stopPropagation()} onMouseMove={e => e.stopPropagation()}>

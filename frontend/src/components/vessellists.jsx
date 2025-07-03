@@ -7,7 +7,7 @@ import '../styles/vessellists.css'
 import ListButtons from '../components/listbtn';
 import dropdown from '../icons/Misc/Dropdown.png'
 import arrow from "../icons/Misc/Arrow.png"
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 import '../styles/fleet.css'
 import fleet from "../icons/Misc/fleet.png"
@@ -35,6 +35,9 @@ function VesselLists({ type, setTrigger, setTriggerSec, setList }) {
     const [selectedItems, setSelectedItems] = useState([]); // manual selection
     const [deselectedItems, setDeselectedItems] = useState([]); // deselected while in global-select-all
     const [selectAll, setSelectAll] = useState(false); // global select-all mode
+
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchActive, setSearchActive] = useState(false);
 
     useEffect(() => {
         const currentUser = localStorage.getItem('user');
@@ -184,7 +187,7 @@ function VesselLists({ type, setTrigger, setTriggerSec, setList }) {
 
     return (
         <>
-        <ListButtons/>
+        <ListButtons type={type} setResults={setSearchResults} setActive={setSearchActive}/>
         <div className="itemlists-container">
             <div className="itemlists-card">
                 <div className="itemlists-actions">
@@ -323,7 +326,7 @@ function VesselLists({ type, setTrigger, setTriggerSec, setList }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedData.map((row, i) => {
+                        {sortedData.filter((row, i) => (!searchActive || searchResults.includes(row[idKey]))).map((row, i) => {
                             const isSelected = selectAll
                             ? !deselectedItems.includes(row[idKey])
                             : selectedItems.includes(row[idKey]);

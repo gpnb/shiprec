@@ -6,9 +6,9 @@ import '../styles/myprofile.css'
 import '../styles/fleetlists.css'
 import dropdown from '../icons/Misc/Dropdown.png'
 import arrow from "../icons/Misc/Arrow.png"
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import trash from "../icons/Misc/trash.png";
-import edit from "../icons/Misc/Edit.png";
+// import edit from "../icons/Misc/Edit.png";
 
 
 function FleetList({ type }) {

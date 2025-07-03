@@ -71,6 +71,11 @@ public class FleetController {
         return fleetRepo.getFltDtl(id, pageable);
     }
 
+    @GetMapping("/byname/{uid}/{name}")
+    public Page<Object[]> getFleetDetByName(@PathVariable Integer uid, @PathVariable String name, Pageable pageable) {
+        return fleetService.getFleetDetByName(name, uid, pageable);
+    }
+
     // delete fleets (in bulk) from MyAccount/fleets
     @PostMapping("/delbulk")
     public ResponseEntity<String> bulkDelete(@RequestBody List<Integer> ids) {

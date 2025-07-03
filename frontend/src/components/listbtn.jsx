@@ -5,7 +5,7 @@ import search from "../icons/Buttons/Search-outlined.png"
 import '../styles/listbtn.css';
 import dropdown from '../icons/Misc/Dropdown.png'
 
-function ListButtons() {
+function ListButtons({type, setResults, setActive}) {
 
     const [searchTerm, setSearchTerm]= useState('');
 
@@ -15,9 +15,63 @@ function ListButtons() {
 
     }
 
+    const handleNameSearch = async(name) => {
+        // change empty spaces in name with %20 for url passing
+        name = name.replaceAll(" ", "%20");
+        let num = 0; // just a local counter for the number of results found
+
+        setResults([]);
+        
+        // search vessels
+        if (type === "Vessels") {
+            console.log("vessels");
+            try {
+                const response = await fetch(`https://localhost:8080/api/vessels/byname/${name}`);
+                const result = await response.json();
+
+                if (result.totalElements === 0) {
+                    console.log("found nothing from vessels");
+                } else {
+                    setResults(result.content);
+                    num += result.totalElements;
+                }
+            } catch(err) {
+                console.log("vessel search failed: " + err);
+            }
+        }
+
+        // search ports
+        if (type === "Ports") {
+            console.log("ports");
+            try {
+                const response = await fetch(`https://localhost:8080/api/ports/byname/${name}`);
+                const result = await response.json();
+
+                if (result.totalElements === 0) {
+                    console.log("found nothing from ports");
+                } else {
+                    setResults(result.content);
+                    num += result.totalElements;
+                }
+            } catch(err) {
+                console.log("port search failed: " + err);
+            }
+        }
+
+        console.log("found " + num + " results");
+        setActive(true);
+    }
+
     const handleSearch = (e) => {
         e.preventDefault();
-        alert(`Search term is: ${searchTerm}`);
+
+        if (searchTerm === "") {
+            setActive(false);
+            return;
+        }
+
+        handleNameSearch(searchTerm);
+        // alert(`Search term is: ${searchTerm}`);
     }
 
     return (

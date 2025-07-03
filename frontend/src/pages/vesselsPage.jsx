@@ -3,7 +3,7 @@ import React from "react";
 import TabContainer from "../components/tabContainer";
 import NavigationBar from "../components/navigationBar";
 import { Routes, Route } from "react-router-dom";
-import ItemLists from "../components/lists";
+// import ItemLists from "../components/lists";
 import Return from "../components/return";
 import Details from "../components/details";
 
@@ -29,9 +29,9 @@ function VesselsPage() {
     const [popup, setPopup] = useState(false);
     const [popup2, setPopup2] = useState(false);
     const [shareList, setShareList] = useState([]);
-    const handleTest = () => {
-        console.log(shareList);
-    }
+    // const handleTest = () => {
+    //     console.log(shareList);
+    // }
 
     return (
         <div className="body">

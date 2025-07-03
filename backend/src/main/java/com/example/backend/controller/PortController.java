@@ -32,4 +32,9 @@ public class PortController {
         return portRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Port not found with id: " + id));
     }
+
+    @GetMapping("/byname/{name}")
+    public Page<Object[]> getIdByName(@PathVariable String name, Pageable pageable) {
+        return portRepo.getIdByName(name, pageable);
+    }
 }
