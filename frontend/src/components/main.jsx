@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route,useLocation,useNavigate} from 'react-router-dom';
+import {Routes, Route,useLocation,useNavigate, Navigate} from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import MapPage from '../pages/mapPage';
 import VesselsPage from '../pages/vesselsPage';
@@ -32,6 +32,23 @@ const Main=()=>{
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const currentUser = localStorage.getItem('user');
+        if (currentUser) {
+            const parsed_data = JSON.parse(currentUser);
+            
+            // Session expiration check
+            if (parsed_data.expiresAt && Date.now() > parsed_data.expiresAt) {
+                localStorage.removeItem('user');
+                window.location.href = "/SignIn";
+            } else {
+                setUser(parsed_data);
+            }
+        }
+    }, []);
 
     // const checkAuthentication = async () => {
     //     const token = localStorage.getItem('jwt_token');
@@ -91,7 +108,7 @@ const Main=()=>{
             <Route exact path='/Help/*' element={<HelpPage/>}></Route>
             <Route exact path='/SignIn' element={<SignInPage/>}></Route>
             <Route exact path='/Register' element={<RegisterPage/>}></Route>
-            <Route exact path='/Admin/*' element={<AdminPage/>}></Route>
+            <Route exact path="/Admin/*" element={<ProtectedRoute><AdminPage/></ProtectedRoute>}></Route>
 
             <Route exact path='/MyAccount/*' element={<ProtectedRoute><MyAccountPage/></ProtectedRoute>}></Route>
             <Route exact path='/Settings' element={<ProtectedRoute><SettingsPage/></ProtectedRoute>}></Route>

@@ -23,39 +23,19 @@ function ListButtons({type, setResults, setActive}) {
         setResults([]);
         
         // search vessels
-        if (type === "Vessels") {
-            console.log("vessels");
-            try {
-                const response = await fetch(`https://localhost:8080/api/vessels/byname/${name}`);
-                const result = await response.json();
+        console.log("search");
+        try {
+            const response = await fetch(`https://localhost:8080/api/${type.toLowerCase()}/byname/${name}`);
+            const result = await response.json();
 
-                if (result.totalElements === 0) {
-                    console.log("found nothing from vessels");
-                } else {
-                    setResults(result.content);
-                    num += result.totalElements;
-                }
-            } catch(err) {
-                console.log("vessel search failed: " + err);
+            if (result.totalElements === 0) {
+                console.log("found nothing from vessels");
+            } else {
+                setResults(result.content);
+                num += result.totalElements;
             }
-        }
-
-        // search ports
-        if (type === "Ports") {
-            console.log("ports");
-            try {
-                const response = await fetch(`https://localhost:8080/api/ports/byname/${name}`);
-                const result = await response.json();
-
-                if (result.totalElements === 0) {
-                    console.log("found nothing from ports");
-                } else {
-                    setResults(result.content);
-                    num += result.totalElements;
-                }
-            } catch(err) {
-                console.log("port search failed: " + err);
-            }
+        } catch(err) {
+            console.log("vessel search failed: " + err);
         }
 
         console.log("found " + num + " results");
@@ -70,18 +50,23 @@ function ListButtons({type, setResults, setActive}) {
             return;
         }
 
-        handleNameSearch(searchTerm);
+        if (type === "Vessels" || type === "vessels") {
+            handleNameSearch(searchTerm + " ");
+        } else {
+            handleNameSearch(searchTerm);
+        }
+
         // alert(`Search term is: ${searchTerm}`);
     }
 
     return (
         <>
         <div className="listbtn-container">
-            <button type="button" className="list-btn" onClick={() => (null)}>
+            {/* <button type="button" className="list-btn" onClick={() => (null)}>
                 <img src={filter} alt="Filters" className="list-btn-icons"/>
                 Add Filter
                 <img src={dropdown} alt="arrow" className={`list-btn-dropdown-icon`}/>
-            </button>
+            </button> */}
             <form onSubmit={handleSearch}>
                 <button type="button" className="list-btn" onSubmit={() => handleSearch()}>
                     <img src={search} alt="Search" className="list-btn-icons"/>

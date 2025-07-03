@@ -55,6 +55,9 @@ public class UserEntity {
     @Column(name = "is_registered")
     private Boolean isRegistered = false; 
 
+    @Column(name = "is_admin")
+    private Boolean isAdmin = false;
+
     // Constructor. Must be public for it to be visible in service
     public UserEntity() {
     }

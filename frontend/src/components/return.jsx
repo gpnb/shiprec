@@ -8,8 +8,8 @@ function Return () {
     const navigate = useNavigate();
 
     return (
-        <div className="btn-container">
-            <button type="button" className="return-btn" onClick={() => navigate(-1)}>
+        <div className="returnBtn-container">
+            <button type="button" className="returnBtn" onClick={() => navigate(-1)}>
                 <img src={arrow} alt="Arrow icon"/>
                 Return
             </button>

@@ -176,7 +176,7 @@ function FleetList({ type }) {
             // const result = await fetchResult.json();
             // debbuging alerts for now.
             if (fetchResult.ok) {
-                alert("deleted");
+                window.location.reload();
             }
             else {
                 alert("failed");

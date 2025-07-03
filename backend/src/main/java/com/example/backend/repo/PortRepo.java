@@ -9,6 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PortRepo extends JpaRepository<Port, Integer> {
-    @Query(value = "SELECT p.wpi FROM port p WHERE p.port = :name", nativeQuery = true)
+    @Query(value = "SELECT p.wpi FROM port p WHERE p.port LIKE CONCAT(:name, '%')", nativeQuery = true)
     Page<Object[]> getIdByName(@Param("name") String name, Pageable pageable);
 }

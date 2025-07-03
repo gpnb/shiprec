@@ -9,7 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor // lombok generates α default constructor with this
 @Getter            // with getter and setter, there is no need to write anything manually
 @Setter
-
 public class UserDto {
 
     private Long id;
@@ -35,5 +34,7 @@ public class UserDto {
     private Boolean isRegistered;
 
     private LocalDateTime creationTimestamp;
+
+    private Boolean isAdmin;
 
 }

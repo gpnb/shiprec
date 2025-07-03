@@ -379,7 +379,7 @@ function VesselLists({ type, setTrigger, setTriggerSec, setList }) {
                     </tbody>
                 </table>
             </div>
-            {(selectedItems.length >= 1) && (userFlag != null) && (
+            {(selectedItems.length >= 1 || selectAll) && (userFlag != null) && (
                   <div className="btn-container">
                         <button type="button" className="return-btn" onClick={() => handleNewFlt()}>
                             <img src={new_fleet} alt="new fleet icon"/>

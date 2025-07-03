@@ -79,7 +79,7 @@ function SettingsPage() {
 
     return (
         <div className="body">
-            <NavigationBar isRegistered={true} currentTab="Settings" />
+            <NavigationBar isRegistered={user.isRegistered} isAdmin={user.isAdmin} currentTab="Settings" />
             <TabContainer currentTab="Settings">
 
             <div className="settings-container">

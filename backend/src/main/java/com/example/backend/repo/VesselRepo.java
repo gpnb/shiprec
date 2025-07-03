@@ -9,6 +9,6 @@ import org.springframework.data.domain.Pageable;
 import com.example.backend.entity.Vessel;
 
 public interface VesselRepo extends JpaRepository<Vessel, Integer>{
-    @Query(value = "SELECT v.mmsi FROM vessel v WHERE v.name = :name", nativeQuery = true)
+    @Query(value = "SELECT v.mmsi FROM vessel v WHERE v.name LIKE CONCAT(:name, '%')", nativeQuery = true)
     Page<Object[]> getIdByName(@Param("name") String name, Pageable pageable);
 }

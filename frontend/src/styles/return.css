@@ -1,4 +1,4 @@
-.btn-container {
+.returnBtn-container {
     display: flex;           
     justify-content: flex-start;
     margin-left: 12vw; 
@@ -6,7 +6,7 @@
     padding: 10px 10px;
 }
 
-.return-btn {
+.returnBtn {
     display: flex;              /* Needed for flex centering */
     align-items: center;        /* Vertical centering */
     justify-content: left;    /* Horizontal centering */
@@ -22,11 +22,11 @@
     width: 7vw;
 }
 
-.return-btn:hover {
+.returnBtn:hover {
     background-color: #1a252f;
 }
 
-.return-btn img{
+.returnBtn img{
     min-width: 20px;
     min-height: 20px;  
     margin-left: 4px;

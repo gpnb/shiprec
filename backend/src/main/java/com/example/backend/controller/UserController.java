@@ -1,16 +1,23 @@
 package com.example.backend.controller;
 
+import com.example.backend.entity.UserEntity;
+import com.example.backend.repo.UserRepo;
 import com.example.backend.service.UserService;
 import com.example.dto.UserDto;
 import com.example.dto.EmailChangeDto;
 import com.example.dto.PasswordChangeDto;
 import com.example.dto.LoginDto;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +32,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepo userRepo;
 
     // Create a user and save their data
     @PostMapping("/register")
@@ -96,6 +106,35 @@ public class UserController {
         }  catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();    // internal error on deletion
         }
+    }
+
+    @PutMapping("/{id}/ban")
+    public ResponseEntity<UserDto> toggleBanUser(@PathVariable Long id, @RequestBody Boolean isRegistered) {
+        try {
+            UserDto updatedUser = userService.setRegistrationStatus(id, isRegistered);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping
+    public Page<UserEntity> getUsers(Pageable pageable) {
+        System.out.println("Fetching paginated Users...");
+        return userService.getPaginatedUsers(pageable);
+    }
+
+    @PostMapping("/delbulk")
+    public ResponseEntity<String> bulkDelete(@RequestBody List<Long> ids) {
+        userRepo.deleteAllById(ids);
+        return ResponseEntity.ok("Queries deleted");
+    }
+
+    @GetMapping("/byname/{name}")
+    public Page<Object[]> getIdByName(@PathVariable String name, Pageable pageable) {
+        return userRepo.getIdByName(name, pageable);
     }
 
 }   

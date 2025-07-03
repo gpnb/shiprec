@@ -37,7 +37,7 @@ function HelpPage() {
 
     return (
         <div className="body">
-            <NavigationBar isRegistered = {user?.isRegistered} currentTab="Help"/>
+            <NavigationBar isRegistered = {user?.isRegistered} isAdmin= {user?.isAdmin} currentTab="Help"/>
             <TabContainer currentTab="Help" username="" tabs={accountTabs}>
             <Routes>
                 <Route path="/"  element={<FAQ/>}/>

@@ -1,31 +1,49 @@
-// lists clone, specific to get the ships in a fleet
 import React from "react";
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/myprofile.css'
-import '../styles/fleetlists.css'
+import '../styles/lists.css'
+import ListButtons from '../components/listbtn';
 import dropdown from '../icons/Misc/Dropdown.png'
-import arrow from "../icons/Misc/Arrow.png"
-import { useParams } from 'react-router-dom';
 import trash from "../icons/Misc/trash.png";
-import edit from "../icons/Misc/Edit.png";
+import arrow from "../icons/Misc/Arrow.png"
+import QueryPopup from "./queryPopup";
 
-
-function FleetDetails({ type }) {
-
-    const { id } = useParams();  // Gets the ID from the URL
-
+function AdminLists({ type }) {
 
     const navigate = useNavigate();
+
+    const shipTypes = [
+        "Other", "Cargo", "Tanker", "Passenger", "Fishing", "Pleasure", "Speed", 
+        "Tug", "Navigation"
+    ];
+
+    const handleShipTypeChange = async (vesselId, newType) => {
+        try {
+            const response = await fetch(`https://localhost:8080/api/vessels/${vesselId}/type`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ shipType: newType })
+            });
+    
+            if (response.ok) {
+                setData(prev =>
+                    prev.map(row =>
+                        row[idKey] === vesselId ? { ...row, shiptype: newType } : row
+                    )
+                );
+            } else {
+                console.error("Failed to update ShipType");
+            }
+        } catch (err) {
+            console.error("Error updating ShipType:", err);
+        }
+    };
 
     const [data, setData] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
 
-    const [active, setActive] = useState([]);
-    const [ready, setReady] = useState(false);
-
-    // const [isDropdownOpen, setDropdownOpen] = useState(false);
-    // const [selectedOption, setSelectedOption] = useState("All"); // Default selection
+    const [selectedQuery, setSelectedQuery] = useState(null);
 
     const [isPageOpen, setIsPageOpen] = useState(false);
     const [itemsPerPage, setItemsPerPage] = useState(8); // default value
@@ -38,27 +56,15 @@ function FleetDetails({ type }) {
     const [deselectedItems, setDeselectedItems] = useState([]); // deselected while in global-select-all
     const [selectAll, setSelectAll] = useState(false); // global select-all mode
 
-    const [labels, setLabels] = useState([
-        "MMSI",
-        "Name",
-        "Imo",
-        "Type",
-        "Active"
-    ])
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://localhost:8080/api/fleets/${id}?page=${currentPage - 1}&size=${itemsPerPage}`);
+                const response = await fetch(`https://localhost:8080/api/${type.toLowerCase()}?page=${currentPage - 1}&size=${itemsPerPage}`);
                 const result = await response.json();
     
                 setData(result.content || []);
                 setTotalItems(result.totalElements || 0);
-                console.log(result.content);
-                // setActive([...result.content.active]);
-                setReady(true);
-                // console.log(active);
-                convertActive(result.content);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -91,53 +97,6 @@ function FleetDetails({ type }) {
         setIsPageOpen(false);
     };
 
-    const convertActive = (array) => {
-        const act = array.map(row => row[4]);
-        console.log(array)
-        console.log(act);
-        setActive(act);
-    }
-
-    const handleToggle = async (i, fleetId, vesselId) => {
-        console.log("hi");
-        console.log(i);
-        console.log(active);
-        // setActive(!active);
-        setActive(prev => {
-            const act = [...prev];
-            act[i] = !act[i];
-            return act;
-        });
-
-        const modData = {
-            fleetId: fleetId,
-            vesselId: vesselId,
-            status: !active[i],
-        }
-
-        console.log("fleetId:");
-        console.log(fleetId);
-        console.log("vesselId:");
-        console.log(vesselId);
-
-        try {
-            const fetchResult = await fetch(`https://localhost:8080/api/fleets/changestat`, {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify(modData)
-            });
-            
-            // const result = await fetchResult.json();
-
-            // if (fetchResult.ok) {
-            //     alert("changed");
-            // }
-        } catch (err) {
-            alert("error: " + err.message);
-        }
-    };
 
     const handleSort = (key) => {
         setSortConfig((prevConfig) => {
@@ -182,7 +141,49 @@ function FleetDetails({ type }) {
     //     fetchData();
     // }, [type, currentPage, itemsPerPage]);
 
-
+    const handleDelete = async (e) => {
+        let idsToDelete;
+      
+        if (selectAll) {
+          // Get all banned users from the current page
+          const visibleBannedIds = sortedData
+            .filter(item => !item.isRegistered)
+            .map(item => item[idKey]);
+      
+          idsToDelete = visibleBannedIds.filter(id => !deselectedItems.includes(id));
+        } else {
+          idsToDelete = [...selectedItems];
+      
+          // Filter out non-banned users for safety
+          idsToDelete = sortedData
+            .filter(item => !item.isRegistered && selectedItems.includes(item[idKey]))
+            .map(item => item[idKey]);
+        }
+      
+        if (idsToDelete.length === 0) {
+          alert("No banned users selected.");
+          return;
+        }
+      
+        try {
+          const fetchResult = await fetch(`https://localhost:8080/api/${type.toLowerCase()}/delbulk`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(idsToDelete)
+          });
+      
+          if (fetchResult.ok) {
+            window.location.reload(true);
+          } else {
+            alert("Delete failed.");
+          }
+        } catch (err) {
+          alert("Error: " + err.message);
+        }
+      };
+      
     
     function findUniqueKey(data) {
         if (!data || data.length === 0) return null;
@@ -212,108 +213,45 @@ function FleetDetails({ type }) {
 
     const idKey = findUniqueKey(sortedData);
 
-    const handleDelete = async(e) => {
-        // console.log(selectedItems);
-
-        // if (selectedItems.length == 0) {
-        //     alert("non given");
-        //     return;
-        // }
-
-        // console.log("test");
-        console.log(selectedItems[0]);
-
+    const handleToggleBan = async (userId, currentStatus) => {
         try {
-            const fetchResult = await fetch(`https://localhost:8080/api/fleets/del2/${id}`, {
-                method: "POST",
+            const response = await fetch(`https://localhost:8080/api/users/${userId}/ban`, {
+                method: 'PUT',
                 headers: {
-                    "Content-type": "application/json",
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(selectedItems)
+                body: JSON.stringify(!currentStatus),
             });
-            
-            // const result = await fetchResult.json();
-
-            if (fetchResult.ok) {
-                window.location.reload();
+    
+            if (response.ok) {
+                setData(prev =>
+                    prev.map(row =>
+                        row[idKey] === userId
+                            ? { ...row, isRegistered: !currentStatus }
+                            : row
+                    )
+                );
+            } else {
+                console.error('Failed to update user status');
             }
-        } catch (err) {
-            alert("error: " + err.message);
+        } catch (error) {
+            console.error('Error:', error);
         }
-
-        // try {
-        //     // const fetchResult = await fetch("http://localhost:8080/api/fleets/del/9", {
-        //     //     method: "DELETE",
-        //     //     headers: {
-        //     //         "Content-type": "application/json",
-        //     //     },
-        //     // });
-        //     const fetchResult = await fetch("http://localhost:8080/api/fleets/delbulk", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json"
-        //         },
-        //         body: JSON.stringify(selectedItems)
-        //     });
-
-
-        //     // const result = await fetchResult.json();
-        //     // debbuging alerts for now.
-        //     if (fetchResult.ok) {
-        //         alert("deleted");
-        //     }
-        //     else {
-        //         alert("failed");
-        //     }
-        // } catch (err) {
-        //     alert("error: " + err.message);
-        // }
     };
 
-    // if (active.length = 0) {return <></>}
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchActive, setSearchActive] = useState(false);
 
-    if (!ready) return <></>
+
 
     return (
         <>
+        <ListButtons type={type} setResults={setSearchResults} setActive={setSearchActive}/>
         <div className="itemlists-container">
             <div className="itemlists-card">
                 <div className="itemlists-actions">
                     <div className="itemlists-left">
-
-
-                        {/* <div className="select-dropdown" onClick={toggleDropdown}>
-                            <div className="per-page">
-
-                                
-                                <img 
-                                    src={dropdown} 
-                                    alt="arrow" 
-                                    className={`dropdown-icon ${isDropdownOpen ? 'open' : ''}`} 
-                                />
-                                
-                                <span className="per-page-label">{selectedOption}</span>
-                        </div>
-                            {isDropdownOpen && (
-                                <div className="dropdown-menu">
-                                    {["All", "Added", "Not Added"].map(option => (
-                                        <div 
-                                            key={option}
-                                            className={`dropdown-option ${selectedOption === option ? 'selected' : ''}`}
-                                            onClick={() => handleOptionClick(option)}
-                                        >
-                                            {option}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                        </div> */}
                     </div>
-
-
-
-
                     <div className="itemlists-right">
 
                         <div className="per-page">
@@ -363,13 +301,13 @@ function FleetDetails({ type }) {
                 <table>
                     <thead>
                         <tr className="hide">
-                        {type !== "Ports" && (
-                            <div className="selectall-wraper">
+                        {type !== "vessels" && (
+                        <div className="selectall-wraper">
                             <div className="selectall-list">
                                 <input
                                     type="checkbox"
                                     className="selectall-check"
-                                    checked={selectAll || selectedItems.length === data.length}
+                                    checked={selectAll}
                                     onChange={(e) => {
                                         const checked = e.target.checked;
 
@@ -389,51 +327,57 @@ function FleetDetails({ type }) {
                             <div className="delete-btn" onClick={() => handleDelete()}>
                                 <img src={trash} alt="delete icon"/>
                             </div>
-                            </div>
-                        )}
-                            {data[0] && Object.keys(data[0]).map((key, i) => (
+                        </div>
+                                    
+                                    )}
+                        {data[0] &&
+                            Object.keys(data[0])
+                                .filter(key => !(type === "queries" && key.toLowerCase() === "question") &&  !['password', 'id', 'isadmin', 'isregistered','notificationsactive'].includes(key.toLowerCase()))
+                                .map((key) => (
                                 <th
-                                key={labels[i]}
-                                onClick={() => handleSort(key)}
-                                className="sortable-header"
-                            >
-                                <span className="header-label">
-                                {key
-                                    .split('_') // Split by underscore
-                                    .map(word =>
-                                    // (word === "wpi" || word === 'mmsi') && word === word.toLowerCase()
-                                    //     ? word.toUpperCase() // Acronym: all caps (e.g., wpi → WPI)
-                                    //     : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Normal: Capitalize
-                                    // )
-                                    labels[i])
-                                    .join(' ')
-                                }
-                                </span>
-                                {sortConfig.key === key && (
+                                    key={key}
+                                    onClick={() => handleSort(key)}
+                                    className="sortable-header"
+                                >
+                                    <span className="header-label">
+                                    {key
+                                        .split('_')
+                                        .map(word =>
+                                        ['wpi', 'mmsi'].includes(word.toLowerCase())
+                                            ? word.toUpperCase()
+                                            : word.charAt(0).toUpperCase() + word.slice(1)
+                                        )
+                                        .join('  ')}
+                                    </span>
+                                    {sortConfig.key === key && (
                                     <img
-                                    src={dropdown}
-                                    alt="arrow"
-                                    className={`dropdown-icon sorting ${sortConfig.direction === 'descending' ? "open" : "lowered"}`}
+                                        src={dropdown}
+                                        alt="arrow"
+                                        className={`dropdown-icon sorting ${sortConfig.direction === 'descending' ? "open" : "lowered"}`}
                                     />
-                                )}
-                            </th>
+                                    )}
+                                </th>
                             ))}
+                            {type === "queries" && <th>View</th>}
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedData.map((row, i) => {
+                    {sortedData.filter((row, i) => (!searchActive || searchResults.includes(row[idKey]))).map((row, i) => {
                             const isSelected = selectAll
                             ? !deselectedItems.includes(row[idKey])
                             : selectedItems.includes(row[idKey]);
                             return (
                                 <tr key={i} className={isSelected ? 'row-selected' : ''}>
-                                    {type !== "Ports" && (
+                                    
+                                    {type !== "vessels" && (
                                     <div className="selectall-list">
                                         <input
                                         type="checkbox"
                                         className="selectall-check"
+                                        disabled={row.isRegistered}
+                                        style={{ opacity: row.isRegistered ? 0.6 : 1 }}
                                         checked={
-                                            selectAll
+                                          selectAll
                                             ? !deselectedItems.includes(row[idKey])
                                             : selectedItems.includes(row[idKey])
                                         }
@@ -459,41 +403,51 @@ function FleetDetails({ type }) {
                                         />
                                     </div>
                                     )}
-                                    {Object.entries(row).map(([key, value], j) => (
-                                    j === 4 ? null : (
-                                    <td
-                                        key={j}
-                                        // style={{ cursor: 'pointer'}}
-                                        // onClick={() => navigate(`/MyAccount/fleets/${row[Object.keys(row)[0]]}`)}
-                                    >
-                                        {String(value)}
-                                    </td>
-                                    )
+                                    {Object.entries(row)
+                                    .filter(([key]) => !(type === "queries" && key.toLowerCase() === "question") && !['password', 'id', 'isadmin', 'isregistered','notificationsactive'].includes(key.toLowerCase()))
+                                    .map(([key, value], j) => (
+                                        <td key={j}>
+                                        {type === "vessels" && key === "shiptype" ? (
+                                            <select
+                                            value={value}
+                                            onChange={(e) => handleShipTypeChange(row[idKey], e.target.value)}
+                                            className="shiptype-dropdown"
+                                            >
+                                            {shipTypes.map((option) => (
+                                                <option key={option} value={option}>
+                                                {option}
+                                                </option>
+                                            ))}
+                                            </select>
+                                        ) : (
+                                            String(value)
+                                        )}
+                                        </td>
                                     ))}
-                                    <td>
-                                        <div className="opt-area">
-                                            <div className="toggle-row">
-                                                <label className="switch">
-                                                    <input type="checkbox" checked={active[i]} onChange={() => handleToggle(i, id, row[idKey])} />
-                                                    <span className="slider"></span>
-                                                </label>
-                                            </div>
-                                            
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="opt-area">
-                                            <div className="view-btn">
-                                                View on Map
-                                            </div>
-                                        </div>
-                                    </td>
+
+                                    {type === "queries" && (
+                                        <td>
+                                            <button className="view-query-button" onClick={() => setSelectedQuery(row.query || row.Query || row.question)}>
+                                                View Query
+                                            </button>
+                                        </td>
+                                    )}
+                                    {type === "users" && (
+                                        <td>
+                                            <button
+                                                className="ban-user-button"
+                                                style={{ opacity: row.isRegistered ? 1 : 0.6 }}
+                                                onClick={() => handleToggleBan(row[idKey], row.isRegistered)}
+                                            >
+                                                {row.isRegistered ? "Ban User" : "Unban User"}
+                                            </button>
+                                        </td>
+                                    )}
                                 </tr>
                             );
                         })}
                     </tbody>
                 </table>
-                
             </div>
 
 
@@ -501,8 +455,14 @@ function FleetDetails({ type }) {
 
             </div>
         </div>
+        {selectedQuery && (
+        <QueryPopup
+        queryText={selectedQuery}
+        onClose={() => setSelectedQuery(null)}
+            />
+        )}
         </>
     );
 }
 
-export default FleetDetails;
+export default AdminLists;

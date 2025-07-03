@@ -6,6 +6,8 @@ import com.example.dto.PasswordChangeDto;
 import com.example.dto.UserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,11 @@ public class UserService {
         user.setNotificationsActive(userDto.getNotificationsActive() != null ? userDto.getNotificationsActive() : true);   // set to true by default
         user.setIsRegistered(true);
 
+        if ("admin@shiprec.com".equalsIgnoreCase(userDto.getEmail())) {
+            user.setIsAdmin(true);
+        } else {
+            user.setIsAdmin(false);
+        }
         // Save the user to the database
         userRepo.save(user);
 
@@ -51,6 +58,7 @@ public class UserService {
         dto.setNotificationsActive(user.getNotificationsActive());
         dto.setIsRegistered(true);
         dto.setCreationTimestamp(user.getCreationTimestamp());
+        dto.setIsAdmin(user.getIsAdmin());
 
         return dto;
     }
@@ -81,6 +89,7 @@ public class UserService {
         dto.setEducation(user.getEducation());
         dto.setNotificationsActive(user.getNotificationsActive());
         dto.setIsRegistered(user.getIsRegistered());
+        dto.setIsAdmin(user.getIsAdmin());
 
         return dto;
     }
@@ -198,6 +207,7 @@ public class UserService {
         dto.setNotificationsActive(user.getNotificationsActive());
         dto.setId(user.getId());
         dto.setCreationTimestamp(user.getCreationTimestamp());
+        dto.setIsAdmin(user.getIsAdmin());
 
         return dto;
     }
@@ -212,4 +222,34 @@ public class UserService {
         userRepo.delete(user);
     }
 
+    public UserDto setRegistrationStatus(Long id, boolean status) throws Exception {
+        UserEntity user = userRepo.findById(id).orElse(null);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+    
+        user.setIsRegistered(status);
+        userRepo.save(user);
+    
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setCountry(user.getCountry());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setBusiness(user.getBusiness());
+        dto.setEducation(user.getEducation());
+        dto.setNotificationsActive(user.getNotificationsActive());
+        dto.setIsRegistered(user.getIsRegistered());
+        dto.setIsAdmin(user.getIsAdmin());
+        dto.setCreationTimestamp(user.getCreationTimestamp());
+    
+        return dto;
+    }
+    
+
+    public Page<UserEntity> getPaginatedUsers(Pageable pageable) {
+        return userRepo.findAll(pageable);
+    }
 }
