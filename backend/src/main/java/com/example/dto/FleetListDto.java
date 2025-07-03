@@ -16,11 +16,14 @@ public class FleetListDto {
 
     private String name;
 
-    private Integer totalVessels;
+    private Integer active_Vessels;
 
-    public FleetListDto(Integer id, String name, Integer num) {
+    private Integer total_Vessels;
+
+    public FleetListDto(Integer id, String name, Integer num_active, Integer num) {
         this.id = id;
         this.name = name;
-        this.totalVessels = num;
+        this.active_Vessels = num_active;
+        this.total_Vessels = num;
     }
 }
