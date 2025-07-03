@@ -2,14 +2,36 @@ import React from "react";
 import { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/details.css'
+import '../styles/fleet.css'
 import port from '../icons/Logo/PortRec.png'
 import ship from '../icons/Logo/Ship.png'
+import fleet from "../icons/Buttons/Heart-outlined.png"
+import new_fleet from "../icons/Buttons/New-outlined.png"
 
-function Details({ type }) {
+function Details({ type, setTrigger, setTriggerSec, setList }) {
 
     const { id } = useParams();  // Gets the ID from the URL
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
+
+    const [userFlag, setUserFlag] = useState(null);
+
+    useEffect(() => {
+        const currentUser = localStorage.getItem('user');
+            
+        if (currentUser) {
+            const parsed_data = JSON.parse(currentUser);
+                
+            // Session expiration check
+            if (parsed_data.expiresAt && Date.now() > parsed_data.expiresAt) {
+                localStorage.removeItem('user');
+                window.location.href = "/SignIn";
+            } else {
+                setUserFlag(true);
+            }
+        }
+    
+    }, []);
 
     const excludedKeys = ['port', 'type','shiptype','wpi','mmsi','name']; // Add any keys you want to skip
 
@@ -28,6 +50,16 @@ function Details({ type }) {
 
         fetchDetails();
     }, [type, id]);
+
+    const handleNewFlt = () => {
+        setList([id]);
+        setTrigger(true);
+    }    
+
+    const handleInsFlt = () => {
+        setList([id]);
+        setTriggerSec(true);
+    }
 
 
     if (error) return <div>Error: {error}</div>;
@@ -97,6 +129,19 @@ function Details({ type }) {
                         </tbody>
                     </table>
                 </div>
+                {(type !== "Ports") && (userFlag) && (
+                    <div className="btn-container">
+                        <button type="button" className="return-btn" onClick={() => handleNewFlt()}>
+                                <img src={new_fleet} alt="new fleet icon"/>
+                                Add To New Fleet
+                            </button>
+                                  
+                            <button type="button" className="return-btn" onClick={() => handleInsFlt()}>
+                                <img src={fleet} alt="fleet icon"/>
+                                Add To Existing Fleet
+                            </button>
+                    </div> 
+                )}
             </div>
         </div>
     )

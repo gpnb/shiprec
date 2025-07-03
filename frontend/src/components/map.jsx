@@ -466,11 +466,11 @@ function Map() {
                             
                                 <div className="popup_buttons">
                                   <button className="view_button" onClick={() => navigate(`/Vessels/${vessel.mmsi}`)}>
-                                  <div style={{ transform: 'translateY(1px)' }}>Vessel Details</div>
+                                  <div style={{ transform: 'translateY(1px)' }} >Vessel Details</div>
                                   </button>
 
                                   {isRegistered && (
-                                    <button className="add_fleet">
+                                    <button className="add_fleet" onClick={() => navigate(`/Vessels/${vessel.mmsi}`)}>
                                       <div style={{ transform: 'translateY(1px)' }}>Add to Fleet</div>
                                     </button>
                                   )}

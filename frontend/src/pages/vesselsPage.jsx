@@ -43,7 +43,7 @@ function VesselsPage() {
             <TabContainer currentTab="Vessels">
             <Routes>
                 <Route index element={<VesselLists type="Vessels" setTrigger={setPopup} setTriggerSec={setPopup2} setList={setShareList}/>}/>
-                <Route path="/:id" element={<Details type="Vessels"/>} />
+                <Route path="/:id" element={<Details type="Vessels" setTrigger={setPopup} setTriggerSec={setPopup2} setList={setShareList}/>} />
             </Routes>
             <Return/>
             </TabContainer>

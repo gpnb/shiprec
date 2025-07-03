@@ -10,8 +10,8 @@ import arrow from "../icons/Misc/Arrow.png"
 // import { useParams } from 'react-router-dom';
 
 import '../styles/fleet.css'
-import fleet from "../icons/Misc/fleet.png"
-import new_fleet from "../icons/Misc/new-fleet.png"
+import fleet from "../icons/Buttons/Heart-outlined.png"
+import new_fleet from "../icons/Buttons/New-outlined.png"
 
 function VesselLists({ type, setTrigger, setTriggerSec, setList }) {
 
