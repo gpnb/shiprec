@@ -38,6 +38,13 @@ function FleetDetails({ type }) {
     const [deselectedItems, setDeselectedItems] = useState([]); // deselected while in global-select-all
     const [selectAll, setSelectAll] = useState(false); // global select-all mode
 
+    const [labels, setLabels] = useState([
+        "MMSI",
+        "Name",
+        "Imo",
+        "Type",
+        "Active"
+    ])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -384,9 +391,9 @@ function FleetDetails({ type }) {
                             </div>
                             </div>
                         )}
-                            {data[0] && Object.keys(data[0]).map((key) => (
+                            {data[0] && Object.keys(data[0]).map((key, i) => (
                                 <th
-                                key={key}
+                                key={labels[i]}
                                 onClick={() => handleSort(key)}
                                 className="sortable-header"
                             >
@@ -394,10 +401,11 @@ function FleetDetails({ type }) {
                                 {key
                                     .split('_') // Split by underscore
                                     .map(word =>
-                                    (word === "wpi" || word === 'mmsi') && word === word.toLowerCase()
-                                        ? word.toUpperCase() // Acronym: all caps (e.g., wpi → WPI)
-                                        : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Normal: Capitalize
-                                    )
+                                    // (word === "wpi" || word === 'mmsi') && word === word.toLowerCase()
+                                    //     ? word.toUpperCase() // Acronym: all caps (e.g., wpi → WPI)
+                                    //     : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Normal: Capitalize
+                                    // )
+                                    labels[i])
                                     .join(' ')
                                 }
                                 </span>
@@ -452,6 +460,7 @@ function FleetDetails({ type }) {
                                     </div>
                                     )}
                                     {Object.entries(row).map(([key, value], j) => (
+                                    j === 4 ? null : (
                                     <td
                                         key={j}
                                         // style={{ cursor: 'pointer'}}
@@ -459,6 +468,7 @@ function FleetDetails({ type }) {
                                     >
                                         {String(value)}
                                     </td>
+                                    )
                                     ))}
                                     <td>
                                         <div className="opt-area">

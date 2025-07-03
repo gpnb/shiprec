@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
+import java.math.BigDecimal;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
@@ -122,7 +123,8 @@ public class FleetService {
         Page<FleetListDto> ret = result.map(object -> new FleetListDto(
             (Integer) object[0],
             (String) object[1],
-            ((Long) object[2]).intValue()
+            ((BigDecimal) object[2]).intValueExact(),
+            ((Long) object[3]).intValue()
         ));
         return ret;
     }
