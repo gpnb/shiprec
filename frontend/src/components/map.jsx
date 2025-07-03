@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MapContainer, TileLayer,Marker,Popup} from 'react-leaflet';
+import AreaSelector from './areaSelector';
 import 'leaflet/dist/leaflet.css';
 import '../styles/map.css';
 import { useMap } from "react-leaflet";
@@ -50,7 +51,7 @@ function ToggleDisplayMode({setDarkMode,darkMode}) {
 
 
 
-function MapButtons({ map, setDarkMode, darkMode, isRegistered,activeFilters,setActiveFilters }) {
+function MapButtons({ map, setDarkMode, darkMode, isRegistered,activeFilters,setActiveFilters, drawMode, setDrawMode, confirmMode, setConfirmMode, selectionPixels, setSelectionPixels, setSelectionBounds}) {
     return (
       <div className="map_buttons">
         <ToggleDisplayMode setDarkMode={setDarkMode} darkMode={darkMode} />
@@ -75,32 +76,52 @@ function MapButtons({ map, setDarkMode, darkMode, isRegistered,activeFilters,set
         </div>
   
         {isRegistered && (
-          <button className={`select_area ${darkMode ? 'dark-zoom' : ''}`}>
+          <button
+            onClick={() => { 
+              // enter draw mode and immediately wipe last selection
+               setSelectionPixels(null);
+               setSelectionBounds(null);
+               setConfirmMode(false);
+               setDrawMode(true);
+            }}
+            className={`select_area ${darkMode ? 'dark-zoom' : ''}`}
+          >
             <img src={select} alt="select area" />
             <p>Select Area</p>
           </button>
         )}
       </div>
     );
-  }
+}
 
 
 
-function MapFunctions({map,setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters,liveVessels}) {
-
+function MapFunctions({map,setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters,liveVessels,drawMode, setDrawMode, confirmMode, setConfirmMode, selectionPixels, setSelectionPixels, selectionBounds, setSelectionBounds}) {
 
     return(  
         <div className="map_functions">
             <NavigationBar isRegistered={isRegistered} isAdmin={isAdmin} currentTab="Live Map"/>  
             <SearchBar map = {map} isRegistered={isRegistered} darkMode={darkMode} liveVessels={liveVessels}/>
-            <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} activeFilters={activeFilters}  setActiveFilters={setActiveFilters}/>  
+            <MapButtons map = {map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} activeFilters={activeFilters} setActiveFilters={setActiveFilters} drawMode={drawMode} setDrawMode={setDrawMode} confirmMode={confirmMode} setConfirmMode={setConfirmMode} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels} setSelectionBounds={setSelectionBounds}/>
         </div> 
     );
 }
 
-function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters}) {
+function MapWrapper({setDarkMode,darkMode,isRegistered,isAdmin,activeFilters,setActiveFilters, drawMode, setDrawMode, confirmMode, setConfirmMode, selectionPixels, setSelectionPixels, selectionBounds, setSelectionBounds}) {
     const map = useMap();
-    return <MapFunctions map={map} setDarkMode={setDarkMode}  darkMode={darkMode} isRegistered = {isRegistered} isAdmin= {isAdmin} activeFilters={activeFilters}  setActiveFilters={setActiveFilters}/>;
+
+    // Disable map panning while drawing or confirming; re-enable otherwise
+    useEffect(() => {
+      if (drawMode || confirmMode) {
+        map.dragging.disable();
+        map.boxZoom.disable();
+      } else {
+        map.dragging.enable();
+        map.boxZoom.enable();
+      }
+    }, [map, drawMode, confirmMode]);
+
+    return <MapFunctions map={map} setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin} activeFilters={activeFilters}  setActiveFilters={setActiveFilters} drawMode={drawMode} setDrawMode={setDrawMode} confirmMode={confirmMode} setConfirmMode={setConfirmMode} selectionBounds={selectionBounds} setSelectionBounds={setSelectionBounds} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels}/>;
 }
 
 function getShipIconByType(type = '') {
@@ -148,6 +169,14 @@ function Map() {
 
     const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
 
+    const [drawMode,    setDrawMode]    = useState(false);    // true while mouse is down → up
+    
+    const [confirmMode, setConfirmMode] = useState(false);    // true after rectangle is done, until user Confirm/Cancel
+
+    const [selectionPixels, setSelectionPixels] = useState(null);
+    
+    const [selectionBounds, setSelectionBounds] = useState(null);
+    
     const [darkMode, setDarkMode] = useState(false);
 
     const [liveVessels,setLiveVessels] = useState([]);
@@ -444,7 +473,55 @@ function Map() {
             ))}
 
 
-            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin} activeFilters={activeFilters} setActiveFilters={setActiveFilters}/>
+            <MapWrapper setDarkMode={setDarkMode} darkMode={darkMode} isRegistered={isRegistered} isAdmin={isAdmin} activeFilters={activeFilters} setActiveFilters={setActiveFilters} drawMode={drawMode} setDrawMode={setDrawMode} confirmMode={confirmMode} setConfirmMode={setConfirmMode} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels} selectionBounds={selectionBounds} setSelectionBounds={setSelectionBounds}/>
+
+            {(drawMode || confirmMode) && (
+              <div className="selection-ui" onMouseDown={e => e.stopPropagation()} onMouseUp={e => e.stopPropagation()} onMouseMove={e => e.stopPropagation()}>
+                <div className="message">Click & drag to draw your area</div>
+                <div className="btn-row">
+                  <button
+                    onClick={() => {
+                      setDrawMode(false);
+                      setConfirmMode(false);
+                      setSelectionPixels(null);
+                      setSelectionBounds(null);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => {
+                      // Only confirm if selectionPixels is a real rectangle
+                      if (
+                        !selectionPixels ||
+                        selectionPixels.width < 5 ||
+                        selectionPixels.height < 5
+                      ) {
+                        alert("Please draw a bigger area first.");
+                        // stay in drawMode, keep selectionPixels alive so that next mousedown wipes it:
+                        setConfirmMode(false);
+                        setDrawMode(true);
+                        return;
+                      }
+                      console.log("Area confirmed:", selectionBounds);
+                      // TODO: send selectionBounds to backend
+                      // now clear everything
+                      setSelectionPixels(null);
+                      setSelectionBounds(null);
+                      setDrawMode(false);
+                      setConfirmMode(false);
+                    }}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {(drawMode || confirmMode) && (
+              <AreaSelector drawMode={drawMode} confirmMode={confirmMode} setDrawMode={setDrawMode} setConfirmMode={setConfirmMode} selectionPixels={selectionPixels} setSelectionPixels={setSelectionPixels} selectionBounds={selectionBounds} setSelectionBounds={setSelectionBounds}/>
+            )}
+
 
         </MapContainer>
         </div>
