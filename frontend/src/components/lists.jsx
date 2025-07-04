@@ -6,7 +6,6 @@ import '../styles/lists.css'
 import ListButtons from '../components/listbtn';
 import dropdown from '../icons/Misc/Dropdown.png'
 import arrow from "../icons/Misc/Arrow.png"
-// import { useParams } from 'react-router-dom';
 
 
 function ItemLists({ type }) {
@@ -16,8 +15,6 @@ function ItemLists({ type }) {
     const [data, setData] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
 
-    // const [isDropdownOpen, setDropdownOpen] = useState(false);
-    // const [selectedOption, setSelectedOption] = useState("All"); // Default selection
 
     const [isPageOpen, setIsPageOpen] = useState(false);
     const [itemsPerPage, setItemsPerPage] = useState(8); // default value
@@ -102,23 +99,7 @@ function ItemLists({ type }) {
         return 0;
     });
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const res = await fetch(`/api/${type}?page=${currentPage}&limit=${itemsPerPage}`);
-    //             const json = await res.json();
-    //             setData(json.data); // assuming response has `data` and `total`
-    //             setTotalItems(json.total);
-    //         } catch (err) {
-    //             console.error("Failed to fetch", err);
-    //         }
-    //     };
 
-    //     fetchData();
-    // }, [type, currentPage, itemsPerPage]);
-
-
-    
     function findUniqueKey(data) {
         if (!data || data.length === 0) return null;
     
@@ -156,35 +137,6 @@ function ItemLists({ type }) {
             <div className="itemlists-card">
                 <div className="itemlists-actions">
                     <div className="itemlists-left">
-
-
-                        {/* <div className="select-dropdown" onClick={toggleDropdown}>
-                            <div className="per-page">
-
-                                
-                                <img 
-                                    src={dropdown} 
-                                    alt="arrow" 
-                                    className={`dropdown-icon ${isDropdownOpen ? 'open' : ''}`} 
-                                />
-                                
-                                <span className="per-page-label">{selectedOption}</span>
-                        </div>
-                            {isDropdownOpen && (
-                                <div className="dropdown-menu">
-                                    {["All", "Added", "Not Added"].map(option => (
-                                        <div 
-                                            key={option}
-                                            className={`dropdown-option ${selectedOption === option ? 'selected' : ''}`}
-                                            onClick={() => handleOptionClick(option)}
-                                        >
-                                            {option}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                        </div> */}
                     </div>
 
 

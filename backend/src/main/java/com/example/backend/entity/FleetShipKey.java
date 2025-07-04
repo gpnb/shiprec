@@ -4,30 +4,15 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime; // for creation timestamp
 
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.FetchType;
 
 
 

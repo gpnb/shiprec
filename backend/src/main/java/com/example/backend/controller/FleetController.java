@@ -3,10 +3,8 @@ package com.example.backend.controller;
 import com.example.backend.service.FleetService;
 
 import com.example.dto.FleetDto;
-import com.example.dto.FltCustDto;
 import com.example.dto.VesselStatusDto;
 import com.example.dto.FleetListDto;
-import com.example.dto.FleetShipsDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.example.backend.entity.Fleet;
-import com.example.backend.entity.Vessel;
 import com.example.backend.repo.FleetRepo;
-import com.example.backend.repo.VesselRepo;
 import java.util.List;
 
 @RestController
@@ -31,9 +27,6 @@ public class FleetController {
 
     @Autowired
     private FleetRepo fleetRepo;
-
-    @Autowired
-    private VesselRepo vesselRepo;
 
     // not used
     @PostMapping("/create")

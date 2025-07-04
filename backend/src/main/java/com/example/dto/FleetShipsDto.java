@@ -5,9 +5,6 @@ package com.example.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
-import java.lang.Object;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @NoArgsConstructor
 @Getter           
