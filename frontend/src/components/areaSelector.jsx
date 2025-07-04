@@ -106,7 +106,7 @@ function AreaSelector({
         border: '2px dashed rgba(43, 61, 91)',
         backgroundColor: 'rgba(59, 171, 68, 0.1)',
         pointerEvents: 'none',
-        zIndex: 10001
+        zIndex: 999
       }}
     />,
     mapContainer

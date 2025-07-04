@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useCallback } from "react";
 import { MapContainer, TileLayer,Marker,Popup} from 'react-leaflet';
 import AreaSelector from './areaSelector';
+import CreateAreaPopup from "./CreateAreaPopup";
 import 'leaflet/dist/leaflet.css';
 import '../styles/map.css';
 import { useMap } from "react-leaflet";
@@ -165,7 +167,13 @@ function Map() {
       console.error("Couldn't get user from localStorage : ", err);
     }
 
-    const isAdmin = false;
+    let isAdmin = false;
+    try {
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      isAdmin = currentUser?.isAdmin === true;
+    } catch (err) {
+      console.error("Couldn't get user from localStorage : ", err);
+    }
 
     const lightmodeUrl = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";  
 
@@ -188,6 +196,10 @@ function Map() {
     const [searchVesselActive, setSearchVesselActive] = useState(false);
 
     const [searchPortActive, setSearchPortActive] = useState(false);
+
+    const [showNamePopup, setShowNamePopup] = useState(false);
+
+    const [pendingBounds,  setPendingBounds]  = useState(null);
 
     const [activeFilters, setActiveFilters] = useState([
       'cargo',
@@ -460,8 +472,7 @@ function Map() {
                                         <div className="meta_line_2"><strong>• Draught:</strong> {vessel.draught >= 0 ? vessel.draught + " m" : "N/A"}</div>
                                         <div className="meta_line_2"><strong>• Destination:</strong> {vessel.destination || "Unknown"}</div>
                                         <div className="meta_line_3"><strong>Received:</strong> {vessel.time_received? new Date(vessel.time_received).toLocaleString(): 'No Time'}</div>
-                                      </div>
-                                      
+                                      </div>          
                                     </div>
                             
                                 <div className="popup_buttons">
@@ -498,26 +509,23 @@ function Map() {
                     Cancel
                   </button>
                   <button
-                    onClick={() => {
-                      // Only confirm if selectionPixels is a real rectangle
+                    onClick={async () => {
                       if (
                         !selectionPixels ||
                         selectionPixels.width < 5 ||
                         selectionPixels.height < 5
                       ) {
-                        alert("Please draw a bigger area first.");
-                        // stay in drawMode, keep selectionPixels alive so that next mousedown wipes it:
+                        alert("You have not drawn an area or the rectangle is too small");
+                        setSelectionPixels(null);
+                        setSelectionBounds(null);
                         setConfirmMode(false);
                         setDrawMode(true);
                         return;
                       }
-                      console.log("Area confirmed:", selectionBounds);
-                      // TODO: send selectionBounds to backend
-                      // now clear everything
-                      setSelectionPixels(null);
-                      setSelectionBounds(null);
-                      setDrawMode(false);
-                      setConfirmMode(false);
+                    
+                      // store bounds and open “name” popup
+                      setPendingBounds(selectionBounds);
+                      setShowNamePopup(true);
                     }}
                   >
                     Confirm
@@ -532,6 +540,22 @@ function Map() {
 
 
         </MapContainer>
+
+        {showNamePopup && (
+           <CreateAreaPopup
+           trigger={showNamePopup}
+           setTrigger={setShowNamePopup}
+           bounds={pendingBounds}
+           // clear the map-selection when popup closes successfully:
+           onSuccess={() => {
+             setSelectionPixels(null);
+             setSelectionBounds(null);
+             setDrawMode(false);
+             setConfirmMode(false);
+           }}
+         />
+        )}
+
         </div>
     );
 }
